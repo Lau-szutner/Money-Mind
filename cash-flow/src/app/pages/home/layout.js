@@ -1,18 +1,15 @@
-import { Navbar } from "@/app/components/Navbar"
-
-
+import { Navbar } from "@/app/components/Navbar";
 
 export default function HomeLayout({ children }) {
+  return (
+    <div>
+      <header>
+        <nav>
+          <Navbar></Navbar>
+        </nav>
+      </header>
 
-
-
-    return (
-      <div>
-        <header>
-            <Navbar></Navbar>
-        </header>
-
-        <main></main>
-      </div>
-    )
-  }
+      <main>{children}</main>
+    </div>
+  );
+}

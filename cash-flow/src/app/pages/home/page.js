@@ -1,3 +1,10 @@
+import { Balance } from "@/app/components/Balance"
+
+
 export default function Home() {
-    return <h1>Hello Next.js!</h1>
+    return <>
+    
+    <Balance balance={`96.000`} investing={`516.000`} saving={`48.000`}></Balance>
+    
+    </>
   }
