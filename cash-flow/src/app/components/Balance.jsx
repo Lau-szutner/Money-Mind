@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Balance = ({balance, saving, investing}) => {
   return (
-    <section className='bg-gray-500 m-10 p-7 w-5/12 rounded-lg flex flex-col gap-5'>
+    <section className='bg-gray-500 m-10 p-7 w-5/12 rounded-lg flex flex-col gap-5 justify-between'>
         <ul>
             <li>{`Saldo: ${balance}`}</li>
             <li>{`Ahorro: ${saving}`}</li>
