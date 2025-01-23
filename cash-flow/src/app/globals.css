@@ -17,7 +17,7 @@
 body {
   color: var(--foreground);
   background-image: url('/background.jpg');
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: InterVariable, sans-serif;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
