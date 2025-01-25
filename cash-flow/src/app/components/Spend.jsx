@@ -10,7 +10,7 @@ export const Spend = ({
 }) => {
   return (
     <div className="flex flex-col gap-2 w-full justify-center items-center bg-black/10 p-5 rounded-lg">
-      <p>{date}</p>
+      <p className="font-bold">{date}</p>
       <div className="flex justify-between w-full">
         <div>
           <p className="font-bold">{title}</p>
@@ -29,7 +29,7 @@ export const Spend = ({
         <button className="bg-yellow-500 rounded-md py-1 w-full ">
           Editar
         </button>
-        <button className="bg-red-500 rounded-md py-1 w-full">Editar</button>
+        <button className="bg-red-500 rounded-md py-1 w-full">Eliminar</button>
       </div>
     </div>
   );
