@@ -25,7 +25,7 @@ export const Spend = ({
           </p>
         </div>
       </div>
-      <div className="flex justify-between w-full gap-2">
+      <div className="flex justify-between w-full gap-2 flex-col md:flex-row">
         <button className="bg-yellow-500 rounded-md py-1 w-full ">
           Editar
         </button>

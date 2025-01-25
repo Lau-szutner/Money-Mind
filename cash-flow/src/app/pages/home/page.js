@@ -6,13 +6,13 @@ const spendsList = [];
 
 export default function Home() {
   return (
-    <div className="flex justify-center flex-col items-center w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <Balance
         balance={`96.000`}
         investing={`516.000`}
         saving={`48.000`}
       ></Balance>
-      {/* <Spends spendsList={spendsData}></Spends> */}
+      <Spends spendsList={spendsData}></Spends>
     </div>
   );
 }
