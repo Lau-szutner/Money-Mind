@@ -7,6 +7,7 @@ export const Balance = ({ balance, saving, investing }) => {
         <h1 className="font-bold text-center">Balance</h1>
         <ul>
           <li>{`Saldo: ${balance}`}</li>
+          <li>{`Saldo: ${balance}`}</li>
           <li>{`Ahorro: ${saving}`}</li>
           <li>{`Invertido: ${investing}`}</li>
         </ul>
