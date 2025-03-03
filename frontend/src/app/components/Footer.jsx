@@ -1,10 +1,13 @@
 import React from 'react';
+import Link from 'next/link';
 
 function Footer() {
   return (
-    <div className="h-20 glass w-full flex justify-between items-center p-5 flex-col lg:flex-row  fixed bottom-0">
-      <ul className="flex  gap-10 ">
-        <li>Transsacciones</li>
+    <div className="h-20 bg-gray-600 w-full flex justify-between items-center p-5 flex-col lg:flex-row sticky bottom-0 z-10">
+      <ul className="flex gap-10">
+        <Link href="/transactions" className="btn">
+          Transacciones
+        </Link>
         <li>Home</li>
         <li>Gastos</li>
         <li>Fechas</li>

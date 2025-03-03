@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Navbar = () => {
   return (
-    <div className="h-20 glass flex justify-between items-center p-5 flex-col lg:flex-row">
+    <div className="h-20 bg-gray-600 flex justify-between items-center p-5 flex-col lg:flex-row sticky top-0 w-full z-10">
       <h1>Money Mind</h1>
 
       <ul className="flex flex-col lg:flex-row gap-10">
