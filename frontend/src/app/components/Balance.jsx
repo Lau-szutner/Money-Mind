@@ -19,16 +19,16 @@ export const Balance = ({ balance, saving, investing }) => {
           <li>{`Saldo: ${balance}`}</li>
 
           <li>{`Ahorro: ${saving}`}</li>
-          {/* <li>{`Invertido: ${investing}`}</li> */}
+          <li>{`Gasto total mes: ${monthly}`}</li>
         </ul>
         <div className="flex justify-between gap-2 mt-2">
+          <button className="py-1 px-10 bg-blue-400 rounded w-full">+</button>
           <button
-            className="py-1 px-10 bg-blue-400 rounded w-full"
+            className="py-1 px-10 bg-red-400 rounded w-full"
             onClick={handleAddSpend}
           >
-            +
+            -
           </button>
-          <button className="py-1 px-10 bg-red-400 rounded w-full">-</button>
         </div>
       </div>
       {newSpend && <Newspend />}

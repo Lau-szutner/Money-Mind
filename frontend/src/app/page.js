@@ -12,7 +12,7 @@ export default function Home() {
       <Navbar></Navbar>
       <Balance
         balance={`96.000`}
-        investing={`516.000`}
+        monthly={`516.000`}
         saving={`48.000`}
       ></Balance>
       <Spends spendsList={spendsData}></Spends>

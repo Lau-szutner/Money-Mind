@@ -3,7 +3,7 @@ import React from 'react';
 function Newspend() {
   return (
     <div>
-      <div className=" ">
+      <div className="">
         <div className="bg-gray-500 p-5 rounded-lg m-5">
           <h1 className="font-bold text-center">Agregar Gasto</h1>
 
@@ -11,18 +11,18 @@ function Newspend() {
             <form action="" className="flex flex-col gap-2">
               <input
                 type="text"
-                className="p-1 rounded w-full"
+                className="p-1 rounded w-full text-gray-500"
                 placeholder="Categoria"
                 name="category"
               />
               <input
                 type="number"
-                className="p-1 rounded w-full"
+                className="p-1 rounded w-full color-black"
                 placeholder="Monto"
                 name="amount"
               />
-              <button className="py-1 px-10 bg-blue-400 rounded w-full">
-                +
+              <button className="py-1 px-10 bg-green-400 rounded w-full">
+                Agregar
               </button>
             </form>
           </div>
