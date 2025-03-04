@@ -1,12 +1,11 @@
 import React from 'react';
 
-function Newspend() {
+function NewIncome() {
   return (
     <div>
       <div className="">
         <div className="bg-gray-500 p-5 rounded-lg m-5">
-          <h1 className="font-bold text-center">Agregar Gasto</h1>
-
+          <h1 className="font-bold text-center">Agregar Ingreso</h1>
           <div className="gap-2 mt-2">
             <form action="" className="flex flex-col gap-2">
               <input
@@ -17,7 +16,7 @@ function Newspend() {
               />
               <input
                 type="number"
-                className="p-1 rounded w-full color-black"
+                className="p-1 rounded w-full text-gray-500"
                 placeholder="Monto"
                 name="amount"
               />
@@ -32,4 +31,4 @@ function Newspend() {
   );
 }
 
-export default Newspend;
+export default NewIncome;

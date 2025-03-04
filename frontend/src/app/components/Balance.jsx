@@ -3,13 +3,18 @@
 import React from 'react';
 
 import { useState } from 'react';
-import Newspend from './Newspend';
+import Newspend from './NewSpend';
+import NewIncome from './NewIncome';
 
 export const Balance = ({ balance, saving, monthly }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
   const [newSpend, setNewSpend] = useState(false);
   let handleAddSpend = () => {
     setNewSpend(!newSpend);
+  };
+  const [newIncome, setNewIncome] = useState(false);
+  let handleNewIncome = () => {
+    setNewIncome(!newIncome);
   };
   return (
     <div className="w-full">
@@ -22,7 +27,12 @@ export const Balance = ({ balance, saving, monthly }) => {
           <li>{`Gasto total mes: ${monthly}`}</li>
         </ul>
         <div className="flex justify-between gap-2 mt-2">
-          <button className="py-1 bg-blue-400 rounded w-full">+</button>
+          <button
+            className="py-1 bg-blue-400 rounded w-full"
+            onClick={handleNewIncome}
+          >
+            +
+          </button>
           <button
             className="py-1 bg-red-400 rounded w-full"
             onClick={handleAddSpend}
@@ -32,6 +42,7 @@ export const Balance = ({ balance, saving, monthly }) => {
         </div>
       </div>
       {newSpend && <Newspend />}
+      {newIncome && <NewIncome />}
     </div>
   );
 };
