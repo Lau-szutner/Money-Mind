@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <div className="h-20 bg-gray-600 w-full flex justify-between items-center p-5 flex-col lg:flex-row bottom-0 fixed">
+    <div className="h-10 bg-gray-600 w-full flex justify-between items-center p-5 flex-col lg:flex-row bottom-0 ">
       <ul className="flex gap-10">
         <Link href="/transactions" className="btn">
           Transacciones
