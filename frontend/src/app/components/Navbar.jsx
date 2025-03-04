@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Navbar = () => {
   return (
-    <div className="h-20 bg-gray-600 flex justify-between items-center p-5 flex-col lg:flex-row sticky top-0 w-full z-10">
+    <nav className="h-15 bg-gray-600 flex justify-between items-center p-3 flex-col lg:flex-row sticky top-0 w-full z-10">
       <h1>Money Mind</h1>
 
       <ul className="flex flex-col lg:flex-row gap-10">
@@ -17,6 +17,6 @@ export const Navbar = () => {
         <li className="btn invisible lg:visible">Planes</li>
         <li className="btn invisible lg:visible">Educacion</li>
       </ul>
-    </div>
+    </nav>
   );
 };

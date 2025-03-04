@@ -8,13 +8,13 @@ const spendsList = [];
 
 export default function Home() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 ">
+    <div className="grid grid-cols-1 ">
       <Navbar></Navbar>
-      <Balance
+      {/* <Balance
         balance={`96.000`}
         monthly={`516.000`}
         saving={`48.000`}
-      ></Balance>
+      ></Balance> */}
       <Spends spendsList={spendsData}></Spends>
       <Footer></Footer>
     </div>

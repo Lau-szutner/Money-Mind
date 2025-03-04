@@ -5,7 +5,7 @@ import React from 'react';
 import { useState } from 'react';
 import Newspend from './Newspend';
 
-export const Balance = ({ balance, saving, investing }) => {
+export const Balance = ({ balance, saving, monthly }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
   const [newSpend, setNewSpend] = useState(false);
   let handleAddSpend = () => {
