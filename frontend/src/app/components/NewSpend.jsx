@@ -21,7 +21,7 @@ function Newspend() {
                 placeholder="Monto"
                 name="amount"
               />
-              <button className="py-1 px-10 bg-green-400 rounded w-full">
+              <button className="py-1 px-10 bg-green-400 rounded w-full text-black">
                 Agregar
               </button>
             </form>
