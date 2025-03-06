@@ -1,5 +1,5 @@
 import express from 'express';
-import connection from './db.js'; // Importamos la conexión de MySQL
+import connection from './config/database.js'; // Importar conexión a MySQL
 
 const app = express();
 const port = 3000;

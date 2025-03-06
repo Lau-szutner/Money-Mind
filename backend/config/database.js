@@ -1,16 +1,23 @@
-const mongoose = require('mongoose');
+import mysql from 'mysql2';
+import dotenv from 'dotenv';
 
-// Reemplaza con tu cadena de conexión
-const connectionString = 'mongodb://localhost:27017/cash-flow';
+// Cargar variables de entorno desde el archivo .env
+dotenv.config();
 
-mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('Conectado a la base de datos MongoDB');
-  })
-  .catch((error) => {
-    console.error('Error al conectar a la base de datos:', error);
-  });
+// Crear conexión usando las variables de entorno
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error('Error conectando a MySQL:', err);
+    return;
+  }
+  console.log('Conectado a MySQL');
+});
+
+export default connection;
