@@ -1,19 +1,18 @@
 import express from 'express';
-import connection from './config/database.js'; // Importar conexión a MySQL
+import dotenv from 'dotenv';
+import userRoutes from './api/userRoutes.js';
+
+// Cargar variables de entorno
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Ruta de prueba para ver si la conexión a MySQL funciona
-app.get('/test', (req, res) => {
-  connection.query('SELECT 1 + 1 AS solution', (err, results) => {
-    if (err) {
-      console.error('Error realizando la consulta:', err);
-      return res.status(500).send('Error en la consulta');
-    }
-    res.send(`Resultado de la consulta: ${results[0].solution}`); // Debe devolver 2
-  });
-});
+// Middleware para procesar JSON
+app.use(express.json());
+
+// Usar las rutas
+app.use('/api', userRoutes);
 
 // Iniciar servidor
 app.listen(port, () => {
