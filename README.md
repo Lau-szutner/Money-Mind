@@ -1,3 +1,3 @@
 # money mind
 
-Aplicacion de gestion de gasto y educación financiera 
+Aplicacion de gestion de gasto y educación financiera y mas
