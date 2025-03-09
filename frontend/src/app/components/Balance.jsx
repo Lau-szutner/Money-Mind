@@ -19,13 +19,20 @@ export const Balance = ({ balance, saving, monthly }) => {
   return (
     <div className="w-full">
       <div className="bg-gray-500 p-5 rounded-lg m-5">
-        <h1 className="font-bold text-center">Balance</h1>
-        <ul className="flex flex-col gap-2">
-          <li>{`Saldo: ${balance}`}</li>
+        <h1 className="font-bold text-center">Your money</h1>
+        <div className="flex flex-col gap-2 width-full">
+          <div className="width-full flex justify-between">
+            <p className="font-bold">Income:</p>
+            <p className="text-green-400">{balance}</p>
+          </div>
+          <div className="width-full flex justify-between">
+            <p className="font-bold">Savings:</p>
+            <p className="text-yellow-600">{saving}</p>
+          </div>
 
-          <li>{`Ahorro: ${saving}`}</li>
-          <li>{`Gasto total mes: ${monthly}`}</li>
-        </ul>
+          {/* <li>{`Ahorro: ${saving}`}</li>
+          <li>{`Gasto total mes: ${monthly}`}</li> */}
+        </div>
         <div className="flex justify-between gap-2 mt-2">
           <button
             className="py-1 bg-blue-400 rounded w-full"
