@@ -18,8 +18,7 @@ export const Balance = ({ balance, saving, monthly }) => {
   };
   return (
     <div className="w-full">
-      <div className="bg-gray-500 p-5 rounded-lg m-5">
-        <h1 className="font-bold text-center">Your money</h1>
+      <div className="bg-bgComponents p-5 rounded-lg m-5">
         <div className="flex flex-col gap-2 width-full">
           <div className="width-full flex justify-between">
             <p className="font-bold">Income:</p>

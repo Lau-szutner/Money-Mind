@@ -8,11 +8,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['InterVariable', '...defaultTheme.fontFamily.sans'],
+        sans: ['Montserrat', 'var(--font-montserrat)', 'Arial', 'sans-serif'], // Cambia la fuente por defecto
       },
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        background: '#353535',
+        foreground: '#DDDDDD',
+        topHeader: '#131313',
+        whiteText: '#DDDDDD',
+        redSpend: '#D54C4C',
+        greenIn: '#00DC1D',
+        bgComponents: '#626262',
       },
     },
   },
