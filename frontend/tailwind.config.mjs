@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        custom: '3px 4px 4px rgba(0, 0, 0, 0.25)', // Agregar sombra personalizada
+      },
       fontFamily: {
         sans: ['Montserrat', 'var(--font-montserrat)', 'Arial', 'sans-serif'], // Cambia la fuente por defecto
       },
