@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { useState } from 'react';
-import Newspend from './NewSpend';
-import NewIncome from './NewIncome';
+import Newspend from './NewIncome';
+import NewIncome from './NewSpend';
 
 export const Balance = ({ balance, saving, monthly }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
