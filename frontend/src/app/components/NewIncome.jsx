@@ -5,7 +5,7 @@ function Newspend() {
     <div>
       <div className="font-regular">
         <div className="bg-bgComponents p-5 rounded-lg m-5">
-          <h1 className="font-bold text-center">Add transaction</h1>
+          <h1 className="font-bold text-center">New income</h1>
 
           <div className="gap-2 mt-2">
             <form action="" className="flex flex-col gap-2">
