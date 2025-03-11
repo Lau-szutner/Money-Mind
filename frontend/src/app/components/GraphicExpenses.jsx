@@ -41,11 +41,22 @@ export default function GraphicExpenses() {
       </PieChart>
       {/* Lista que muestra la distribución de los gastos con sus porcentajes */}
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
-        <li className="black-buttons shadow-custom w-full">Food: 40%</li>{' '}
-        {/* Muestra los porcentajes de cada categoría */}
-        <li className="black-buttons shadow-custom w-full">Rent: 30%</li>
-        <li className="black-buttons shadow-custom w-full">Transport: 20%</li>
-        <li className="black-buttons shadow-custom w-full">Others: 10%</li>
+        {data.map((entry, index) => (
+          <li
+            key={index}
+            className="flex justify-between items-center black-buttons"
+          >
+            <p>{entry.name}</p>
+            <p>
+              {(
+                (entry.value /
+                  data.reduce((acc, curr) => acc + curr.value, 0)) *
+                100
+              ).toFixed(2)}
+              %
+            </p>
+          </li>
+        ))}
       </ul>
       {/* Botón de acción o enlace (por ahora solo es un texto estilizado) */}
       <p className="black-buttons w-full shadow-custom">Analyze</p>
