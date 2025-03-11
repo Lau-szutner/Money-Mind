@@ -23,7 +23,7 @@ function Newspend() {
                 name="Amount"
               />
 
-              <button className="py-1 px-10 bg-greenIn rounded w-full text-topHeader font-semibold">
+              <button className="py-1 px-10 bg-greenIn rounded w-full text-white font-semibold shadow-custom">
                 Add
               </button>
             </form>

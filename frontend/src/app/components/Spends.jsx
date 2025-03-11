@@ -5,7 +5,7 @@ export const Spends = ({ spendsList }) => {
   return (
     <div className="w-full">
       <div className="bg-white/15 backdrop-blur-md m-5 p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
-        <h2 className="text-2xl">Gastos</h2>
+        <h2 className="text-2xl">Spends</h2>
         <ul className="w-full flex flex-col gap-2">
           {spendsList.map((spend) => {
             return (

@@ -21,7 +21,7 @@ function NewIncome() {
                 placeholder="Amount"
                 name="Amount"
               />
-              <button className="py-1 px-10 bg-redSpend rounded w-full font-semibold">
+              <button className="py-1 px-10 bg-redSpend rounded w-full font-semibold shadow-custom">
                 Add
               </button>
             </form>

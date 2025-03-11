@@ -3,7 +3,7 @@ import { Spends } from '@/app/components/Spends';
 import spendsData from '@/app/db/spends-data.json';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
-
+import GraphicExpenses from '@/app/components/GraphicExpenses';
 const spendsList = [];
 
 export default function Home() {
@@ -15,7 +15,8 @@ export default function Home() {
         monthly={`516.000`}
         saving={`48.000`}
       ></Balance>
-      <Spends spendsList={spendsData}></Spends>
+      <GraphicExpenses></GraphicExpenses>
+      {/* <Spends spendsList={spendsData}></Spends> */}
       <Footer></Footer>
     </div>
   );
