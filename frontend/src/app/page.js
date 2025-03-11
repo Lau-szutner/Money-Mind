@@ -3,8 +3,7 @@ import { Spends } from '@/app/components/Spends';
 import spendsData from '@/app/db/spends-data.json';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
-import GraphicExpenses from '@/app/components/GraphicExpenses';
-import { createChart } from 'lightweight-charts';
+import GraphicExpenses from './components/GraphicExpenses';
 const spendsList = [];
 
 export default function Home() {
