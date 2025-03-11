@@ -39,7 +39,6 @@ export default function GraphicExpenses() {
         {/* Tooltip que aparece al pasar el mouse sobre cada sección */}
         <Tooltip />
       </PieChart>
-      {/* Lista que muestra la distribución de los gastos con sus porcentajes */}
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
         {data.map((entry, index) => (
           <li
@@ -58,8 +57,7 @@ export default function GraphicExpenses() {
           </li>
         ))}
       </ul>
-      {/* Botón de acción o enlace (por ahora solo es un texto estilizado) */}
-      <p className="black-buttons w-full shadow-custom">Analyze</p>
+      <p className="black-buttons w-full shadow-custom ">Analyze</p>
     </div>
   );
 }
