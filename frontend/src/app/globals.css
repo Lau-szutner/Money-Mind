@@ -40,3 +40,11 @@ body {
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
 } */
+/* styles.css */
+.black-buttons {
+  background: #353535;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
