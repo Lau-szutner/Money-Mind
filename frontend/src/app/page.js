@@ -4,6 +4,7 @@ import spendsData from '@/app/db/spends-data.json';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
 import GraphicExpenses from '@/app/components/GraphicExpenses';
+import { createChart } from 'lightweight-charts';
 const spendsList = [];
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       ></Balance>
       <GraphicExpenses></GraphicExpenses>
       {/* <Spends spendsList={spendsData}></Spends> */}
+
       <Footer></Footer>
     </div>
   );
