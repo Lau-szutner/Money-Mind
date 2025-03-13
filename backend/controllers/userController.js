@@ -1,4 +1,5 @@
 import { createUser } from '../models/usersModel.js';
+import { createSpend } from '../models/spendModel.js';
 
 const registerUser = async (req, res) => {
   const { name, email } = req.body;
