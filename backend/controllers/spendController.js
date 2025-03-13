@@ -1,3 +1,5 @@
+import { createSpendModel } from '../models/spendModel.js';
+
 const createSpend = async (req, res) => {
   const { amount, description } = req.body;
 
@@ -6,7 +8,7 @@ const createSpend = async (req, res) => {
   }
 
   try {
-    const result = await createSpend(amount, description);
+    const result = await createSpendModel(amount, description);
     res.status(201).json({ message: 'Gasto creado', spendId: result.insertId });
   } catch (error) {
     res
@@ -14,3 +16,5 @@ const createSpend = async (req, res) => {
       .json({ error: 'Error al crear gasto', message: error.message });
   }
 };
+
+export { createSpend };

@@ -1,6 +1,6 @@
-import connection from '../config/database';
+import connection from '../config/database.js';
 
-export async function createSpend(amount, description) {
+export async function createSpendModel(amount, description) {
   try {
     const [result] = await connection.query(
       'INSERT INTO spends (amount, description) VALUES (?, ?)',

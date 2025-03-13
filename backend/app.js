@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
+import spendRoutes from './routes/spendRoutes.js';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.json());
 
 // Usar las rutas
 app.use('/routes', userRoutes);
+app.use('/routes', spendRoutes);
 
 // Iniciar servidor
 app.listen(port, () => {

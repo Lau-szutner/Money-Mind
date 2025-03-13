@@ -1,14 +1,8 @@
 import express from 'express';
-import {
-  createSpend,
-  //   getAllUsers,
-  //   getUserById,
-} from '../controllers/spe.js';
+import { createSpend } from '../controllers/spendController.js';
 
 const router = express.Router();
 
-router.post('/register', registerUser);
-// router.get('/users', getAllUsers);
-// router.get('/users/:id', getUserById);
+router.post('/createSpend', createSpend);
 
 export default router;
