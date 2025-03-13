@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import userRoutes from './api/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 // Cargar variables de entorno
 dotenv.config();
