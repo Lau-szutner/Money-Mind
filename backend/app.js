@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Usar las rutas
-app.use('/api', userRoutes);
+app.use('/routes', userRoutes);
 
 // Iniciar servidor
 app.listen(port, () => {

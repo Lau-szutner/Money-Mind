@@ -1,10 +1,14 @@
 import { createUser } from '../models/usersModel.js';
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Faltan campos requeridos' });
+  }
 
   try {
-    const result = await createUser(name, email, password); // Usamos await
+    const result = await createUser(name, email);
     res
       .status(201)
       .json({ message: 'Usuario registrado', userId: result.insertId });
