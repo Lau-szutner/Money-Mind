@@ -1,11 +1,6 @@
-'use client';
 import React from 'react';
-import { useState } from 'react';
-
+import InputField from './InputField';
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   function handleRegister() {
     e.preventDefault();
     // let email = e.target.email.value;
@@ -24,41 +19,30 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col bg-background h-screen w-full">
+    <div className="flex flex-col bg-background h-screen w-full items-center justify-center">
       <form
         // action="POST"
-        className="bg-bgComponents rounded-lg text-2xl m-10 p-10 "
+        className="bg-bgComponents rounded-lg text-2xl m-10 p-10 w-6/12 flex flex-col gap-6"
       >
         <h1 className="mb-4 text-center">Create Account</h1>
 
-        <label htmlFor="email" className="flex flex-col mb-4">
-          Email
-          <input
-            type="text"
-            name="email"
-            id="email"
-            className="p-2 border rounded text-black"
-            placeholder="EmailExample@hotmail.com"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+        <InputField
+          label="Email"
+          name="Email"
+          type="Email"
+          placeholder="Enter your email"
+        />
 
-        <label htmlFor="password" className="flex flex-col mb-4">
-          Password
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="p-2 border rounded text-black"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <InputField
+          label="Name"
+          name="Name"
+          type="Name"
+          placeholder="Enter your name"
+        />
 
         <button
           type="submit"
           className="p-2 bg-blue-500 text-white rounded w-full"
-          onClick={() => handleRegister()}
         >
           Submit
         </button>
