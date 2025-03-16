@@ -1,0 +1,24 @@
+{
+  "name": "money_mind",
+  "version": "1.0.0",
+  "description": "Money Mind API es una aplicación que gestiona usuarios y gastos, utilizando Node.js, Express y MySQL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lau-szutner/Cash-Flow.git"
+  },
+  "keywords": [],
+  "author": "Lautaro Fernandez Szutner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lau-szutner/Cash-Flow/issues"
+  },
+  "homepage": "https://github.com/Lau-szutner/Cash-Flow#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
