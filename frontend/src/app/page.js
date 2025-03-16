@@ -8,7 +8,7 @@ const spendsList = [];
 
 export default function Home() {
   return (
-    <div className="grid ">
+    <div className="grid">
       <Navbar></Navbar>
       <Balance
         balance={`96.000`}
