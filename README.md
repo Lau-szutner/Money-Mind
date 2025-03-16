@@ -1,14 +1,14 @@
 # Money Mind API
 
-Money Mind API es una aplicación que gestiona usuarios y gastos, utilizando Node.js, Express y MySQL.
+Money Mind es una aplicación que gestiona usuarios y gastos, utilizando Next.js, Express y MySQL.
 
 ## Instalación
 
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/tuusuario/money-mind-api.git
-cd money-mind-api
+git clone https://github.com/Lau-szutner/Money-Mind.git
+cd Money-Mind
 ```
 
 2. Instala las dependencias:
