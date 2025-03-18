@@ -13,6 +13,7 @@ const FormRegister = () => {
         name="Email"
         type="Email"
         placeholder="Enter your email"
+        inputClassName="text-black"
       />
 
       <InputField
