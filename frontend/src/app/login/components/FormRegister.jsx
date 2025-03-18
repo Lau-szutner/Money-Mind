@@ -1,19 +1,35 @@
 import React from 'react';
 import InputField from './InputField';
+
 const FormRegister = () => {
+  function handleRegister() {
+    e.preventDefault();
+    // let email = e.target.email.value;
+    // let password = e.target.password.value;
+    // let response = await fetch('http:localhost:3001/createAccount', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ email, password }),
+    // });
+    // let data = await response.json();
+    // console.log(data);
+    console.log(email);
+    console.log(password);
+  }
   return (
     <form
       // action="POST"
       className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
     >
-      <h1 className="mb-4 text-center">Create Account</h1>
+      <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>
 
       <InputField
         label="Email"
         name="Email"
         type="Email"
         placeholder="Enter your email"
-        inputClassName="text-black"
       />
 
       <InputField
@@ -34,20 +50,3 @@ const FormRegister = () => {
 };
 
 export default FormRegister;
-
-//   function handleRegister() {
-//     e.preventDefault();
-//     // let email = e.target.email.value;
-//     // let password = e.target.password.value;
-//     // let response = await fetch('http:localhost:3001/createAccount', {
-//     //   method: 'POST',
-//     //   headers: {
-//     //     'Content-Type': 'application/json',
-//     //   },
-//     //   body: JSON.stringify({ email, password }),
-//     // });
-//     // let data = await response.json();
-//     // console.log(data);
-//     console.log(email);
-//     console.log(password);
-//   }
