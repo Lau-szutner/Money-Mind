@@ -4,7 +4,7 @@ const FormRegister = () => {
   return (
     <form
       // action="POST"
-      className="bg-bgComponents rounded-lg text-2xl lg:m-10 p-2 lg:p-10 w-6/12 flex flex-col gap-6 w-8/12"
+      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
     >
       <h1 className="mb-4 text-center">Create Account</h1>
 
