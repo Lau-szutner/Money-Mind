@@ -7,6 +7,7 @@ const FormRegister = () => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
+    password: '',
   });
 
   const handleChange = (name, value) => {
@@ -18,6 +19,7 @@ const FormRegister = () => {
 
     console.log('Email:', formData.email);
     console.log('Name:', formData.name);
+    console.log('Password:', formData.password);
 
     try {
       const response = await fetch('http://localhost:3000/routes/createUser', {
@@ -57,6 +59,15 @@ const FormRegister = () => {
         type="text"
         placeholder="Enter your name"
         value={formData.name}
+        onChange={handleChange}
+      />
+
+      <InputField
+        label="Password"
+        name="password"
+        type="password"
+        placeholder="Enter your password"
+        value={formData.password}
         onChange={handleChange}
       />
 
