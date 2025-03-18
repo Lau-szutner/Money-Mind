@@ -1,21 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const InputField = ({
   label,
   name,
-  value = '', // Valor inicial por defecto
+  value = '',
   placeholder,
   type = 'text',
   inputClassName = '',
+  onChange,
 }) => {
   const [inputValue, setInputValue] = useState(value);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   const handleChange = (event) => {
     const newValue = event.target.value;
     setInputValue(newValue);
-    console.log(newValue); // Imprime el valor actualizado
+    onChange(name, newValue); // Llamo a la función que viene del padre
   };
 
   return (
@@ -26,8 +31,8 @@ const InputField = ({
       <input
         type={type}
         name={name}
-        value={inputValue} // Usa el estado local
-        onChange={handleChange} // Pasa el evento correctamente
+        value={inputValue}
+        onChange={handleChange}
         placeholder={placeholder}
         required
         className={`bg-[#E2E5E5] h-14 rounded-lg p-4 text-black w-full`}
