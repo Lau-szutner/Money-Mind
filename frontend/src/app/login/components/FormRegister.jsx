@@ -20,7 +20,7 @@ const FormRegister = () => {
     console.log('Name:', formData.name);
 
     try {
-      const response = await fetch('http://localhost:3000/createAccount', {
+      const response = await fetch('http://localhost:3000/routes/createUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -22,11 +22,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id_users` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `register_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_users`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE
 ) ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `money_mind_db`.`spends`
