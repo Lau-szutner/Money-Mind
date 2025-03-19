@@ -1,6 +1,18 @@
+'use client';
+
 import React from 'react';
+import useState from 'react';
 
 function NewIncome() {
+  const [formData, setFormData] = useState({
+    category: '',
+    amount: '',
+  });
+
+  const handleChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
   return (
     <div>
       <div className="">
@@ -13,6 +25,7 @@ function NewIncome() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Category"
                 name="Category"
+                onChange={(e) => handleChange('category', e.target.value)}
               />
 
               <input
