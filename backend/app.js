@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 const corsOptions = {
-  origin: 'http://localhost:3001', // Frontend
+  origin: 'http://localhost:3000', // Frontend
   methods: 'GET,POST,PUT,DELETE', // Métodos permitidos
   allowedHeaders: 'Content-Type,Authorization', // Encabezados permitidos
 };
