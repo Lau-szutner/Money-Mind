@@ -6,6 +6,7 @@ import doLoginRoute from './routes/doLoginRoute.js';
 import createUserRoute from './routes/createUserRoute.js';
 import cors from 'cors'; // Importar el módulo CORS
 // Cargar variables de entorno
+import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const app = express();
