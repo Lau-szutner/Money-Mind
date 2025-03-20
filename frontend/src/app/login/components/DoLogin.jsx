@@ -13,15 +13,15 @@ const DoLogin = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleRegister = async (e) => {
+  const handleDoLogin = async (e) => {
     e.preventDefault();
 
     console.log('Email:', formData.email);
     console.log('Password:', formData.password);
 
     try {
-      const response = await fetch('http://localhost:4000/routes/DoLogin', {
-        method: 'GET',
+      const response = await fetch('http://localhost:4000/routes/doLogin', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -37,7 +37,7 @@ const DoLogin = () => {
 
   return (
     <form
-      onSubmit={handleRegister}
+      onSubmit={handleDoLogin}
       className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
     >
       <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>

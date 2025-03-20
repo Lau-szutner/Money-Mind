@@ -1,8 +1,8 @@
 import express from 'express';
-import { DoLoginController } from '../controllers/DoLoginController.js';
+import { doLoginController } from '../controllers/doLoginController.js';
 
 const router = express.Router();
 
-router.post('/doLogin', DoLoginController);
+router.post('/doLogin', doLoginController);
 
 export default router;
