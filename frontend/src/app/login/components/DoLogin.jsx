@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import InputField from './InputField';
 
 const DoLogin = () => {
@@ -29,7 +30,19 @@ const DoLogin = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+
+      if (response.ok) {
+        // Guardamos el token en la cookie
+        Cookies.set('authToken', data.token, {
+          expires: 1,
+          secure: true,
+          sameSite: 'Strict',
+        }); // Expira en 1 día
+
+        console.log('Login exitoso', data);
+      } else {
+        console.error('Error en el login:', data);
+      }
     } catch (error) {
       console.error('Error:', error);
     }

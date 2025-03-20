@@ -3,6 +3,7 @@ import FormRegister from './components/FormRegister';
 import DoLogin from './components/DoLogin';
 
 export default function Login() {
+  const checkLogin = function () {};
   return (
     <div className="flex flex-col bg-background h-screen w-full items-center justify-center">
       {/* <FormRegister></FormRegister> */}
