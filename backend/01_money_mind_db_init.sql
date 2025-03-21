@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `spends` (
   `category` VARCHAR(150) NOT NULL,
   `amount` INT NOT NULL,
   `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `fk_users_id_users` INT NOT NULL,
+  `fk_users_id_users` INT,
   PRIMARY KEY (`id_spends`),
   INDEX `fk_spends_users_idx` (`fk_users_id_users` ASC) VISIBLE,
   CONSTRAINT `fk_spends_users`

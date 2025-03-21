@@ -23,7 +23,13 @@ const createSpend = async (req, res) => {
     const userId = decodedToken.id;
 
     // Crear el gasto, asociando el gasto con el id del usuario
-    const result = await createSpendModel(userId, amount, description);
+    const result = await createSpendModel(
+      userId,
+      title,
+      description,
+      category,
+      amount
+    );
 
     res.status(201).json({ message: 'Gasto creado', spendId: result.insertId });
   } catch (error) {
