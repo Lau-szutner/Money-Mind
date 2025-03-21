@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import InputField from './InputField';
 
-const DoLogin = () => {
+const DoLogin = ({ hasAccount }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -53,7 +53,7 @@ const DoLogin = () => {
       onSubmit={handleDoLogin}
       className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
     >
-      <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>
+      <h1 className="mb-4 text-center font-bold text-xl">Login</h1>
 
       <InputField
         label="Email"
@@ -78,6 +78,13 @@ const DoLogin = () => {
         className="p-2 bg-blue-500 text-white rounded w-full"
       >
         Login
+      </button>
+      <button
+        type="button"
+        className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
+        onClick={hasAccount}
+      >
+        I don't have a account
       </button>
     </form>
   );

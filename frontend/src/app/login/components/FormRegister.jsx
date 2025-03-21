@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import InputField from './InputField';
 
-const FormRegister = () => {
+const FormRegister = ({ hasAccount }) => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -76,6 +76,14 @@ const FormRegister = () => {
         className="p-2 bg-blue-500 text-white rounded w-full"
       >
         Submit
+      </button>
+
+      <button
+        type="button"
+        className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
+        onClick={hasAccount}
+      >
+        I do have a account
       </button>
     </form>
   );

@@ -1,13 +1,25 @@
-import React from 'react';
+'use client';
+
+import { React, useState, useEffect } from 'react';
 import FormRegister from './components/FormRegister';
 import DoLogin from './components/DoLogin';
 
 export default function Login() {
-  const checkLogin = function () {};
+  const [hasAccount, setHasAccount] = useState(false);
+
+  const hello = function () {
+    console.log('hello');
+  };
   return (
     <div className="flex flex-col bg-background h-screen w-full items-center justify-center">
-      {/* <FormRegister></FormRegister> */}
-      <DoLogin></DoLogin>
+      {hasAccount ? (
+        <DoLogin hasAccount={() => setHasAccount(false)}></DoLogin>
+      ) : (
+        <FormRegister hasAccount={() => setHasAccount(true)}></FormRegister>
+      )}
+
+      {/* <DoLogin onShow={() => setActiveIndex(0)}></DoLogin>
+      <FormRegister onShow={() => setActiveIndex(1)}></FormRegister> */}
     </div>
   );
 }
