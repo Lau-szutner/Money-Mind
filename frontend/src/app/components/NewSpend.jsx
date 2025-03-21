@@ -7,6 +7,8 @@ function NewIncome() {
   const [formData, setFormData] = useState({
     category: '',
     amount: '',
+    title: '',
+    description: '',
   });
 
   const handleChange = (name, value) => {

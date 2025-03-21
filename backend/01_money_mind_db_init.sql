@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spends` (
   `id_spends` INT NOT NULL AUTO_INCREMENT,
-  'title' VARCHAR(100) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `description` VARCHAR(200) NOT NULL,
-  'category' VARCHAR(150) NOT NULL,
+  `category` VARCHAR(150) NOT NULL,
   `amount` INT NOT NULL,
   `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fk_users_id_users` INT NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `spends` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

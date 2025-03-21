@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken';
 import { createSpendModel } from '../models/spendModel.js';
 
 const createSpend = async (req, res) => {
-  const { amount, description } = req.body;
+  const { title, description, category, amount } = req.body;
 
-  if (!amount || !description) {
+  if (!title || !description || !category || !amount) {
     return res.status(400).json({ error: 'Faltan campos requeridos' });
   }
 
