@@ -35,9 +35,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spends` (
   `id_spends` INT NOT NULL AUTO_INCREMENT,
+  'title' VARCHAR(100) NOT NULL,
   `description` VARCHAR(200) NOT NULL,
+  'category' VARCHAR(150) NOT NULL,
   `amount` INT NOT NULL,
-  `spend_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fk_users_id_users` INT NOT NULL,
   PRIMARY KEY (`id_spends`),
   INDEX `fk_spends_users_idx` (`fk_users_id_users` ASC) VISIBLE,

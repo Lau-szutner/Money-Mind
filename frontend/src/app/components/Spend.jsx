@@ -34,3 +34,9 @@ export const Spend = ({
     </div>
   );
 };
+
+// date
+// title
+// description
+// amount
+// category
