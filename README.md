@@ -1,6 +1,6 @@
 # Money Mind API
 
-Money Mind es una aplicación que gestiona usuarios y gastos, utilizando Next.js, Express y MySQL.
+Money Mind es una aplicación que gestiona usuarios y gastos, utilizando Next.js, Express y MySQL, el el backend esta echo con el patron MVC, usando mysql y express,
 
 ## Instalación
 
@@ -14,7 +14,7 @@ cd Money-Mind
 2. Instala las dependencias:
 
 ```bash
-npm install
+npm run install-dependencies
 ```
 
 3. Configura el archivo `.env`:
@@ -28,14 +28,16 @@ DB_NAME=money_mind_db
 ```
 
 4. Inicializa la base de datos con el script `money_mind_db.sql`.
+   `USE money_mind_db;`
+   `SOURCE /ruta/completa/a/money_mind_db.sql;`
 
-5. Ejecuta el servidor:
+5. Ejecuta el proyecto:
 
 ```bash
-npm start
+npm run dev
 ```
 
-El servidor correrá en `http://localhost:3000`.
+El servidor correrá en `http://localhost:4000`.
 
 ## Endpoints
 
@@ -67,13 +69,15 @@ El servidor correrá en `http://localhost:3000`.
 
 **Request Body:**
 
-```json
+````json
 {
-  "amount": 500,
+  "title": "Nuevo gasto",
   "description": "Compra de libros",
-  "userId": 1
+  "category": "libros",
+  "amount": "12312"
 }
-```
+
+
 
 **Response:**
 
@@ -82,7 +86,7 @@ El servidor correrá en `http://localhost:3000`.
   "message": "Gasto creado",
   "spendId": 1
 }
-```
+````
 
 ## Base de Datos
 
@@ -90,10 +94,6 @@ La base de datos `money_mind_db` tiene dos tablas principales:
 
 - **users**: Almacena información de los usuarios.
 - **spends**: Registra los gastos de cada usuario.
-
-## Licencia
-
-Este proyecto está bajo la licencia MIT.
 
 ---
 
