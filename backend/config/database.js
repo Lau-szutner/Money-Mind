@@ -1,17 +1,32 @@
-import mysql from 'mysql2/promise'; // Usar mysql2/promise para trabajar con promesas
-import dotenv from 'dotenv';
+// config/db.js
+import { Sequelize } from 'sequelize'; // Importa Sequelize
 
-// Cargar variables de entorno desde el archivo .env
+import dotenv from 'dotenv'; // Importa dotenv para manejar variables de entorno
+
+// Cargar las variables de entorno desde el archivo .env
 dotenv.config();
 
-// Crear conexión usando las variables de entorno
-const connection = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// Crea una instancia de Sequelize para conectar con la base de datos
+const sequelize = new Sequelize(
+  process.env.DB_NAME, // El nombre de la base de datos
+  process.env.DB_USER, // El usuario de la base de datos
+  process.env.DB_PASSWORD, // La contraseña del usuario
+  {
+    host: process.env.DB_HOST, // La dirección del servidor (por defecto localhost)
+    dialect: 'mysql', // Usamos MySQL como base de datos
+    logging: false, // Desactiva los logs de SQL para no verlos en la consola
+  }
+);
 
-console.log('Conectado a MySQL');
+// Verificación de la conexión
+try {
+  // Usamos `sequelize.authenticate()` para probar si la conexión es exitosa
+  await sequelize.authenticate();
+  console.log('Conexión a MySQL con Sequelize exitosa');
+} catch (error) {
+  // Si no se puede conectar, capturamos el error
+  console.error('Error de conexión:', error);
+}
 
-export default connection;
+// Exportamos la instancia de Sequelize para usarla en otras partes de la aplicación
+export default sequelize;
