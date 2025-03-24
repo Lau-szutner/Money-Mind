@@ -1,13 +1,13 @@
 import express from 'express';
 import {
-  registerUser,
+  createUserController,
   //   getAllUsers,
   //   getUserById,
-} from '../controllers/userController.js';
+} from '../controllers/UserController.js';
 
 const router = express.Router();
 
-router.post('/register', registerUser);
+router.post('/register', createUserController);
 // router.get('/users', getAllUsers);
 // router.get('/users/:id', getUserById);
 
