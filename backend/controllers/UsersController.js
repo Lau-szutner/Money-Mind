@@ -1,4 +1,4 @@
-import UserModel from '../models/userModel.js'; // Importa el modelo de Sequelize para 'User'
+import User from '../models/User.js'; // Importa el modelo de Sequelize para 'User'
 import bcrypt from 'bcrypt';
 
 const createUserController = async (req, res) => {
@@ -11,7 +11,7 @@ const createUserController = async (req, res) => {
 
   try {
     // Verificar si ya existe un usuario con el mismo correo
-    const existingUser = await UserModel.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ error: 'El correo ya está registrado' });
     }
@@ -20,7 +20,7 @@ const createUserController = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear el usuario en la base de datos
-    const newUser = await UserModel.create({
+    const newUser = await User.create({
       email,
       name,
       password: hashedPassword, // Usamos la contraseña hasheada
@@ -41,7 +41,7 @@ const getUserByIdController = async (req, res) => {
 
   try {
     // Buscar el usuario por su ID
-    const user = await UserModel.findByPk(id);
+    const user = await User.findByPk(id);
 
     if (!user) {
       // Si no se encuentra el usuario, responde con un error

@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import userRoutes from './routes/userRoutes.js';
+import userRoutes from './routes/user.routes.js';
 // import spendRoutes from './routes/spendRoutes.js';
 // import doLoginRoute from './routes/doLoginRoute.js';
 // import createUserRoute from './routes/createUserRoute.js';

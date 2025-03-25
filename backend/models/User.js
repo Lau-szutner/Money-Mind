@@ -2,8 +2,8 @@
 import { DataTypes } from 'sequelize'; // Importa los tipos de datos de Sequelize
 import sequelize from '../config/database.js'; // Importa la conexión de la base de datos
 
-const UserModel = sequelize.define(
-  'UserModel',
+const User = sequelize.define(
+  'User',
   {
     id_users: {
       type: DataTypes.INTEGER, // Tipo de dato: INTEGER (equivalente a INT en SQL)
@@ -37,4 +37,4 @@ const UserModel = sequelize.define(
   }
 );
 
-export default UserModel;
+export default User;
