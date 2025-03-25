@@ -38,4 +38,66 @@ const createSpendController = async (req, res) => {
   }
 };
 
-export { createSpendController };
+const getSpendController = async (req, res) => {
+  // Obtener el ID desde los parámetros de la URL
+  const { id } = req.params;
+
+  // Validación básica
+  if (!id || isNaN(Number(id))) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  try {
+    // Buscar el gasto por ID
+    const spend = await Spend.findByPk(id);
+
+    if (!spend) {
+      return res.status(404).json({ error: 'Gasto no encontrado' });
+    }
+
+    // Enviar el gasto encontrado
+    res.status(200).json(spend);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al obtener el gasto',
+      message: error.message,
+    });
+  }
+};
+
+const deleteSpendController = async (req, res) => {
+  const { id_spend } = req.params; // Asegúrate de que el parámetro en la ruta sea 'id_spend'
+
+  // Validación básica del ID
+  if (!id_spend || isNaN(Number(id_spend))) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  try {
+    // Buscar el gasto por ID (opcional si solo quieres borrar)
+    const spend = await Spend.findByPk(id_spend);
+
+    if (!spend) {
+      return res.status(404).json({ error: 'Gasto no encontrado' });
+    }
+
+    // Eliminar el gasto usando el campo correcto
+    const result = await Spend.destroy({
+      where: { id_spend }, // Aquí usas el campo correcto
+    });
+
+    // Confirmar la eliminación
+    if (result === 1) {
+      res.status(200).json({ message: 'Gasto eliminado correctamente' });
+    } else {
+      res.status(500).json({ error: 'No se pudo eliminar el gasto' });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al eliminar el gasto',
+      message: error.message,
+    });
+  }
+};
+
+export { createSpendController, getSpendController, deleteSpendController };
