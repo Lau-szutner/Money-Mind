@@ -7,7 +7,7 @@ import Spend from './Spend.js';
 const User = sequelize.define(
   'User',
   {
-    id_users: {
+    id: {
       type: DataTypes.INTEGER, // Tipo de dato: INTEGER (equivalente a INT en SQL)
       allowNull: false, // El campo no puede ser nulo
       autoIncrement: true, // Se incrementa automáticamente
