@@ -1,6 +1,7 @@
 // models/User.js
 import { DataTypes } from 'sequelize'; // Importa los tipos de datos de Sequelize
 import sequelize from '../config/database.js'; // Importa la conexión de la base de datos
+import Spend from './Spend.js';
 
 const User = sequelize.define('User', {
   id_users: {
@@ -29,5 +30,8 @@ const User = sequelize.define('User', {
     defaultValue: DataTypes.NOW, // Valor por defecto: la fecha y hora actuales
   },
 });
+
+User.hasMany(Spend); // Un Usuario tiene muchos Posts
+Spend.belongsTo(User); // Un Post pertenece a un Usuario
 
 export default User;

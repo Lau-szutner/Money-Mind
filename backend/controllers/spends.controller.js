@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Spend from '../models/Spend.js'; // Asegúrate de tener el modelo Spend importado correctamente
 
-const createSpendController = async (req, res) => {
+const createSpend = async (req, res) => {
   const { title, description, category, amount } = req.body;
 
   if (!title || !description || !category || !amount) {
@@ -38,7 +38,17 @@ const createSpendController = async (req, res) => {
   }
 };
 
-const getSpendController = async (req, res) => {
+const getSpends = async (req, res) => {
+  try {
+    const spends = await Spend.findAll();
+
+    res.status(200).json(spends);
+  } catch (error) {
+    res.status(404).json({ error: 'No hay ningun gasto' });
+  }
+};
+
+const getSpend = async (req, res) => {
   // Obtener el ID desde los parámetros de la URL
   const { id } = req.params;
 
@@ -65,7 +75,7 @@ const getSpendController = async (req, res) => {
   }
 };
 
-const deleteSpendController = async (req, res) => {
+const deleteSpend = async (req, res) => {
   const { id_spend } = req.params; // Asegúrate de que el parámetro en la ruta sea 'id_spend'
 
   // Validación básica del ID
@@ -100,4 +110,22 @@ const deleteSpendController = async (req, res) => {
   }
 };
 
-export { createSpendController, getSpendController, deleteSpendController };
+const updateSpend = async (req, res) => {
+  // Obtener el ID desde los parámetros de la URL
+  const { id } = req.params;
+  const { title, description, category, amount } = req.body;
+
+  try {
+    const spend = await Spend.findByPk(id);
+    spend.title = title;
+    spend.description = description;
+    spend.category = category;
+    spend.amount = amount;
+    await spend.save();
+    res.status(200).json(spend);
+  } catch (error) {
+    res.status(404).json({ error: message });
+  }
+};
+
+export { createSpend, getSpends, deleteSpend, getSpend, updateSpend };
