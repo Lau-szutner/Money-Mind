@@ -21,7 +21,7 @@ const DoLogin = ({ hasAccount }) => {
     console.log('Password:', formData.password);
 
     try {
-      const response = await fetch('http://localhost:4000/routes/doLogin', {
+      const response = await fetch('http://localhost:4000/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

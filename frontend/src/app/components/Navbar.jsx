@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import DisplayName from './DisplayName';
 
 export const Navbar = () => {
   return (
@@ -12,8 +13,7 @@ export const Navbar = () => {
         </div>
 
         <div className="text-white">
-          <h1 className="text-lg">John Doe</h1>
-          <h1 className="text-lg">John Doe</h1>
+          <DisplayName></DisplayName>
         </div>
       </div>
 

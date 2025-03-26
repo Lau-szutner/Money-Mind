@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'; // Importamos useRouter
 import Cookies from 'js-cookie'; // Importamos js-cookie
 import { Balance } from '@/app/components/Balance';
 import { Spends } from '@/app/components/Spends';
+
 import spendsData from '@/app/db/spends-data.json';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
@@ -37,6 +38,7 @@ export default function Home() {
       <Balance balance={`96.000`} monthly={`516.000`} saving={`48.000`} />
       <GraphicExpenses />
       <Spends spendsList={spendsData} />
+
       <Footer />
     </div>
   );

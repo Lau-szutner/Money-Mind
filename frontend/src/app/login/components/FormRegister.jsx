@@ -22,7 +22,7 @@ const FormRegister = ({ hasAccount }) => {
     console.log('Password:', formData.password);
 
     try {
-      const response = await fetch('http://localhost:4000/routes/createUser', {
+      const response = await fetch('http://localhost:4000/users/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
