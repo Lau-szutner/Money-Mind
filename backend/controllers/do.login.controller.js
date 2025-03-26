@@ -1,7 +1,7 @@
-import { doLoginModel } from '../models/doLoginModel.js';
+import { DoLogin } from '../models/doLogin.js';
 import { generateToken } from '../config/jwtUtils.js'; // Importamos la función para generar el token
 
-const doLoginController = async (req, res) => {
+const doLogin = async (req, res) => {
   const { email, password } = req.body;
 
   // Verificar si los campos email y password están presentes
@@ -11,7 +11,7 @@ const doLoginController = async (req, res) => {
 
   try {
     // Intentamos obtener el usuario desde el modelo de login
-    const user = await doLoginModel(email, password);
+    const user = await DoLogin(email, password);
 
     // Si el usuario no existe o las credenciales son incorrectas
     if (!user) {
@@ -31,4 +31,4 @@ const doLoginController = async (req, res) => {
   }
 };
 
-export { doLoginController };
+export { doLogin };

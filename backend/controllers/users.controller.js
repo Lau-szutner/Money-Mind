@@ -1,7 +1,7 @@
 import User from '../models/User.js'; // Importa el modelo de Sequelize para 'User'
 import bcrypt from 'bcrypt';
 
-const createUserController = async (req, res) => {
+const createUser = async (req, res) => {
   const { email, name, password } = req.body;
 
   // Validación de campos
@@ -36,7 +36,7 @@ const createUserController = async (req, res) => {
   }
 };
 
-const getUserByIdController = async (req, res) => {
+const getUser = async (req, res) => {
   const { id } = req.params; // Obtén el ID de los parámetros de la URL
 
   try {
@@ -58,4 +58,15 @@ const getUserByIdController = async (req, res) => {
   }
 };
 
-export { createUserController, getUserByIdController };
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ error: 'No se encontro usuarios', message: error.message });
+  }
+};
+
+export { createUser, getUser, getUsers };

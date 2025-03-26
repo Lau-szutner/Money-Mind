@@ -4,30 +4,22 @@ import Spend from '../models/Spend.js'; // Asegúrate de tener el modelo Spend i
 const createSpend = async (req, res) => {
   const { title, description, category, amount } = req.body;
 
+  // Verificar si falta algún campo requerido
   if (!title || !description || !category || !amount) {
     return res.status(400).json({ error: 'Faltan campos requeridos' });
   }
 
-  // // Obtener el token desde el encabezado Authorization
-  // const token = req.headers['authorization']?.split(' ')[1]; // El token debe ser enviado en el formato "Bearer <token>"
-
-  // if (!token) {
-  //   return res.status(403).json({ error: 'Token no proporcionado' });
-  // }
+  const userId = req.userId; // Aquí accedes al ID del usuario que viene del token
+  console.log(userId);
 
   try {
-    // Decodificar el token para obtener el id del usuario
-    // const decodedToken = jwt.verify(token, 'your_secret_key'); // Usa la misma clave secreta que usaste para firmar el token
-
-    // // Obtener el id del usuario desde el token decodificado
-    // const userId = decodedToken.id;
-
-    // Crear el gasto con Sequelize, asociando el gasto con el id del usuario
+    // Crear el gasto asociándolo al usuario (usando el userId)
     const result = await Spend.create({
       title,
       description,
       category,
       amount,
+      user_id: userId, // Usamos el userId aquí
     });
 
     res.status(201).json({ message: 'Gasto creado', spendId: result.id });
@@ -42,9 +34,15 @@ const getSpends = async (req, res) => {
   try {
     const spends = await Spend.findAll();
 
+    if (spends.length === 0) {
+      return res.status(404).json({ error: 'No expenses found' });
+    }
+
     res.status(200).json(spends);
   } catch (error) {
-    res.status(404).json({ error: 'No hay ningun gasto' });
+    res
+      .status(500)
+      .json({ error: 'An error occurred while fetching expenses' });
   }
 };
 

@@ -6,12 +6,12 @@ export const generateToken = (user) => {
 
   // El payload contiene el ID del usuario y, opcionalmente, otra información que quieras incluir
   const payload = {
-    id: user.id, // Aquí incluimos el ID del usuario
+    id: user.id_users, // Aquí incluimos el ID del usuario
     email: user.email, // También puedes incluir otros campos si lo necesitas
   };
 
   // Firma el token usando una clave secreta y define el tiempo de expiración
-  const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+  const token = jwt.sign(payload, secretKey, { expiresIn: '10h' });
 
   return token;
 };

@@ -1,21 +1,18 @@
-import connection from '../config/database.js';
-import bcrypt from 'bcrypt'; // Asegúrate de importar bcrypt
+import bcrypt from 'bcrypt';
+import User from '../models/User.js'; // Asegúrate de importar tu modelo User
 
-export async function doLoginModel(email, password) {
+export async function DoLogin(email, password) {
   try {
-    // Obtiene el usuario con el email proporcionado
-    const [results] = await connection.query(
-      'SELECT * FROM users WHERE email = ?',
-      [email]
-    );
+    // Busca el usuario por su email usando Sequelize
+    const user = await User.findOne({
+      where: { email },
+    });
 
-    if (results.length === 0) {
+    if (!user) {
       throw new Error('Usuario no encontrado');
     }
 
     // Compara la contraseña proporcionada con el hash de la base de datos
-    const user = results[0]; // Asumimos que solo habrá un usuario con ese email
-
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
