@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Newspend from './NewIncome';
 import NewIncome from './NewSpend';
 
-export const Balance = ({ balance, saving, monthly }) => {
+export const Balance = ({ balance, saving, monthly, id }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
   const [newSpend, setNewSpend] = useState(false);
   let handleAddSpend = () => {
@@ -39,16 +39,16 @@ export const Balance = ({ balance, saving, monthly }) => {
         </div>
         <div className="flex justify-between gap-2 mt-2">
           <button
-            className="py-1 bg-redSpend rounded w-full shadow-custom"
+            className="py-1  bg-greenIn rounded w-full shadow-custom"
             onClick={handleNewIncome}
           >
-            -
+            +
           </button>
           <button
-            className="py-1 bg-greenIn rounded w-full text-3xl shadow-custom"
+            className="py-1  bg-redSpend rounded w-full text-3xl shadow-custom"
             onClick={handleAddSpend}
           >
-            +
+            -
           </button>
         </div>
       </div>
