@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Newspend() {
+  const [spendData, setSpendData] = useState({
+    id: '',
+    title: '',
+    description: '',
+    category: '',
+    amount: '',
+  });
+
+  const handleChandeData = (event) => {
+    const { name, value } = event.target; // Desestructuramos el name y el value del input
+
+    setSpendData((prevData) => ({
+      ...prevData,
+      [name]: value, // Actualizamos solo el campo que ha cambiado
+    }));
+  };
+
   return (
     <div>
       <div className="font-regular">
@@ -12,15 +29,34 @@ function Newspend() {
               <input
                 type="text"
                 className="p-1 rounded w-full text-gray-500 text-center"
-                placeholder="Category"
-                name="Category"
+                placeholder="Title"
+                name="title"
+                value={spendData.title}
+                onChange={handleChandeData}
               />
-
+              <input
+                type="text"
+                className="p-1 rounded w-full text-gray-500 text-center"
+                placeholder="Description"
+                name="description"
+                value={spendData.description}
+                onChange={handleChandeData}
+              />
+              <input
+                type="text"
+                className="p-1 rounded w-full text-gray-500 text-center"
+                placeholder="Category"
+                name="category"
+                value={spendData.category}
+                onChange={handleChandeData}
+              />
               <input
                 type="number"
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Amount"
-                name="Amount"
+                name="amount"
+                value={spendData.amount}
+                onChange={handleChandeData}
               />
 
               <button className="py-1 px-10 bg-greenIn rounded w-full text-white font-semibold shadow-custom">
