@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Spend from '../models/Spend.js'; // Asegúrate de tener el modelo Spend importado correctamente
+import { where } from 'sequelize';
 
 const createSpend = async (req, res) => {
   const { title, description, category, amount } = req.body;
@@ -125,5 +126,34 @@ const updateSpend = async (req, res) => {
     res.status(404).json({ error: message });
   }
 };
+const getSpendsByUser = async (req, res) => {
+  const { id } = req.params;
 
-export { createSpend, getSpends, deleteSpend, getSpend, updateSpend };
+  try {
+    const spends = await Spend.findAll({
+      where: {
+        user_id: id,
+      },
+    });
+
+    if (spends.length === 0) {
+      return res
+        .status(404)
+        .json({ error: 'No se encontraron gastos para este usuario' });
+    }
+
+    res.status(200).json(spends);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Hubo un problema al obtener los gastos' });
+  }
+};
+
+export {
+  createSpend,
+  getSpends,
+  deleteSpend,
+  getSpend,
+  updateSpend,
+  getSpendsByUser,
+};

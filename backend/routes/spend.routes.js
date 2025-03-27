@@ -5,6 +5,7 @@ import {
   deleteSpend,
   getSpends,
   updateSpend,
+  getSpendsByUser,
 } from '../controllers/spends.controller.js';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
 
@@ -15,6 +16,9 @@ router.get('/', getSpends);
 
 // Ruta pública: obtener un gasto específico (si no es sensible)
 router.get('/:id', getSpend);
+
+// Ruta protegia: obtener todos los gastos por usuario
+router.get('/user/:id', getSpendsByUser);
 
 // Ruta protegida: crear un gasto (requiere autenticación)
 router.post('/', authenticateToken, createSpend);
