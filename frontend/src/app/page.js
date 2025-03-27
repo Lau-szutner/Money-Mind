@@ -12,6 +12,8 @@ import GraphicExpenses from './components/GraphicExpenses';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [id, setId] = useState('');
+  const [dataSpends, setDataSpends] = useState(null);
   const router = useRouter(); // Usamos el hook useRouter para redirigir
 
   // Usamos useEffect para hacer la verificación cuando el componente se monta
@@ -25,6 +27,26 @@ export default function Home() {
     } else {
       setIsLoggedIn(true); // Si el token existe, se considera que está logueado
     }
+
+    try {
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      setId(decodedToken.id);
+
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`http://localhost:4000/spends/`);
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del usuario');
+          }
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+    } catch (error) {}
   }, [router]); // Aseguramos que el router se pase a useEffect
 
   // Si no está logueado, no renderizamos nada (o puedes mostrar un loader si lo prefieres)
@@ -34,9 +56,9 @@ export default function Home() {
 
   return (
     <div className="grid">
-      <Navbar />
+      <Navbar id={id} />
       <Balance balance={`96.000`} monthly={`516.000`} saving={`48.000`} />
-      <GraphicExpenses />
+      <GraphicExpenses id={id} />
       <Spends spendsList={spendsData} />
 
       <Footer />

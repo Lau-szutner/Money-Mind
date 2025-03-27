@@ -1,21 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Cookies from 'js-cookie'; // Importa js-cookie
+import Cookies from 'js-cookie';
 
-export default function DisplayName() {
-  // Estado para almacenar los datos de la API
+export default function DisplayName({ id }) {
   const [user, setUser] = useState(null);
-  // Estado para manejar errores
   const [error, setError] = useState(null);
-  // Estado para controlar si los datos están cargando
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Extraemos el token de las cookies
-    const token = Cookies.get('authToken'); // Asegúrate de que el nombre de la cookie sea el correcto
-
-    console.log(token);
+    const token = Cookies.get('authToken');
 
     if (!token) {
       setError('No estás autenticado.');
@@ -23,34 +17,42 @@ export default function DisplayName() {
       return;
     }
 
-    // Decodificar el token (suponiendo que es un JWT)
-    const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decodifica el JWT y extrae la carga útil
-    const userId = decodedToken.id; // Asegúrate de que el `id` esté en el payload del token
+    try {
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      const userId = decodedToken.id;
 
-    const fetchData = async () => {
-      try {
-        setLoading(true); // Empieza la carga
-        const response = await fetch(`http://localhost:4000/users/${userId}`); // URL con el `id` del usuario
-        if (!response.ok) {
-          // Si la respuesta no es exitosa, lanza un error
-          throw new Error('Error al obtener los datos del usuario');
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(`http://localhost:4000/users/${userId}`);
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del usuario');
+          }
+          const data = await response.json();
+          setUser(data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
         }
-        const data = await response.json(); // Convierte la respuesta a formato JSON
-        setUser(data); // Guarda los datos del usuario en el estado
-      } catch (error) {
-        setError(error.message); // Captura cualquier error y guarda el mensaje
-      } finally {
-        setLoading(false); // Termina la carga, ya sea con éxito o error
-      }
-    };
+      };
 
-    fetchData(); // Llama a la función para hacer la petición
-  }, []); // El efecto se ejecuta solo una vez al montar el componente
+      fetchData();
+    } catch (error) {
+      setError('Error al decodificar el token');
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
+  if (!user) return <div>No hay datos disponibles</div>; // Evita el error de `null.name`
 
   return (
     <div className="p-2 border border-whiteText">
       <p>{user.name}</p>
       <p>{user.email}</p>
+      <p>{id}</p>
     </div>
   );
 }
