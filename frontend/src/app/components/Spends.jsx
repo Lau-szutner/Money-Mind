@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spend } from './Spend';
 
-export const Spends = ({ spendsList }) => {
+export const Spends = ({ spendsList, token }) => {
   if (!spendsList) {
     return <div>Loading spends...</div>;
   }
@@ -20,13 +20,16 @@ export const Spends = ({ spendsList }) => {
               <Spend
                 key={spend.id_spend}
                 title={spend.title}
-                price={spend.price}
+                amount={spend.amount}
                 category={spend.category}
                 description={spend.description}
                 date={spend.date}
+                token={token}
+                id={spend.id_spend}
               />
             );
           })}
+          {/* <p className="w-4/12">{`token: ${token}`}</p> */}
         </ul>
       </div>
     </div>

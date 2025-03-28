@@ -14,14 +14,16 @@ export default function Home() {
   const [dataSpends, setDataSpends] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [token, setToken] = useState(''); // Usa el estado para almacenar el token
 
   useEffect(() => {
-    const token = Cookies.get('authToken');
-
+    const token = Cookies.get('authToken'); // Obtienes el token de las cookies
     if (!token) {
       router.push('/login');
       return;
     }
+
+    setToken(token); // Guarda el token en el estado
 
     try {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
@@ -66,7 +68,7 @@ export default function Home() {
       <Navbar id={id} />
       <Balance balance={`96.000`} monthly={`516.000`} saving={`48.000`} />
       <GraphicExpenses id={id} />
-      <Spends spendsList={dataSpends} />
+      <Spends spendsList={dataSpends} token={token} />
       <Footer />
     </div>
   );
