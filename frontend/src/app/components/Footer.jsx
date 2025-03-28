@@ -11,6 +11,9 @@ function Footer() {
         <li>Home</li>
         <li>Gastos</li>
         <li>Fechas</li>
+        <li>Home</li>
+        <li>Gastos</li>
+        <li>Fechas</li>
       </ul>
     </div>
   );
