@@ -37,17 +37,28 @@ export default function Home() {
 
   useEffect(() => {
     if (id) {
-      const fetchSpendsData = async () => {
+      const fetchTransactionsData = async () => {
         try {
           setLoading(true);
+
+          // Obtener el token almacenado en las cookies
+          const token = Cookies.get('authToken');
+
           const response = await fetch(
-            `http://localhost:4000/spends/user/${id}`
+            `http://localhost:4000/transactions/complete/`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`, // Pasamos el token en el encabezado
+              },
+            }
           );
+
           if (!response.ok) {
-            throw new Error('No se encontraron gastos');
+            throw new Error('No se encontraron transacciones');
           }
           const data = await response.json();
-          setDataSpends(data);
+          setDataSpends(data); // Cambia el nombre de la variable si prefieres 'transactions'
         } catch (error) {
           console.error(error);
         } finally {
@@ -55,7 +66,7 @@ export default function Home() {
         }
       };
 
-      fetchSpendsData(); // Ejecutamos la función cuando `id` esté disponible
+      fetchTransactionsData(); // Ejecutamos la función cuando `id` esté disponible
     }
   }, [id]); // Este efecto depende solo de `id`
 

@@ -50,7 +50,7 @@ function Newspend() {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/spends/', {
+      const response = await fetch('http://localhost:4000/transactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
