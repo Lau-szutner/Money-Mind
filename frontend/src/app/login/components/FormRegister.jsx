@@ -17,10 +17,6 @@ const FormRegister = ({ hasAccount }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    console.log('Email:', formData.email);
-    console.log('Name:', formData.name);
-    console.log('Password:', formData.password);
-
     try {
       const response = await fetch('http://localhost:4000/users/', {
         method: 'POST',
@@ -30,17 +26,21 @@ const FormRegister = ({ hasAccount }) => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      console.log(data);
+      if (response.ok) {
+        // Llamar a hasAccount para cambiar la pantalla
+        hasAccount();
+      } else {
+        console.error(response.status, response.statusText);
+      }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error en la petición:', error);
     }
   };
 
   return (
     <form
       onSubmit={handleRegister}
-      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
+      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
     >
       <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>
 
@@ -83,7 +83,7 @@ const FormRegister = ({ hasAccount }) => {
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
         onClick={hasAccount}
       >
-        I do have a account
+        I do have an account
       </button>
     </form>
   );

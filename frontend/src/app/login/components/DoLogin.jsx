@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import InputField from './InputField';
+import { useRouter } from 'next/navigation';
 
 const DoLogin = ({ hasAccount }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -34,11 +36,11 @@ const DoLogin = ({ hasAccount }) => {
       if (response.ok) {
         // Guardamos el token en la cookie
         Cookies.set('authToken', data.token, {
-          expires: 1,
+          expires: 10,
           secure: true,
           sameSite: 'Strict',
         }); // Expira en 1 día
-
+        router.push('/');
         console.log('Login exitoso', data);
       } else {
         console.error('Error en el login:', data);
@@ -51,7 +53,7 @@ const DoLogin = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleDoLogin}
-      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-9/12 p-5 gap-5 lg:w-4/12"
+      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
     >
       <h1 className="mb-4 text-center font-bold text-xl">Login</h1>
 

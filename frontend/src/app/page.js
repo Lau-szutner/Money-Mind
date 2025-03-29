@@ -55,7 +55,12 @@ export default function Home() {
           );
 
           if (!response.ok) {
-            throw new Error('No se encontraron transacciones');
+            if (response.status === 404) {
+              console.warn('No se encontraron transacciones');
+              setTransactions([]); // Maneja el 404 devolviendo un array vacío
+              return;
+            }
+            throw new Error(`Error HTTP: ${response.status}`);
           }
           const data = await response.json();
           setTransactions(data); // Cambia el nombre de la variable si prefieres 'transactions'

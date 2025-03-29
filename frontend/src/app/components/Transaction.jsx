@@ -8,6 +8,8 @@ export const Transaction = ({
   date,
   type,
   amount,
+  token,
+  id,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -37,7 +39,7 @@ export const Transaction = ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/transactions/`, {
+      const response = await fetch(`http://localhost:4000/transactions/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
