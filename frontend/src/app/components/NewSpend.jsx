@@ -9,7 +9,7 @@ function Newspend() {
     category: '',
     photo: '',
     date: '',
-    type: '',
+    type: 'expense',
     amount: '',
   });
 
@@ -22,27 +22,6 @@ function Newspend() {
       [name]: value, // Actualiza solo el campo que ha cambiado
     }));
   };
-
-  // useEffect(() => {
-  //   const tokenFromCookies = Cookies.get('authToken'); // Obtener el token desde las cookies
-  //   console.log(tokenFromCookies);
-  //   if (!tokenFromCookies) {
-  //     console.error('Token no encontrado');
-  //     return;
-  //   }
-
-  //   try {
-  //     // Decodificar el token para obtener el id
-  //     const decodedToken = JSON.parse(atob(tokenFromCookies.split('.')[1]));
-  //     setSpendData((prevData) => ({
-  //       ...prevData,
-  //       user_id: decodedToken.id, // Asignar el user_id a partir del token
-  //     }));
-  //     setToken(tokenFromCookies); // Guardar el token en el estado
-  //   } catch (error) {
-  //     console.error('Error al decodificar el token:', error);
-  //   }
-  // }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
@@ -121,14 +100,7 @@ function Newspend() {
                 value={spendData.date}
                 onChange={handleChangeData}
               />
-              <input
-                type="text"
-                className="p-1 rounded w-full text-gray-500 text-center"
-                placeholder="type"
-                name="type"
-                value={spendData.type}
-                onChange={handleChangeData}
-              />
+
               <input
                 type="number"
                 className="p-1 rounded w-full text-gray-500 text-center"

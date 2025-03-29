@@ -4,18 +4,23 @@ import React from 'react';
 
 import { useState } from 'react';
 import Newspend from './NewSpend';
-// import NewIncome from './NewSpend';
+import NewIncome from './NewIncome';
 
 export const Balance = ({ balance, saving, monthly, id }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
   const [newSpend, setNewSpend] = useState(false);
+  const [newIncome, setNewIncome] = useState(false);
+
   let handleAddSpend = () => {
     setNewSpend(!newSpend);
+    setNewIncome(false); // Cierra NewIncome si está abierto
   };
-  const [newIncome, setNewIncome] = useState(false);
+
   let handleNewIncome = () => {
     setNewIncome(!newIncome);
+    setNewSpend(false); // Cierra Newspend si está abierto
   };
+
   return (
     <div className="w-full">
       <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl">
@@ -57,6 +62,7 @@ export const Balance = ({ balance, saving, monthly, id }) => {
           </button>
         </div>
       </div>
+
       {newSpend && <Newspend />}
       {newIncome && <NewIncome />}
     </div>
