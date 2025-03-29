@@ -44,16 +44,16 @@ export const Balance = ({ balance, saving, monthly, id }) => {
         </div>
         <div className="flex justify-between gap-2 mt-2">
           <button
-            className="py-1  bg-greenIn rounded w-full shadow-custom"
-            onClick={handleNewIncome}
-          >
-            +
-          </button>
-          <button
             className="py-1  bg-redSpend rounded w-full text-3xl shadow-custom"
             onClick={handleAddSpend}
           >
             -
+          </button>
+          <button
+            className="py-1  bg-greenIn rounded w-full shadow-custom"
+            onClick={handleNewIncome}
+          >
+            +
           </button>
         </div>
       </div>

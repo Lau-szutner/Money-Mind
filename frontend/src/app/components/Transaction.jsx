@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
-export const Spend = ({
+export const Transaction = ({
   title,
-  amount,
-  category,
   description,
-  symbol,
+  category,
+  photo,
   date,
-  token,
-  id,
+  type,
+  amount,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [spendData, setSpendData] = useState({
     title,
-    amount,
-    category,
     description,
+    category,
+    photo,
+    date,
+    type,
+    amount,
   });
 
   // 🛠️ Cuando isEditing se activa, restablece los valores con los actuales
   useEffect(() => {
     if (isEditing) {
-      setSpendData({ title, amount, category, description });
+      setSpendData({ title, description, category, photo, date, type, amount });
     }
-  }, [isEditing, title, amount, category, description]);
+  }, [isEditing, title, description, category, photo, date, type, amount]);
 
   const handleChange = (e) => {
     setSpendData({
@@ -35,7 +37,7 @@ export const Spend = ({
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/spends/${id}`, {
+      const response = await fetch(`http://localhost:4000/transactions/`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -86,8 +88,6 @@ export const Spend = ({
 
   return (
     <div className="flex flex-col gap-2 w-full justify-center items-center bg-black/10 p-5 rounded-lg">
-      <p className="font-bold">{date}</p>
-
       {isDeleting ? (
         <div className="w-full flex flex-col gap-2">
           <p className="text-red-500">
@@ -145,11 +145,24 @@ export const Spend = ({
         <>
           <div className="flex justify-between w-full">
             <div>
+              <p
+                className={`font-bold text-2xl ${
+                  type === 'expense' ? 'text-redSpend' : 'text-greenIn'
+                }`}
+              >
+                {type}
+              </p>
               <p className="font-bold">{title}</p>
               <p className="font-light">{description}</p>
             </div>
-            <div className="flex flex-col items-end">
-              <p>{amount}</p>
+            <div className={`flex flex-col items-end`}>
+              <p
+                className={`font-bold text-2xl ${
+                  type === 'expense' ? 'text-redSpend' : 'text-greenIn'
+                }`}
+              >
+                {amount}
+              </p>
               <p className="flex items-center gap-2">
                 <img src="/coffeCup.svg" alt="" />
                 {category}

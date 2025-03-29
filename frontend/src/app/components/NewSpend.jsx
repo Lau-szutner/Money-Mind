@@ -7,10 +7,13 @@ function Newspend() {
     title: '',
     description: '',
     category: '',
+    photo: '',
+    date: '',
+    type: '',
     amount: '',
   });
 
-  const [token, setToken] = useState(null); // Estado para almacenar el token
+  const token = Cookies.get('authToken'); // Obtener el token desde las cookies
 
   const handleChangeData = (event) => {
     const { name, value } = event.target;
@@ -20,26 +23,26 @@ function Newspend() {
     }));
   };
 
-  useEffect(() => {
-    const tokenFromCookies = Cookies.get('authToken'); // Obtener el token desde las cookies
-    console.log(tokenFromCookies);
-    if (!tokenFromCookies) {
-      console.error('Token no encontrado');
-      return;
-    }
+  // useEffect(() => {
+  //   const tokenFromCookies = Cookies.get('authToken'); // Obtener el token desde las cookies
+  //   console.log(tokenFromCookies);
+  //   if (!tokenFromCookies) {
+  //     console.error('Token no encontrado');
+  //     return;
+  //   }
 
-    try {
-      // Decodificar el token para obtener el id
-      const decodedToken = JSON.parse(atob(tokenFromCookies.split('.')[1]));
-      setSpendData((prevData) => ({
-        ...prevData,
-        user_id: decodedToken.id, // Asignar el user_id a partir del token
-      }));
-      setToken(tokenFromCookies); // Guardar el token en el estado
-    } catch (error) {
-      console.error('Error al decodificar el token:', error);
-    }
-  }, []);
+  //   try {
+  //     // Decodificar el token para obtener el id
+  //     const decodedToken = JSON.parse(atob(tokenFromCookies.split('.')[1]));
+  //     setSpendData((prevData) => ({
+  //       ...prevData,
+  //       user_id: decodedToken.id, // Asignar el user_id a partir del token
+  //     }));
+  //     setToken(tokenFromCookies); // Guardar el token en el estado
+  //   } catch (error) {
+  //     console.error('Error al decodificar el token:', error);
+  //   }
+  // }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
@@ -50,7 +53,7 @@ function Newspend() {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/spends/', {
+      const response = await fetch('http://localhost:4000/transactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,6 +103,30 @@ function Newspend() {
                 placeholder="Category"
                 name="category"
                 value={spendData.category}
+                onChange={handleChangeData}
+              />
+              <input
+                type="text"
+                className="p-1 rounded w-full text-gray-500 text-center"
+                placeholder="photo"
+                name="photo"
+                value={spendData.photo}
+                onChange={handleChangeData}
+              />
+              <input
+                type="date"
+                className="p-1 rounded w-full text-gray-500 text-center"
+                placeholder="date"
+                name="date"
+                value={spendData.date}
+                onChange={handleChangeData}
+              />
+              <input
+                type="text"
+                className="p-1 rounded w-full text-gray-500 text-center"
+                placeholder="type"
+                name="type"
+                value={spendData.type}
                 onChange={handleChangeData}
               />
               <input

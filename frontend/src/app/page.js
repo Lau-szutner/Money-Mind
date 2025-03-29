@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { Balance } from '@/app/components/Balance';
-import { Spends } from '@/app/components/Spends';
+import { TransactionsList } from '@/app/components/TransactionsList';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
 import GraphicExpenses from './components/GraphicExpenses';
@@ -11,7 +11,7 @@ import GraphicExpenses from './components/GraphicExpenses';
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [id, setId] = useState('');
-  const [dataSpends, setDataSpends] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [token, setToken] = useState(''); // Usa el estado para almacenar el token
@@ -58,7 +58,8 @@ export default function Home() {
             throw new Error('No se encontraron transacciones');
           }
           const data = await response.json();
-          setDataSpends(data); // Cambia el nombre de la variable si prefieres 'transactions'
+          setTransactions(data); // Cambia el nombre de la variable si prefieres 'transactions'
+          console.log(data);
         } catch (error) {
           console.error(error);
         } finally {
@@ -79,7 +80,7 @@ export default function Home() {
       <Navbar id={id} />
       <Balance balance={`96.000`} monthly={`516.000`} saving={`48.000`} />
       <GraphicExpenses id={id} />
-      <Spends spendsList={dataSpends} token={token} />
+      <TransactionsList transactions={transactions} token={token} />
       <Footer />
     </div>
   );
