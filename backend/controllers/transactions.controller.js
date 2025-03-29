@@ -10,7 +10,6 @@ const createTransaction = async (req, res) => {
   }
 
   const userId = req.userId;
-  console.log(userId);
 
   try {
     const result = await Transaction.create({
@@ -48,92 +47,12 @@ const getTransactions = async (req, res) => {
   }
 };
 
-const getTransaction = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id || isNaN(Number(id))) {
-    return res.status(400).json({ error: 'ID inválido' });
-  }
-
-  try {
-    const transaction = await Transaction.findByPk(id);
-
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transacción no encontrada' });
-    }
-
-    res.status(200).json(transaction);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Error al obtener la transacción',
-      message: error.message,
-    });
-  }
-};
-
-const deleteTransaction = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id || isNaN(Number(id))) {
-    return res.status(400).json({ error: 'ID inválido' });
-  }
-
-  try {
-    const transaction = await Transaction.findByPk(id);
-
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transacción no encontrada' });
-    }
-
-    const result = await Transaction.destroy({
-      where: { id },
-    });
-
-    if (result === 1) {
-      res.status(200).json({ message: 'Transacción eliminada correctamente' });
-    } else {
-      res.status(500).json({ error: 'No se pudo eliminar la transacción' });
-    }
-  } catch (error) {
-    res.status(500).json({
-      error: 'Error al eliminar la transacción',
-      message: error.message,
-    });
-  }
-};
-
-const updateTransaction = async (req, res) => {
-  const { id } = req.params;
-  const { title, description, category, amount } = req.body;
-
-  try {
-    const transaction = await Transaction.findByPk(id);
-
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transacción no encontrada' });
-    }
-
-    transaction.title = title;
-    transaction.description = description;
-    transaction.category = category;
-    transaction.amount = amount;
-    await transaction.save();
-
-    res.status(200).json(transaction);
-  } catch (error) {
-    res.status(500).json({
-      error: 'Error al actualizar la transacción',
-      message: error.message,
-    });
-  }
-};
-
 const getTransactionsByUser = async (req, res) => {
-  const { id } = req.params;
+  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
 
   try {
     const transactions = await Transaction.findAll({
-      where: { user_id: id },
+      where: { fk_user_id: userId },
     });
 
     if (transactions.length === 0) {
@@ -149,11 +68,121 @@ const getTransactionsByUser = async (req, res) => {
   }
 };
 
+const getTransactionById = async (req, res) => {
+  const { id } = req.params; // id del gasto por parámetro
+  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+
+  if (!id || isNaN(Number(id))) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  try {
+    // Busca la transacción por su id y también verifica que sea del usuario autenticado
+    const transaction = await Transaction.findOne({
+      where: {
+        id, // ID de la transacción
+        fk_user_id: userId, // Asegura que la transacción pertenece al usuario
+      },
+    });
+
+    // Si no se encuentra la transacción, se devuelve un error 404
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transacción no encontrada' });
+    }
+
+    // Si la transacción pertenece al usuario, devuelve los datos
+    res.status(200).json(transaction);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al obtener la transacción',
+      message: error.message,
+    });
+  }
+};
+
+const deleteTransactionById = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+
+  if (!id || isNaN(Number(id))) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  try {
+    const transaction = await Transaction.findByPk(id);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transacción no encontrada' });
+    }
+
+    const result = await Transaction.destroy({
+      where: {
+        id,
+        fk_user_id: userId,
+      },
+    });
+
+    if (result === 1) {
+      res.status(200).json({ message: 'Transacción eliminada correctamente' });
+    } else {
+      res.status(500).json({ error: 'No se pudo eliminar la transacción' });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al eliminar la transacción',
+      message: error.message,
+    });
+  }
+};
+
+const updateTransactionById = async (req, res) => {
+  const { id } = req.params; // id del gasto por parámetro
+  const { title, description, category, photo, date, type, amount } = req.body; // Datos del gasto a actualizar
+  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+
+  try {
+    // Busca la transacción por su id y también verifica que sea del usuario autenticado
+    const transaction = await Transaction.findOne({
+      where: {
+        id, // ID de la transacción
+        fk_user_id: userId, // Verifica que la transacción pertenece al usuario autenticado
+      },
+    });
+
+    // Si no se encuentra la transacción o no pertenece al usuario, devuelve un error 404
+    if (!transaction) {
+      return res.status(404).json({
+        error: 'Transacción no encontrada o no pertenece a este usuario',
+      });
+    }
+
+    // Actualiza los campos de la transacción
+    transaction.title = title;
+    transaction.description = description;
+    transaction.category = category;
+    transaction.amount = amount;
+    transaction.photo = photo;
+    transaction.date = date;
+    transaction.type = type;
+
+    // Guarda los cambios en la base de datos
+    await transaction.save();
+
+    // Responde con la transacción actualizada
+    res.status(200).json(transaction);
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al actualizar la transacción',
+      message: error.message,
+    });
+  }
+};
+
 export {
   createTransaction,
   getTransactions,
-  deleteTransaction,
-  getTransaction,
-  updateTransaction,
   getTransactionsByUser,
+  getTransactionById,
+  deleteTransactionById,
+  updateTransactionById,
 };
