@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js';
-import spendRoutes from './routes/spend.routes.js';
+import transactionRoutes from './routes/transaction.routes.js';
 import doLoginRoute from './routes/doLogin.routes.js';
 // import createUserRoute from './routes/createUserRoute.js';
 import cors from 'cors'; // Importar el módulo CORS
@@ -25,9 +25,9 @@ app.use(express.json());
 
 // Usar las rutas con prefijos más específicos
 app.use('/users', userRoutes); // Rutas para los usuarios
-app.use('/spends', spendRoutes); // Rutas para gastos
+app.use('/transactions', transactionRoutes); // Rutas para gastos
 app.use('/login', doLoginRoute); // Rutas para login
-// app.use('/create-user', createUserRoute); // Ruta para crear usuario
+// // app.use('/create-user', createUserRoute); // Ruta para crear usuario
 
 // Iniciar servidor
 app.listen(port, () => {
