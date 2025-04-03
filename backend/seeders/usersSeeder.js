@@ -10,7 +10,7 @@ async function seedUsers() {
         password: 'root',
       },
       {
-        name: 'Lautaro',
+        name: 'lautaro',
         email: 'lautaroszutner@gmail.com',
         password: 'lautaro123',
       },
