@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
-    "install-dependencies": "concurrently \"cd backend && npm i \"cd frontend && npm i\""
+    "install": "concurrently \"cd backend && npm i \"cd frontend && npm i\""
   },
   "repository": {
     "type": "git",

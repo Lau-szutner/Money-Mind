@@ -64,17 +64,27 @@ El frontend correrá en `http://localhost:3000`.
 
 ### 1. Registro y autenticación
 
+<<<<<<< HEAD
 #### 1.1 Registro de Usuario
 
 **POST** `http://localhost:4000/users/`
+=======
+**POST** `/users/`
+>>>>>>> 3d875dd (prueba1)
 
 **Request Body:**
 
 ```json
 {
+<<<<<<< HEAD
   "name": "root",
   "email": "root@example.com",
   "password": "root"
+=======
+  "name": "Juan Perez",
+  "name": "Juan Perez",
+  "email": "juan@example.com"
+>>>>>>> 3d875dd (prueba1)
 }
 ```
 
