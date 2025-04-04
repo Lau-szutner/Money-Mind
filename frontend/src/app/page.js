@@ -1,12 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import GraphicExpenses from './components/GraphicExpenses';
+import { useRouter } from 'next/navigation';
+
+//components
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import { Navbar } from '@/app/components/Navbar';
 import Footer from './components/Footer';
-import GraphicExpenses from './components/GraphicExpenses';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
