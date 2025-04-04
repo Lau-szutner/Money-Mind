@@ -3,8 +3,7 @@
 import React from 'react';
 
 import { useState } from 'react';
-import Newspend from './NewSpend';
-import NewIncome from './NewIncome';
+import NewTransaction from './NewTransaction';
 
 export const Balance = ({ balance, saving, monthly, id }) => {
   // const [newSpend, setNewSpend] = useState({ category: '', amount: 0 });
@@ -63,8 +62,8 @@ export const Balance = ({ balance, saving, monthly, id }) => {
         </div>
       </div>
 
-      {newSpend && <Newspend />}
-      {newIncome && <NewIncome />}
+      {newIncome && <NewTransaction type={'income'} title={'New income'} />}
+      {newSpend && <NewTransaction type={'expense'} title={'New spend'} />}
     </div>
   );
 };

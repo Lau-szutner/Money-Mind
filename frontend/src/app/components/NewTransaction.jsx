@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-function Newspend() {
-  const [spendData, setSpendData] = useState({
+function Newspend({ type, title }) {
+  const [transactionData, setTransactionData] = useState({
     user_id: '', // Inicializar con un valor vacío para el id
     title: '',
     description: '',
     category: '',
     photo: '',
     date: '',
-    type: 'expense',
+    type: type,
     amount: '',
   });
 
@@ -17,7 +17,7 @@ function Newspend() {
 
   const handleChangeData = (event) => {
     const { name, value } = event.target;
-    setSpendData((prevData) => ({
+    setTransactionData((prevData) => ({
       ...prevData,
       [name]: value, // Actualiza solo el campo que ha cambiado
     }));
@@ -38,7 +38,7 @@ function Newspend() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Usar el token desde el estado
         },
-        body: JSON.stringify(spendData),
+        body: JSON.stringify(transactionData),
       });
 
       if (!response.ok) {
@@ -56,7 +56,7 @@ function Newspend() {
     <div>
       <div className="font-regular">
         <div className="bg-bgComponents p-5 rounded-lg m-5">
-          <h1 className="font-bold text-center">New spend</h1>
+          <h1 className="font-bold text-center">{title}</h1>
 
           <div className="gap-2 mt-2">
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
@@ -65,7 +65,7 @@ function Newspend() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Title"
                 name="title"
-                value={spendData.title}
+                value={transactionData.title}
                 onChange={handleChangeData}
               />
               <input
@@ -73,7 +73,7 @@ function Newspend() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Description"
                 name="description"
-                value={spendData.description}
+                value={transactionData.description}
                 onChange={handleChangeData}
               />
               <input
@@ -81,7 +81,7 @@ function Newspend() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Category"
                 name="category"
-                value={spendData.category}
+                value={transactionData.category}
                 onChange={handleChangeData}
               />
               <input
@@ -89,7 +89,7 @@ function Newspend() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="photo"
                 name="photo"
-                value={spendData.photo}
+                value={transactionData.photo}
                 onChange={handleChangeData}
               />
               <input
@@ -97,22 +97,22 @@ function Newspend() {
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="date"
                 name="date"
-                value={spendData.date}
+                value={transactionData.date}
                 onChange={handleChangeData}
               />
-
               <input
                 type="number"
                 className="p-1 rounded w-full text-gray-500 text-center"
                 placeholder="Amount"
                 name="amount"
-                value={spendData.amount}
+                value={transactionData.amount}
                 onChange={handleChangeData}
               />
-
               <button
                 type="submit"
-                className="py-1 px-10 bg-redSpend rounded w-full text-white font-semibold shadow-custom"
+                className={`py-1 px-10  rounded w-full text-white font-semibold shadow-custom ${
+                  type === 'income' ? 'bg-greenIn' : 'bg-redSpend'
+                }`}
               >
                 Add
               </button>

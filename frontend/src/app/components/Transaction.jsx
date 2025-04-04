@@ -13,7 +13,7 @@ export const Transaction = ({
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [spendData, setSpendData] = useState({
+  const [transactionData, setTransactionData] = useState({
     title,
     description,
     category,
@@ -26,13 +26,21 @@ export const Transaction = ({
   // 🛠️ Cuando isEditing se activa, restablece los valores con los actuales
   useEffect(() => {
     if (isEditing) {
-      setSpendData({ title, description, category, photo, date, type, amount });
+      setTransactionData({
+        title,
+        description,
+        category,
+        photo,
+        date,
+        type,
+        amount,
+      });
     }
   }, [isEditing, title, description, category, photo, date, type, amount]);
 
   const handleChange = (e) => {
-    setSpendData({
-      ...spendData,
+    setTransactionData({
+      ...transactionData,
       [e.target.name]: e.target.value,
     });
   };
@@ -45,7 +53,7 @@ export const Transaction = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Usar el token desde el estado
         },
-        body: JSON.stringify(spendData),
+        body: JSON.stringify(transactionData),
       });
 
       if (!response.ok) {
@@ -74,7 +82,7 @@ export const Transaction = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Usar el token desde el estado
         },
-        body: JSON.stringify(spendData),
+        body: JSON.stringify(transactionData),
       });
 
       if (!response.ok) {
@@ -113,20 +121,20 @@ export const Transaction = ({
           <input
             type="text"
             name="title"
-            value={spendData.title}
+            value={transactionData.title}
             onChange={handleChange}
             className="p-2 border rounded text-black"
           />
           <textarea
             name="description"
-            value={spendData.description}
+            value={transactionData.description}
             onChange={handleChange}
             className="p-2 border rounded text-black"
           />
           <input
             type="number"
             name="amount"
-            value={spendData.amount}
+            value={transactionData.amount}
             onChange={handleChange}
             className="p-2 border rounded text-black"
           />
