@@ -17,7 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [token, setToken] = useState(''); // Usa el estado para almacenar el token
-
+  const balance = 1;
   useEffect(() => {
     const token = Cookies.get('authToken'); // Obtienes el token de las cookies
     if (!token) {
@@ -37,14 +37,12 @@ export default function Home() {
     }
   }, [router]);
 
+  //obtiene todos los gastos del transactions list
   useEffect(() => {
     if (id) {
       const fetchTransactionsData = async () => {
         try {
           setLoading(true);
-
-          // Obtener el token almacenado en las cookies
-          const token = Cookies.get('authToken');
 
           const response = await fetch(
             `http://localhost:4000/transactions/complete/`,
@@ -77,6 +75,11 @@ export default function Home() {
       fetchTransactionsData(); // Ejecutamos la función cuando `id` esté disponible
     }
   }, [id]); // Este efecto depende solo de `id`
+
+  useEffect(() => {
+    if (balance) {
+    }
+  }, [balance]);
 
   if (!isLoggedIn || loading) {
     return <div>Loading...</div>;

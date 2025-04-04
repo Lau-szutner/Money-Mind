@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Transaction from '../models/Transaction.js'; // Cambio de Spend a Transaction
 import { where } from 'sequelize';
+import { Op } from 'sequelize';
 
 const createTransaction = async (req, res) => {
   const { title, description, category, photo, date, type, amount } = req.body;
@@ -178,6 +179,45 @@ const updateTransactionById = async (req, res) => {
   }
 };
 
+const getTransactionsByMonth = async (req, res) => {
+  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+
+  const { year, month } = req.body;
+  try {
+    if (!year || !month) {
+      return res.status(400).json({
+        message:
+          'Debe especificar año y mes en los parámetros de consulta (year, month).',
+      });
+    }
+
+    // Formatear fechas de inicio y fin del mes
+    const startDate = new Date(`${year}-${month}-01`);
+    const endDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + 1,
+      0
+    ); // Último día del mes
+
+    const gastos = await Transaction.findAll({
+      where: {
+        fk_user_id: userId, // Verifica que la transacción pertenece al usuario autenticado
+        date: {
+          [Op.between]: [
+            `${startDate.toISOString().split('T')[0]} 00:00:00`,
+            `${endDate.toISOString().split('T')[0]} 23:59:59`,
+          ],
+        },
+      },
+    });
+
+    res.status(200).json(gastos);
+  } catch (error) {
+    console.error('Error al obtener transacciones por mes:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
 export {
   createTransaction,
   getTransactions,
@@ -185,4 +225,5 @@ export {
   getTransactionById,
   deleteTransactionById,
   updateTransactionById,
+  getTransactionsByMonth,
 };

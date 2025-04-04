@@ -6,6 +6,7 @@ import {
   getTransactionById,
   deleteTransactionById,
   updateTransactionById,
+  getTransactionsByMonth,
 } from '../controllers/transactions.controller.js';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
 
@@ -28,5 +29,8 @@ router.delete('/:id', authenticateToken, deleteTransactionById);
 
 // Ruta protegida: actualizar un gasto (requiere autenticación)
 router.put('/:id', authenticateToken, updateTransactionById);
+
+//Ruta protegida: obtener todos los gastos en un periodo de tiempo
+router.get('/filter/by-month', authenticateToken, getTransactionsByMonth);
 
 export default router;
