@@ -25,7 +25,7 @@ export const Balance = ({ balance, saving, monthly, id }) => {
       <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl">
         <div className="flex flex-col gap-2 width-full">
           <div className="width-full flex justify-between bg-background p-2   rounded-md">
-            <p className="font-bold ">March 25 Balance</p>
+            <p className="font-bold ">April 2025 Balance</p>
             <p className="font-bold ">...</p>
           </div>
 
