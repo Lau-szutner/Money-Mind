@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 const DoLogin = ({ hasAccount }) => {
   const [userNotFound, setUserNotFound] = useState(false);
+  const [passwordIncorrect, setPasswordIncorrect] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -48,12 +49,14 @@ const DoLogin = ({ hasAccount }) => {
 
         if (data.error === 'User not found.') {
           setUserNotFound(true);
-          console.log(userNotFound);
           setTimeout(() => {
             setUserNotFound(false);
           }, 4000);
-        } else if (data.error === 'Incorrect password') {
-          setError({ password: 'Incorrect password' });
+        } else if (data.error === 'Incorrect password.') {
+          setPasswordIncorrect(true);
+          setTimeout(() => {
+            setPasswordIncorrect(false);
+          }, 4000);
         }
 
         // console.error('Login error:', data);
@@ -93,7 +96,11 @@ const DoLogin = ({ hasAccount }) => {
           User not Found, please enter a valid user
         </div>
       )}
-
+      {passwordIncorrect && (
+        <div className="bg-redSpend p-3 rounded-md text-center">
+          Password incorrect, please enter a valir password
+        </div>
+      )}
       <button
         type="submit"
         className="p-2 bg-blue-500 text-white rounded w-full"
