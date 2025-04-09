@@ -6,6 +6,7 @@ import InputField from './InputField';
 import { useRouter } from 'next/navigation';
 
 const DoLogin = ({ hasAccount }) => {
+  const [userNotFound, setUserNotFound] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
@@ -19,8 +20,8 @@ const DoLogin = ({ hasAccount }) => {
   const handleDoLogin = async (e) => {
     e.preventDefault();
 
-    console.log('Email:', formData.email);
-    console.log('Password:', formData.password);
+    // console.log('Email:', formData.email);
+    // console.log('Password:', formData.password);
 
     try {
       const response = await fetch('http://localhost:4000/login/', {
@@ -34,16 +35,28 @@ const DoLogin = ({ hasAccount }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Guardamos el token en la cookie
+        // Save the token in cookies
         Cookies.set('authToken', data.token, {
           expires: 10,
           secure: true,
           sameSite: 'Strict',
-        }); // Expira en 1 día
+        });
         router.push('/');
-        console.log('Login exitoso', data);
+        console.log('Login successful', data);
       } else {
-        console.error('Error en el login:', data);
+        console.log('Server responded with error:', data);
+
+        if (data.error === 'User not found.') {
+          setUserNotFound(true);
+          console.log(userNotFound);
+          setTimeout(() => {
+            setUserNotFound(false);
+          }, 4000);
+        } else if (data.error === 'Incorrect password') {
+          setError({ password: 'Incorrect password' });
+        }
+
+        // console.error('Login error:', data);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -69,11 +82,17 @@ const DoLogin = ({ hasAccount }) => {
       <InputField
         label="Password"
         name="password"
-        type="text"
-        placeholder="Enter your name"
-        value={formData.name}
+        type="password"
+        placeholder="Enter your password"
+        value={formData.password}
         onChange={handleChange}
       />
+
+      {userNotFound && (
+        <div className="bg-redSpend p-3 rounded-md text-center">
+          User not Found, please enter a valid user
+        </div>
+      )}
 
       <button
         type="submit"

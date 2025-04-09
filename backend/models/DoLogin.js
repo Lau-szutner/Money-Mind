@@ -9,18 +9,18 @@ export async function DoLogin(email, password) {
     });
 
     if (!user) {
-      throw new Error('Usuario no encontrado');
+      throw new Error('User not found.');
     }
 
     // Compara la contraseña proporcionada con el hash de la base de datos
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      throw new Error('Contraseña incorrecta');
+      throw new Error('Incorrect password.');
     }
 
     return user; // Retorna el usuario si la contraseña es correcta
   } catch (error) {
-    throw new Error('Error al recuperar el usuario: ' + error.message);
+    throw error;
   }
 }
