@@ -69,7 +69,7 @@ export const Transaction = ({
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleUpdate = async (event) => {
     event.preventDefault(); // Evita el comportamiento por defecto del formulario
 
     if (!token) {
@@ -78,8 +78,8 @@ export const Transaction = ({
     }
 
     try {
-      const response = await fetch('http://localhost:4000/spends/', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:4000/transactions/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Usar el token desde el estado
@@ -90,7 +90,7 @@ export const Transaction = ({
       if (!response.ok) {
         throw new Error('Error al enviar los datos');
       }
-
+      onUpdate();
       const result = await response.json();
       console.log('Respuesta del servidor:', result);
     } catch (error) {
@@ -142,7 +142,7 @@ export const Transaction = ({
           />
           <button
             className="bg-green-500 rounded-md py-1 w-full"
-            onClick={handleSubmit}
+            onClick={handleUpdate}
           >
             Guardar
           </button>
