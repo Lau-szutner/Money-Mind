@@ -1,7 +1,11 @@
 import React from 'react';
 import { Transaction } from './Transaction';
 
-export const TransactionsList = ({ transactions, token }) => {
+export const TransactionsList = ({
+  transactions,
+  token,
+  refreshTransactions,
+}) => {
   return (
     <div className="w-full">
       <div className="bg-white/15 backdrop-blur-md m-5 p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
@@ -23,6 +27,7 @@ export const TransactionsList = ({ transactions, token }) => {
                   amount={transactions.amount}
                   token={token}
                   id={transactions.id}
+                  onUpdate={refreshTransactions} //
                 />
               );
             })}

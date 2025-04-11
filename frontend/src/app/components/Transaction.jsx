@@ -10,6 +10,7 @@ export const Transaction = ({
   amount,
   token,
   id,
+  onUpdate,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -61,6 +62,7 @@ export const Transaction = ({
       }
 
       const result = await response.json();
+      onUpdate();
       console.log('Respuesta del servidor:', result);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
