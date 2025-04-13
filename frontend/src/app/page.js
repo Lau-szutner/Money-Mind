@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import GraphicExpenses from './components/GraphicExpenses';
 import { useRouter } from 'next/navigation';
 
-//components
+// components
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import { Navbar } from '@/app/components/Navbar';
@@ -16,17 +16,20 @@ export default function Home() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const [token, setToken] = useState(''); // Usa el estado para almacenar el token
-  const balance = 1;
+  const [token, setToken] = useState('');
+
+  const [income, setIncome] = useState(0);
+  const [spends, setSpends] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    const token = Cookies.get('authToken'); // Obtienes el token de las cookies
+    const token = Cookies.get('authToken');
     if (!token) {
       router.push('/login');
       return;
     }
 
-    setToken(token); // Guarda el token en el estado
+    setToken(token);
 
     try {
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
@@ -44,12 +47,9 @@ export default function Home() {
     }
   }, [id]);
 
-  // Dentro del componente Home
   const fetchTransactions = async (year, month) => {
-    console.log(year, month);
     try {
       setLoading(true);
-      // Agregar los parámetros como query en la URL
       const url = `http://localhost:4000/transactions/filter/by-month?year=${year}&month=${month}`;
 
       const response = await fetch(url, {
@@ -61,22 +61,37 @@ export default function Home() {
 
       if (!response.ok) {
         setTransactions([]);
+        setIncome(0);
+        setSpends(0);
+        setBalance(0);
         return;
       }
 
       const data = await response.json();
       setTransactions(data);
+
+      const incomes = data.filter((item) => item.type === 'income');
+      const expenses = data.filter((item) => item.type === 'expense');
+
+      const totalIncome = incomes.reduce(
+        (acc, item) => acc + parseFloat(item.amount),
+        0
+      );
+      const totalSpends = expenses.reduce(
+        (acc, item) => acc + parseFloat(item.amount),
+        0
+      );
+      const totalBalance = totalIncome - totalSpends;
+
+      setIncome(totalIncome);
+      setSpends(totalSpends);
+      setBalance(totalBalance);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (balance) {
-    }
-  }, [balance]);
 
   if (!isLoggedIn || loading) {
     return <div>Loading...</div>;
@@ -86,8 +101,8 @@ export default function Home() {
     <div className="grid">
       <Navbar id={id} />
       <Balance
-        balance={`96.000`}
-        monthly={`516.000`}
+        income={income}
+        spends={spends}
         saving={`48.000`}
         onDateSelected={fetchTransactions}
       />

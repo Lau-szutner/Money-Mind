@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import NewTransaction from './NewTransaction';
 
-export const Balance = ({ balance, saving, monthly, id, onDateSelected }) => {
+export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
   const [newSpend, setNewSpend] = useState(false);
   const [newIncome, setNewIncome] = useState(false);
-  const [balanceDay, setBalanceDay] = useState(null);
+  const [balanceMonth, setBalanceMonth] = useState(null);
 
   const handleAddSpend = () => {
     setNewSpend(!newSpend);
@@ -19,8 +19,10 @@ export const Balance = ({ balance, saving, monthly, id, onDateSelected }) => {
   };
 
   const handleDateChange = (e) => {
-    const [year, month] = e.target.value.split('-');
-
+    const selectedMonth = e.target.value;
+    setBalanceMonth(selectedMonth);
+    const [year, month] = selectedMonth.split('-');
+    console.log(balanceMonth);
     // Llamás a una función de nivel superior, por props
     onDateSelected(year, month);
   };
@@ -31,7 +33,9 @@ export const Balance = ({ balance, saving, monthly, id, onDateSelected }) => {
         <div className="flex flex-col gap-2 w-full">
           <div className="w-full flex justify-between bg-background p-2 rounded-md items-center">
             <p className="font-bold">
-              {balanceDay ? `Balance of ${balanceDay}` : 'April 2025 Balance'}
+              {balanceMonth
+                ? `Balance of ${balanceMonth}`
+                : 'Please select a month'}
             </p>
 
             {/* 📅 con input transparente encima */}
@@ -47,18 +51,18 @@ export const Balance = ({ balance, saving, monthly, id, onDateSelected }) => {
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
             <p className="font-bold">Income:</p>
-            <p className="text-greenIn">{balance}</p>
-          </div>
-
-          <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p className="font-bold">Savings:</p>
-            <p className="text-[#FFAA00]">{saving}</p>
+            <p className="text-greenIn">{income}</p>
           </div>
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
             <p className="font-bold">Spends:</p>
-            <p className="text-redSpend">{saving}</p>
+            <p className="text-redSpend">{spends}</p>
           </div>
+        </div>
+
+        <div className="w-full flex justify-between border-b border-b-whiteText">
+          <p className="font-bold">Savings:</p>
+          <p className="text-[#FFAA00]">{saving}</p>
         </div>
 
         <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">

@@ -28,7 +28,7 @@ async function seedTransactions() {
         description: 'banana, manzana',
         category: 'grocery',
         photo: null,
-        date: formatDate('2012-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
         type: 'expense',
         amount: 321,
         fk_user_id: rootUser.id, // 🔥 Usamos el ID real del usuario root
@@ -38,7 +38,7 @@ async function seedTransactions() {
         description: 'my own job',
         category: 'salary',
         photo: null,
-        date: formatDate('2012-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
         type: 'income',
         amount: 100000,
         fk_user_id: rootUser.id, // 🔥 Usamos el ID real del usuario root
@@ -48,7 +48,7 @@ async function seedTransactions() {
         description: 'Iphone 18',
         category: 'Tech',
         photo: null,
-        date: formatDate('2012-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
         type: 'expense',
         amount: 1200,
         fk_user_id: lautaroUser.id, // 🔥 Usamos el ID real del usuario root
@@ -58,7 +58,7 @@ async function seedTransactions() {
         description: 'my own job',
         category: 'salary',
         photo: null,
-        date: formatDate('2012-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
         type: 'income',
         amount: 1000,
         fk_user_id: lautaroUser.id, // 🔥 Usamos el ID real del usuario root
