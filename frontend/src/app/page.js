@@ -18,6 +18,7 @@ export default function Home() {
   const router = useRouter();
   const [token, setToken] = useState(''); // Usa el estado para almacenar el token
   const balance = 1;
+
   useEffect(() => {
     const token = Cookies.get('authToken'); // Obtienes el token de las cookies
     if (!token) {
@@ -37,44 +38,6 @@ export default function Home() {
     }
   }, [router]);
 
-  //obtiene todos los gastos del transactions list
-  // useEffect(() => {
-  //   if (id) {
-  //     const fetchTransactionsData = async () => {
-  //       try {
-  //         setLoading(true);
-
-  //         const response = await fetch(
-  //           `http://localhost:4000/transactions/complete/`,
-  //           {
-  //             method: 'GET',
-  //             headers: {
-  //               Authorization: `Bearer ${token}`, // Pasamos el token en el encabezado
-  //             },
-  //           }
-  //         );
-
-  //         if (!response.ok) {
-  //           if (response.status === 404) {
-  //             console.warn('No se encontraron transacciones');
-  //             setTransactions([]); // Maneja el 404 devolviendo un array vacío
-  //             return;
-  //           }
-  //           throw new Error(`Error HTTP: ${response.status}`);
-  //         }
-  //         const data = await response.json();
-  //         setTransactions(data); // Cambia el nombre de la variable si prefieres 'transactions'
-  //         console.log(data);
-  //       } catch (error) {
-  //         console.error(error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchTransactionsData(); // Ejecutamos la función cuando `id` esté disponible
-  //   }
-  // }, [id]); // Este efecto depende solo de `id`
   useEffect(() => {
     if (id) {
       fetchTransactions();
@@ -82,18 +45,19 @@ export default function Home() {
   }, [id]);
 
   // Dentro del componente Home
-  const fetchTransactions = async () => {
+  const fetchTransactions = async (year, month) => {
+    console.log(year, month);
     try {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:4000/transactions/complete/`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // Agregar los parámetros como query en la URL
+      const url = `http://localhost:4000/transactions/filter/by-month?year=${year}&month=${month}`;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         setTransactions([]);
@@ -121,7 +85,12 @@ export default function Home() {
   return (
     <div className="grid">
       <Navbar id={id} />
-      <Balance balance={`96.000`} monthly={`516.000`} saving={`48.000`} />
+      <Balance
+        balance={`96.000`}
+        monthly={`516.000`}
+        saving={`48.000`}
+        onDateSelected={fetchTransactions}
+      />
       <GraphicExpenses id={id} />
       <TransactionsList
         transactions={transactions}

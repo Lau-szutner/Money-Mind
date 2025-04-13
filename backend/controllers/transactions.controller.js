@@ -180,9 +180,9 @@ const updateTransactionById = async (req, res) => {
 };
 
 const getTransactionsByMonth = async (req, res) => {
-  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+  const userId = req.userId;
+  const { year, month } = req.query; // Cambiado de req.body a req.query
 
-  const { year, month } = req.body;
   try {
     if (!year || !month) {
       return res.status(400).json({
@@ -191,29 +191,43 @@ const getTransactionsByMonth = async (req, res) => {
       });
     }
 
-    // Formatear fechas de inicio y fin del mes
-    const startDate = new Date(`${year}-${month}-01`);
-    const endDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth() + 1,
-      0
-    ); // Último día del mes
+    // Asegurar que el mes tenga 2 dígitos
+    const monthPadded = String(month).padStart(2, '0');
+
+    // Fecha de inicio: primer día del mes
+    const startDate = new Date(`${year}-${monthPadded}-01T00:00:00`);
+
+    // Fecha de fin: primer día del mes siguiente menos 1 segundo
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + 1);
+    endDate.setDate(1);
+    endDate.setSeconds(-1); // Esto lo convierte en "último segundo del mes anterior"
+
+    const formattedStart = startDate
+      .toISOString()
+      .slice(0, 19)
+      .replace('T', ' ');
+    const formattedEnd = endDate.toISOString().slice(0, 19).replace('T', ' ');
+
+    console.log('🔍 Consulta de transacciones mensuales:');
+    console.log({
+      userId,
+      startDate: formattedStart,
+      endDate: formattedEnd,
+    });
 
     const gastos = await Transaction.findAll({
       where: {
-        fk_user_id: userId, // Verifica que la transacción pertenece al usuario autenticado
+        fk_user_id: userId,
         date: {
-          [Op.between]: [
-            `${startDate.toISOString().split('T')[0]} 00:00:00`,
-            `${endDate.toISOString().split('T')[0]} 23:59:59`,
-          ],
+          [Op.between]: [formattedStart, formattedEnd],
         },
       },
     });
 
     res.status(200).json(gastos);
   } catch (error) {
-    console.error('Error al obtener transacciones por mes:', error);
+    console.error('❌ Error al obtener transacciones por mes:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 };

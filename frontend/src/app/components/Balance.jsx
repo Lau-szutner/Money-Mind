@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import NewTransaction from './NewTransaction';
 
-export const Balance = ({ balance, saving, monthly, id }) => {
+export const Balance = ({ balance, saving, monthly, id, onDateSelected }) => {
   const [newSpend, setNewSpend] = useState(false);
   const [newIncome, setNewIncome] = useState(false);
   const [balanceDay, setBalanceDay] = useState(null);
@@ -19,7 +19,10 @@ export const Balance = ({ balance, saving, monthly, id }) => {
   };
 
   const handleDateChange = (e) => {
-    setBalanceDay(e.target.value);
+    const [year, month] = e.target.value.split('-');
+
+    // Llamás a una función de nivel superior, por props
+    onDateSelected(year, month);
   };
 
   return (
@@ -35,7 +38,7 @@ export const Balance = ({ balance, saving, monthly, id }) => {
             <div className="relative w-6 h-6">
               <span className="absolute inset-0 z-10 cursor-pointer">📅</span>
               <input
-                type="date"
+                type="month"
                 onChange={handleDateChange}
                 className="absolute inset-0 opacity-0 cursor-pointer z-20"
               />
@@ -58,7 +61,7 @@ export const Balance = ({ balance, saving, monthly, id }) => {
           </div>
         </div>
 
-        <div className="flex justify-between gap-2 mt-2">
+        <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
           <button
             className="py-1 bg-redSpend rounded w-full text-3xl shadow-custom"
             onClick={handleAddSpend}
