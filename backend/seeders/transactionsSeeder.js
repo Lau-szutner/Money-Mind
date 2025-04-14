@@ -23,45 +23,108 @@ async function seedTransactions() {
       return date.toISOString().slice(0, 19).replace('T', ' ');
     }
     const transactions = [
+      // Transacciones del rootUser
       {
         title: 'Fruits',
         description: 'banana, manzana',
         category: 'grocery',
         photo: null,
-        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'),
         type: 'expense',
-        amount: 321,
-        fk_user_id: rootUser.id, // 🔥 Usamos el ID real del usuario root
+        amount: 30,
+        fk_user_id: rootUser.id,
       },
       {
-        title: 'salary',
-        description: 'my own job',
+        title: 'Salary',
+        description: 'monthly salary',
         category: 'salary',
         photo: null,
-        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'),
         type: 'income',
-        amount: 100000,
-        fk_user_id: rootUser.id, // 🔥 Usamos el ID real del usuario root
+        amount: 1200,
+        fk_user_id: rootUser.id,
       },
+      {
+        title: 'Netflix Subscription',
+        description: 'Monthly payment',
+        category: 'entertainment',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'expense',
+        amount: 15,
+        fk_user_id: rootUser.id,
+      },
+      {
+        title: 'Freelance Project',
+        description: 'Website design for client',
+        category: 'freelance',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'income',
+        amount: 500,
+        fk_user_id: rootUser.id,
+      },
+      {
+        title: 'Gym Membership',
+        description: 'Monthly gym fee',
+        category: 'health',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'expense',
+        amount: 40,
+        fk_user_id: rootUser.id,
+      },
+
+      // Transacciones del lautaroUser
       {
         title: 'New phone',
         description: 'Iphone 18',
-        category: 'Tech',
+        category: 'tech',
         photo: null,
-        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'),
         type: 'expense',
-        amount: 1200,
-        fk_user_id: lautaroUser.id, // 🔥 Usamos el ID real del usuario root
+        amount: 999,
+        fk_user_id: lautaroUser.id,
       },
       {
-        title: 'salary',
-        description: 'my own job',
+        title: 'Salary',
+        description: 'monthly salary',
         category: 'salary',
         photo: null,
-        date: formatDate('2025-12-12'), // ✅ Convertido a formato correcto
+        date: formatDate('2025-12-12'),
         type: 'income',
-        amount: 1000,
-        fk_user_id: lautaroUser.id, // 🔥 Usamos el ID real del usuario root
+        amount: 2500,
+        fk_user_id: lautaroUser.id,
+      },
+      {
+        title: 'Taxes',
+        description: 'Taxes from 2025',
+        category: 'taxes',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'expense',
+        amount: 300,
+        fk_user_id: lautaroUser.id,
+      },
+      {
+        title: 'Coffee Shop',
+        description: 'Starbucks breakfast',
+        category: 'food',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'expense',
+        amount: 12,
+        fk_user_id: lautaroUser.id,
+      },
+      {
+        title: 'Bonus',
+        description: 'Performance bonus',
+        category: 'bonus',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'income',
+        amount: 600,
+        fk_user_id: lautaroUser.id,
       },
     ];
 
