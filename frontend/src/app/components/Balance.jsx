@@ -60,10 +60,10 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
           </div>
         </div>
 
-        <div className="w-full flex justify-between border-b border-b-whiteText">
+        {/* <div className="w-full flex justify-between border-b border-b-whiteText">
           <p className="font-bold">Savings:</p>
           <p className="text-[#FFAA00]">{saving}</p>
-        </div>
+        </div> */}
 
         <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
           <button

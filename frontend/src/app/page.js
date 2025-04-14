@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import GraphicExpenses from './components/GraphicExpenses';
+import TransactionsGrap from './components/TransactionsGrap';
 import { useRouter } from 'next/navigation';
 
 // components
@@ -106,7 +106,7 @@ export default function Home() {
         saving={`48.000`}
         onDateSelected={fetchTransactions}
       />
-      <GraphicExpenses id={id} />
+      <TransactionsGrap id={id} transactions={transactions} />
       <TransactionsList
         transactions={transactions}
         token={token}
