@@ -74,6 +74,26 @@ async function seedTransactions() {
         amount: 40,
         fk_user_id: rootUser.id,
       },
+      {
+        title: '1984 book',
+        description: '1984',
+        category: 'Books',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'expense',
+        amount: 40,
+        fk_user_id: rootUser.id,
+      },
+      {
+        title: 'Ski clases',
+        description: 'Sky clases',
+        category: 'Sports',
+        photo: null,
+        date: formatDate('2025-12-12'),
+        type: 'income',
+        amount: 100,
+        fk_user_id: rootUser.id,
+      },
 
       // Transacciones del lautaroUser
       {
