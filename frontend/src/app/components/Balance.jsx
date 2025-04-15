@@ -51,12 +51,12 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
             <p className="font-bold">Income:</p>
-            <p className="text-greenIn">{income}</p>
+            <p className="text-greenIn font-medium">{income}</p>
           </div>
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
             <p className="font-bold">Spends:</p>
-            <p className="text-redSpend">{spends}</p>
+            <p className="text-redSpend font-medium">{spends}</p>
           </div>
         </div>
 
