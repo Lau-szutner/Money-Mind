@@ -11,7 +11,7 @@ export const TransactionsList = ({
       <div className="bg-white/15 backdrop-blur-md m-5 p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
         <h2 className="text-2xl font-bold">Transactions List</h2>
         {transactions.length === 0 ? (
-          <p>No transaction avalible</p>
+          <p>No transaction avalible, do the first one!</p>
         ) : (
           <ul className="w-full flex flex-col gap-2">
             {transactions.map((transactions) => {
