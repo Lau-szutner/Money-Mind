@@ -20,18 +20,20 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
 
   const handleDateChange = (e) => {
     const selectedMonth = e.target.value;
+    console.log(selectedMonth);
     setBalanceMonth(selectedMonth);
     const [year, month] = selectedMonth.split('-');
-    console.log(balanceMonth);
+
     // Llamás a una función de nivel superior, por props
     onDateSelected(year, month);
   };
-
   return (
     <div className="w-full">
       <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl">
         <div className="flex flex-col gap-2 w-full">
           <div className="w-full flex justify-between bg-background p-2 rounded-md items-center">
+            <p>{JSON.stringify(balanceMonth)}</p>
+
             <p className="font-bold">
               {balanceMonth
                 ? `Balance of ${balanceMonth}`

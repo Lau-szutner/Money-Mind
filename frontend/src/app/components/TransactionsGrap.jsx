@@ -12,8 +12,6 @@ export default function TransactionsGrap({ transactions }) {
     amount: parseFloat(t.amount),
   }));
 
-  console.log(data);
-
   const total = data.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
