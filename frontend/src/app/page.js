@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 // components
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
-import { Navbar } from '@/app/components/Navbar';
+import Navbar from '@/app/components/Navbar';
 import Footer from './components/Footer';
 
 export default function Home() {
