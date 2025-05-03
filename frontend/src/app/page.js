@@ -99,7 +99,6 @@ export default function Home() {
 
   return (
     <div className="grid">
-      <Navbar id={id} />
       <Balance
         income={income}
         spends={spends}

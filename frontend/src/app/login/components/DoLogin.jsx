@@ -112,7 +112,7 @@ const DoLogin = ({ hasAccount }) => {
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
         onClick={hasAccount}
       >
-        I don't have a account
+        Register
       </button>
     </form>
   );

@@ -83,7 +83,7 @@ const FormRegister = ({ hasAccount }) => {
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
         onClick={hasAccount}
       >
-        I do have an account
+        Login
       </button>
     </form>
   );

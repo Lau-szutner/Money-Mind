@@ -36,12 +36,10 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   const title = (
-    <div className="flex justify-center w-full">
-      <div
-        className={`text-xl font-bold text-4xl ${
-          pathname === '/login' ? 'text-white' : 'text-green-500'
-        }`}
-      >
+    <div
+      className={`flex justify-center ${pathname == '/login' ? 'w-full' : ''}`}
+    >
+      <div className="text-xl font-bold text-4xl">
         <span className="text-green-500">Money</span>Mind
       </div>
     </div>
@@ -66,6 +64,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
         {pathname !== '/login' ? (
           <>
+            {title}
             {menuDesktop}
             {menuBurguer}
             {displayName}
