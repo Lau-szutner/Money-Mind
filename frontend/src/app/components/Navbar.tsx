@@ -74,7 +74,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
         {pathname !== '/login' ? (
           <>
             {title}
-            {title}
+
             {menuDesktop}
             {displayName}
           </>
