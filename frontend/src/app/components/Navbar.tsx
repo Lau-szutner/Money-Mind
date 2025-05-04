@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa'; // Importando iconos de react-icons
 import DisplayName from './DisplayName';
-
+import Link from 'next/link';
 interface Props {
   id: string;
 }
@@ -15,7 +15,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li className="hover:text-cyan-400 cursor-pointer">Home</li>
-      <li className="hover:text-cyan-400 cursor-pointer">Education</li>
+      <li>
+        <Link href="/education" className="hover:text-cyan-400 cursor-pointer">
+          Education
+        </Link>
+      </li>
+
       <li className="hover:text-cyan-400 cursor-pointer">Projects</li>
       <li className="hover:text-cyan-400 cursor-pointer">Contact</li>
     </ul>
