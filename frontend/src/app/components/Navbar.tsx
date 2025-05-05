@@ -14,7 +14,11 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
-      <li className="hover:text-cyan-400 cursor-pointer">Home</li>
+      <li>
+        <Link href="/" className="hover:text-cyan-400 cursor-pointer">
+          Home
+        </Link>
+      </li>
       <li>
         <Link href="/education" className="hover:text-cyan-400 cursor-pointer">
           Education
