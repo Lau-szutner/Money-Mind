@@ -71,7 +71,7 @@ const DoLogin = ({ hasAccount }) => {
       onSubmit={handleDoLogin}
       className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
     >
-      <h1 className="mb-4 text-center font-bold text-xl">Login</h1>
+      <h1 className="mb-4 text-center font-bold text-3xl">Login</h1>
 
       <InputField
         label="Email"
@@ -101,6 +101,7 @@ const DoLogin = ({ hasAccount }) => {
           Password incorrect, please enter a valir password
         </div>
       )}
+        <p className=' text-xl'>forgot password?</p>
       <button
         type="submit"
         className="p-2 bg-blue-500 text-white rounded w-full"
@@ -111,7 +112,7 @@ const DoLogin = ({ hasAccount }) => {
         type="button"
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
         onClick={hasAccount}
-      >
+        >
         Register
       </button>
     </form>

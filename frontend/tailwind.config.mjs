@@ -14,7 +14,7 @@ export default {
         sans: ['Montserrat', 'var(--font-montserrat)', 'Arial', 'sans-serif'], // Cambia la fuente por defecto
       },
       colors: {
-        background: '#353535',
+        background: '#232323',
         foreground: '#DDDDDD',
         topHeader: '#131313',
         whiteText: '#DDDDDD',
@@ -26,3 +26,6 @@ export default {
   },
   plugins: [],
 };
+
+
+// background: '#353535',

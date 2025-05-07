@@ -60,7 +60,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
     <div
       className={`flex justify-center ${pathname == '/login' ? 'w-full' : ''}`}
     >
-      <div className="text-xl font-bold text-4xl">
+      <div className="text-3xl font-bold ">
         <span className="text-green-500">Money</span>Mind
       </div>
     </div>
