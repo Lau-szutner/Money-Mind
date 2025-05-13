@@ -111,7 +111,6 @@ export default function Home() {
         token={token}
         refreshTransactions={fetchTransactions}
       />
-      <Footer />
     </div>
   );
 }

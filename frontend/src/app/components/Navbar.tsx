@@ -24,11 +24,9 @@ const Navbar: React.FC<Props> = ({ id }) => {
           Education
         </Link>
       </li>
-
-      <li className="hover:text-cyan-400 cursor-pointer">
-        {' '}
-        <Link href="/education" className="hover:text-cyan-400 cursor-pointer">
-          Education
+      <li>
+        <Link href="/wallet" className="hover:text-cyan-400 cursor-pointer">
+          Wallet
         </Link>
       </li>
       <li className="hover:text-cyan-400 cursor-pointer">Contact</li>
