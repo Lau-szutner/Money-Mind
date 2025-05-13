@@ -25,7 +25,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </Link>
       </li>
 
-      <li className="hover:text-cyan-400 cursor-pointer">Projects</li>
+      <li className="hover:text-cyan-400 cursor-pointer">
+        {' '}
+        <Link href="/education" className="hover:text-cyan-400 cursor-pointer">
+          Education
+        </Link>
+      </li>
       <li className="hover:text-cyan-400 cursor-pointer">Contact</li>
     </ul>
   );
@@ -47,7 +52,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <ul className="flex flex-col gap-6 text-sm font-medium px-4">
         <li className="hover:text-green-500 cursor-pointer">Home</li>
         <li className="hover:text-green-500 cursor-pointer">Education</li>
-        <li className="hover:text-green-500 cursor-pointer">Projects</li>
+        <li className="hover:text-green-500 cursor-pointer">Wallet</li>
         <li className="hover:text-green-500 cursor-pointer">Contact</li>
         <li className="pt-2 border-t border-gray-700">
           <DisplayName id={id} />
@@ -78,7 +83,6 @@ const Navbar: React.FC<Props> = ({ id }) => {
         {pathname !== '/login' ? (
           <>
             {title}
-
             {menuDesktop}
             {displayName}
           </>
