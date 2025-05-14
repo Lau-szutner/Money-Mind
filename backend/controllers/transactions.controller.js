@@ -241,3 +241,11 @@ export {
   updateTransactionById,
   getTransactionsByMonth,
 };
+
+/*TODO:
+CATEGORIES
+ACCOUNTS
+GOALS
+PLANS
+BUDGETS
+*/
