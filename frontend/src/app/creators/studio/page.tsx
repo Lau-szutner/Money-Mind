@@ -10,7 +10,6 @@ export default function Studio() {
           { name: 'title', placeholder: 'Title' },
           { name: 'Description', placeholder: 'Description' },
           { name: 'ShorDescription', placeholder: 'Short Description' },
-          { name: 'FrontPage', placeholder: 'Front Page (URL o texto)' },
         ].map((field) => (
           <label key={field.name} className="flex flex-col gap-1">
             {field.name}
@@ -23,6 +22,22 @@ export default function Studio() {
           </label>
         ))}
 
+        {/* Portada (FrontPage) */}
+        <label
+          htmlFor="frontPageInput"
+          className="border-2 border-dashed border-neutral-600 p-6 rounded-lg text-center cursor-pointer hover:bg-neutral-800 transition-colors"
+        >
+          Seleccioná o arrastrá una imagen de portada
+          <input
+            id="frontPageInput"
+            name="FrontPage"
+            type="file"
+            accept="image/*"
+            hidden
+          />
+        </label>
+
+        {/* Video */}
         <label
           htmlFor="videoInput"
           className="border-2 border-dashed border-neutral-600 p-6 rounded-lg text-center cursor-pointer hover:bg-neutral-800 transition-colors"
