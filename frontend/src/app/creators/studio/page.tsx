@@ -22,6 +22,20 @@ export default function Studio() {
           </label>
         ))}
 
+        {/* Nivel del curso */}
+        <label className="flex flex-col gap-1">
+          Nivel
+          <select
+            name="level"
+            className="px-4 py-2 rounded-md bg-neutral-800 text-white border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Seleccioná un nivel</option>
+            <option value="beginner">Principiante</option>
+            <option value="intermediate">Intermedio</option>
+            <option value="advanced">Avanzado</option>
+          </select>
+        </label>
+
         {/* Portada (FrontPage) */}
         <label
           htmlFor="frontPageInput"
