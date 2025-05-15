@@ -19,13 +19,12 @@ export default {
         topHeader: '#131313',
         whiteText: '#DDDDDD',
         redSpend: '#D54C4C',
-        greenIn: '#00DC1D',
+        greenIn: '#39B54A',
         bgComponents: '#626262',
       },
     },
   },
   plugins: [],
 };
-
 
 // background: '#353535',
