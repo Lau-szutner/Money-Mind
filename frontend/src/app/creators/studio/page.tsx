@@ -1,6 +1,11 @@
-// app/education/page.tsx
+'use client';
+
+import { useState } from 'react';
 
 export default function Studio() {
+  const [frontImage, setFrontImage] = useState<File | null>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+
   return (
     <main className="min-h-screen p-8 bg-neutral-950 text-white">
       <h1 className="text-3xl font-bold mb-6">Studio</h1>
@@ -41,13 +46,19 @@ export default function Studio() {
           htmlFor="frontPageInput"
           className="border-2 border-dashed border-neutral-600 p-6 rounded-lg text-center cursor-pointer hover:bg-neutral-800 transition-colors"
         >
-          Seleccioná o arrastrá una imagen de portada
+          {frontImage
+            ? `Imagen cargada: ${frontImage.name}`
+            : 'Seleccioná o arrastrá una imagen de portada'}
           <input
             id="frontPageInput"
             name="FrontPage"
             type="file"
             accept="image/*"
             hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setFrontImage(file);
+            }}
           />
         </label>
 
@@ -56,10 +67,51 @@ export default function Studio() {
           htmlFor="videoInput"
           className="border-2 border-dashed border-neutral-600 p-6 rounded-lg text-center cursor-pointer hover:bg-neutral-800 transition-colors"
         >
-          Arrastrá un video o hacé clic para subir
-          <input id="videoInput" type="file" accept="video/*" hidden />
+          {videoFile
+            ? `Video cargado: ${videoFile.name}`
+            : 'Arrastrá un video o hacé clic para subir'}
+          <input
+            id="videoInput"
+            name="Video"
+            type="file"
+            accept="video/*"
+            hidden
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setVideoFile(file);
+            }}
+          />
         </label>
       </form>
+      {(frontImage || videoFile) && (
+        <div className="mt-8 space-y-6">
+          {frontImage && (
+            <div>
+              <h2 className="text-lg font-semibold mb-2">
+                Previsualización de la imagen:
+              </h2>
+              <img
+                src={URL.createObjectURL(frontImage)}
+                alt="Previsualización"
+                className="max-w-sm rounded-lg border border-neutral-700"
+              />
+            </div>
+          )}
+
+          {videoFile && (
+            <div>
+              <h2 className="text-lg font-semibold mb-2">
+                Previsualización del video:
+              </h2>
+              <video
+                controls
+                src={URL.createObjectURL(videoFile)}
+                className="max-w-md rounded-lg border border-neutral-700"
+              />
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 }
