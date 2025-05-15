@@ -1,16 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import TransactionsGrap from './components/TransactionsGrap';
+import TransactionsGrap from '../components/TransactionsGrap';
 import { useRouter } from 'next/navigation';
 
 // components
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
-import Navbar from '@/app/components/Navbar';
-import Footer from './components/Footer';
 
-export default function Home() {
+export default function wallet() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [id, setId] = useState('');
   const [transactions, setTransactions] = useState([]);
