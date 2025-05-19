@@ -43,9 +43,6 @@ const Navbar: React.FC<Props> = ({ id }) => {
       } transition-transform duration-300 ease-in-out z-50`}
     >
       <div className="flex justify-between items-center px-4 py-3">
-        <div className="text-3xl font-bold">
-          <span className="text-green-500">Money</span>Mind
-        </div>
         <button onClick={() => setIsOpen(false)}>
           <FaTimes size={24} />
         </button>

@@ -101,7 +101,7 @@ const DoLogin = ({ hasAccount }) => {
           Password incorrect, please enter a valir password
         </div>
       )}
-        <p className=' text-xl'>forgot password?</p>
+      <p className=" text-xl">forgot password?</p>
       <button
         type="submit"
         className="p-2 bg-blue-500 text-white rounded w-full"
@@ -112,7 +112,7 @@ const DoLogin = ({ hasAccount }) => {
         type="button"
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
         onClick={hasAccount}
-        >
+      >
         Register
       </button>
     </form>
