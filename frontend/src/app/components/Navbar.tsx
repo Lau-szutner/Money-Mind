@@ -15,12 +15,15 @@ const Navbar: React.FC<Props> = ({ id }) => {
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li>
-        <Link href="/" className="hover:text-cyan-400 cursor-pointer">
+        <Link href="/user" className="hover:text-cyan-400 cursor-pointer">
           Home
         </Link>
       </li>
       <li>
-        <Link href="/education" className="hover:text-cyan-400 cursor-pointer">
+        <Link
+          href="user/education"
+          className="hover:text-cyan-400 cursor-pointer"
+        >
           Education
         </Link>
       </li>
@@ -61,7 +64,9 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   const title = (
     <div
-      className={`flex justify-center ${pathname == '/login' ? 'w-full' : ''}`}
+      className={`flex justify-center ${
+        pathname == '/login' || pathname === '/' ? 'w-full' : ''
+      }`}
     >
       <div className="text-3xl font-bold ">
         <Link href="/" className="hover:text-cyan-400 cursor-pointer">
@@ -82,14 +87,14 @@ const Navbar: React.FC<Props> = ({ id }) => {
   return (
     <nav className="bg-neutral-900 text-white sticky top-0 z-10 w-full shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        {pathname !== '/login' ? (
+        {pathname == '/login' || pathname === '/' ? (
+          title
+        ) : (
           <>
             {title}
             {menuDesktop}
             {displayName}
           </>
-        ) : (
-          title
         )}
         <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
