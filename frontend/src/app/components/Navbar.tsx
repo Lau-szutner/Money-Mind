@@ -25,7 +25,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </Link>
       </li>
       <li>
-        <Link href="/wallet" className="hover:text-cyan-400 cursor-pointer">
+        <Link href="user/wallet" className="hover:text-cyan-400 cursor-pointer">
           Wallet
         </Link>
       </li>
@@ -64,7 +64,11 @@ const Navbar: React.FC<Props> = ({ id }) => {
       className={`flex justify-center ${pathname == '/login' ? 'w-full' : ''}`}
     >
       <div className="text-3xl font-bold ">
-        <span className="text-green-500">Money</span>Mind
+        <Link href="/" className="hover:text-cyan-400 cursor-pointer">
+          <div>
+            <span className="text-green-500">Money</span>Mind
+          </div>
+        </Link>
       </div>
     </div>
   );

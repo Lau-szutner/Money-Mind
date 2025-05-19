@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { TransactionsGrap } from '@/app/components/TransactionsGrap';
-
 import { useRouter } from 'next/navigation';
 
 // components
+import { TransactionsGrap } from '@/app/components/TransactionsGrap';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 
@@ -21,24 +20,24 @@ export default function wallet() {
   const [spends, setSpends] = useState(0);
   const [balance, setBalance] = useState(0);
 
-  useEffect(() => {
-    const token = Cookies.get('authToken');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
+  // useEffect(() => {
+  //   const token = Cookies.get('authToken');
+  //   if (!token) {
+  //     router.push('/login');
+  //     return;
+  //   }
 
-    setToken(token);
+  //   setToken(token);
 
-    try {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      setId(decodedToken.id);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error('Error al decodificar el token:', error);
-      router.push('/login');
-    }
-  }, [router]);
+  //   try {
+  //     const decodedToken = JSON.parse(atob(token.split('.')[1]));
+  //     setId(decodedToken.id);
+  //     setIsLoggedIn(true);
+  //   } catch (error) {
+  //     console.error('Error al decodificar el token:', error);
+  //     router.push('/login');
+  //   }
+  // }, [router]);
 
   useEffect(() => {
     if (id) {
@@ -92,9 +91,9 @@ export default function wallet() {
     }
   };
 
-  if (!isLoggedIn || loading) {
-    return <div>Loading...</div>;
-  }
+  // if (!isLoggedIn || loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="grid">
