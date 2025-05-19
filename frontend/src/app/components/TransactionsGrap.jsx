@@ -5,7 +5,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-export default function TransactionsGrap({ transactions }) {
+export const TransactionsGrap = ({ transactions }) => {
   // Convertimos los datos: parseamos amount a número
   const data = transactions.map((t) => ({
     title: t.title,
@@ -53,4 +53,4 @@ export default function TransactionsGrap({ transactions }) {
       <p className="black-buttons w-full shadow-custom">Analyze</p>
     </div>
   );
-}
+};

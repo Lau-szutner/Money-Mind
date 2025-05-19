@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import TransactionsGrap from '../components/TransactionsGrap';
+import { TransactionsGrap } from '@/app/components/TransactionsGrap';
+
 import { useRouter } from 'next/navigation';
 
 // components
