@@ -50,8 +50,8 @@ export default function DisplayName({ id }) {
 
   return (
     <div className="p-2 flex gap-5">
-      <p>{user.name}</p>
-      {/* <p>{user.email}</p> */}
+      {/* <p>{user.name}</p> */}
+      <p>{user.email}</p>
       {/* <p>{id}</p> */}
     </div>
   );

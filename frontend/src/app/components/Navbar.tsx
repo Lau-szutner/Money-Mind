@@ -78,12 +78,43 @@ const Navbar: React.FC<Props> = ({ id }) => {
     </div>
   );
 
-  const displayName = (
-    <div className="hidden lg:block">
-      <button className="flex">
+  const User = (
+    <div className="hidden lg:block relative group">
+      <button className="flex items-center gap-2">
         <DisplayName id={id} />
-        <img src="/perfil-image.png" alt="" className="w-10" />
+        <img
+          src="/perfil-image.png"
+          alt="Profile"
+          className="w-10 h-10 rounded-full"
+        />
       </button>
+
+      {/* Submenú visible al hacer hover */}
+      <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 z-20">
+        <ul className="py-2 text-sm">
+          <li>
+            <Link
+              href="/user/profile"
+              className="block px-4 py-2 hover:bg-gray-100"
+            >
+              Perfil
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/user/settings"
+              className="block px-4 py-2 hover:bg-gray-100"
+            >
+              Configuración
+            </Link>
+          </li>
+          <li>
+            <Link href="/logout" className="block px-4 py-2 hover:bg-gray-100">
+              Cerrar sesión
+            </Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 
@@ -96,7 +127,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           <>
             {title}
             {menuDesktop}
-            {displayName}
+            {User}
           </>
         )}
         <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
