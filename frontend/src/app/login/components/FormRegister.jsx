@@ -40,7 +40,7 @@ const FormRegister = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleRegister}
-      className="min-h-screen bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-6/12 xl:w-4/1 mt-10 mb-10"
+      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-6/12 xl:w-4/1 "
     >
       <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>
 
