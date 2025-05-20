@@ -21,14 +21,17 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </li>
       <li>
         <Link
-          href="user/education"
+          href="/user/education"
           className="hover:text-cyan-400 cursor-pointer"
         >
           Education
         </Link>
       </li>
       <li>
-        <Link href="user/wallet" className="hover:text-cyan-400 cursor-pointer">
+        <Link
+          href="/user/wallet"
+          className="hover:text-cyan-400 cursor-pointer"
+        >
           Wallet
         </Link>
       </li>
@@ -77,7 +80,10 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   const displayName = (
     <div className="hidden lg:block">
-      <DisplayName id={id} />
+      <button className="flex">
+        <DisplayName id={id} />
+        <img src="/perfil-image.png" alt="" className="w-10" />
+      </button>
     </div>
   );
 
