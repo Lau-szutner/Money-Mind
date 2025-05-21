@@ -12,7 +12,7 @@ export default function community() {
         <button className="w-1/12 bg-gray-500 rounded-md">+</button>
       </div>
 
-      <Post></Post>
+      <Post user="Lautaro"></Post>
     </main>
   );
 }
