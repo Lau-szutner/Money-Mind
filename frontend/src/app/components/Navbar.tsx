@@ -35,7 +35,14 @@ const Navbar: React.FC<Props> = ({ id }) => {
           Wallet
         </Link>
       </li>
-      <li className="hover:text-cyan-400 cursor-pointer">Contact</li>
+      <li>
+        <Link
+          href="/user/community"
+          className="hover:text-cyan-400 cursor-pointer"
+        >
+          Community
+        </Link>
+      </li>
     </ul>
   );
 
