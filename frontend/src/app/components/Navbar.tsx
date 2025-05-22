@@ -86,7 +86,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   const User = (
-    <div className="hidden lg:block relative group">
+    <div className="hidden lg:block relative group ">
       <button className="flex items-center gap-2">
         <DisplayName id={id} />
         <img
@@ -97,8 +97,8 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </button>
 
       {/* Submenú visible al hacer hover */}
-      <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-200 z-20">
-        <ul className="py-2 text-sm">
+      <div className="absolute right-0 w-full bg-foreground text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-500 z-20">
+        <ul className="py-2 text-sm w-full">
           <li>
             <Link
               href="/user/profile"

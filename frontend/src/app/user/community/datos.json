@@ -1,0 +1,17 @@
+[
+  {
+    "user": "Lautaro",
+    "title": "¿Cómo empiezo con React?",
+    "body": "Estoy empezando en desarrollo frontend y me interesa aprender React. ¿Algún recurso recomendado?"
+  },
+  {
+    "user": "Catalina",
+    "title": "Tips para entrevistas técnicas",
+    "body": "¿Qué tipo de preguntas suelen hacer en entrevistas para desarrolladores juniors?"
+  },
+  {
+    "user": "Sofía",
+    "title": "Mejor editor de código",
+    "body": "¿Cuál editor prefieren para trabajar con JavaScript y por qué?"
+  }
+]

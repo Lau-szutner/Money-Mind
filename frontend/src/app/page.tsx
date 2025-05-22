@@ -75,7 +75,7 @@ export default function Home() {
           </p>
 
           <div className="mt-4 px-6 py-3 bg-[#39B54A] text-black rounded-xl font-semibold hover:bg-green-600 transition w-3/12 ">
-            <Link href="/login" className="hover:text-cyan-400 cursor-pointer">
+            <Link href="/login" className="cursor-pointer">
               Empezar ahora
             </Link>
           </div>
