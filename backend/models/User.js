@@ -1,7 +1,8 @@
 // models/User.js
-import { DataTypes } from 'sequelize'; // Importa los tipos de datos de Sequelize
-import sequelize from '../config/database.js'; // Importa la conexión de la base de datos
-import Transaction from './Transaction.js'; // Importa el modelo correcto
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js';
+import Transaction from './Transaction.js';
+import Post from './Post.js';
 
 const User = sequelize.define(
   'User',
@@ -33,14 +34,17 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: 'users', // Se recomienda en minúsculas para evitar problemas
-    freezeTableName: true, // Evita que Sequelize pluralice la tabla automáticamente
-    underscored: true, // Convierte los nombres de las columnas a snake_case
+    tableName: 'users',
+    freezeTableName: true,
+    underscored: true,
   }
 );
 
-// Relaciones
-User.hasMany(Transaction, { foreignKey: 'fk_user_id' }); // Un usuario tiene muchas transacciones
-Transaction.belongsTo(User, { foreignKey: 'fk_user_id' }); // Cada transacción pertenece a un usuario
+// 🔗 Relaciones
+User.hasMany(Transaction, { foreignKey: 'fk_user_id' });
+Transaction.belongsTo(User, { foreignKey: 'fk_user_id' });
+
+User.hasMany(Post, { foreignKey: 'fk_user_id' });
+Post.belongsTo(User, { foreignKey: 'fk_user_id' });
 
 export default User;

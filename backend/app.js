@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js';
 import transactionRoutes from './routes/transaction.routes.js';
 import doLoginRoute from './routes/doLogin.routes.js';
+import postRoutes from './routes/post.routes.js'; // ✅ Nueva ruta importada
 // import createUserRoute from './routes/createUserRoute.js';
 import cors from 'cors'; // Importar el módulo CORS
 // Cargar variables de entorno
@@ -28,6 +29,7 @@ app.use('/users', userRoutes); // Rutas para los usuarios
 app.use('/transactions', transactionRoutes); // Rutas para gastos
 app.use('/login', doLoginRoute); // Rutas para login
 // // app.use('/create-user', createUserRoute); // Ruta para crear usuario
+app.use('/posts', postRoutes); // ✅ Nueva ruta agregada
 
 // Iniciar servidor
 app.listen(port, () => {

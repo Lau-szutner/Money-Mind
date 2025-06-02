@@ -18,7 +18,7 @@ const NewPostModal = ({ onClose, onSubmit }: NewPostModalProps) => {
   };
 
   return (
-    <div className="h-100 w-full bg-bgComponents p-5 rounded-md">
+    <div className="h-100 w-full bg-background p-5 rounded-md">
       <h2 className="text-xl font-bold mb-4">Crear nuevo post</h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
