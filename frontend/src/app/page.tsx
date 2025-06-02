@@ -19,8 +19,8 @@ export default function Home() {
               comunidad activa que crece con vos.
             </p>
           </div>
-          <div className="w-full h-64 bg-neutral-800 rounded-xl flex items-center justify-center text-gray-500 text-sm">
-            Imagen / gráfico del logo
+          <div className="w-full h-fit bg-neutral-800 rounded-xl flex items-center justify-center text-gray-500 text-sm">
+            <img src="/banner.png" alt="" />
           </div>
         </section>
 
