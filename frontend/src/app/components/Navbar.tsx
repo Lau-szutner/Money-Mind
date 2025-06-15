@@ -68,17 +68,17 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </ul>
     </div>
   );
-
   const title = (
     <div
-      className={`flex justify-center ${
+      className={`bg-background Header flex justify-center  ${
         pathname == '/login' || pathname === '/' ? 'w-full' : ''
       }`}
     >
-      <div className="text-3xl font-bold ">
+      <div className="text-3xl font-bold text-center">
         <Link href="/" className="hover:text-cyan-400 cursor-pointer">
-          <div>
-            <span className="text-green-500">Money</span>Mind
+          <div className="flex items-center ">
+            <img src="./isologo.png" alt="logo" className="h-20 w-auto" />
+            {/* <span className="text-green-500">Money</span>Mind */}
           </div>
         </Link>
       </div>
@@ -126,7 +126,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-neutral-900 text-white sticky top-0 z-10 w-full shadow-md">
+    <nav className="bg-background text-white sticky top-0 z-10 w-full shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {pathname == '/login' || pathname === '/' ? (
           title
