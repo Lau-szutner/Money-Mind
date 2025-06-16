@@ -18,11 +18,15 @@ const Post = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: 'posts',
     timestamps: true,
-    underscored: true, // para snake_case en columnas
+    underscored: true,
   }
 );
 

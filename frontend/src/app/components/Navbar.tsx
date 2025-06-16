@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import DisplayName from './DisplayName';
 import Link from 'next/link';
+import Image from 'next/image';
+
 interface Props {
   id: string;
 }
@@ -70,21 +72,26 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
   const title = (
     <div
-      className={`bg-background Header flex justify-center  ${
-        pathname == '/login' || pathname === '/' ? 'w-full' : ''
+      className={`bg-background Header flex justify-center ${
+        pathname === '/login' || pathname === '/' ? 'w-full' : ''
       }`}
     >
       <div className="text-3xl font-bold text-center">
         <Link href="/" className="hover:text-cyan-400 cursor-pointer">
-          <div className="flex items-center ">
-            <img src="./isologo.png" alt="logo" className="h-20 w-auto" />
+          <div className="flex items-center">
+            <Image
+              src="/isologo.png"
+              alt="logo"
+              width={150}
+              height={150}
+              priority
+            />
             {/* <span className="text-green-500">Money</span>Mind */}
           </div>
         </Link>
       </div>
     </div>
   );
-
   const User = (
     <div className="hidden lg:block relative group ">
       <button className="flex items-center gap-2">

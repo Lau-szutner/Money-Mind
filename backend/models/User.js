@@ -1,8 +1,6 @@
 // models/User.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import Transaction from './Transaction.js';
-import Post from './Post.js';
 
 const User = sequelize.define(
   'User',
@@ -39,12 +37,5 @@ const User = sequelize.define(
     underscored: true,
   }
 );
-
-// 🔗 Relaciones
-User.hasMany(Transaction, { foreignKey: 'fk_user_id' });
-Transaction.belongsTo(User, { foreignKey: 'fk_user_id' });
-
-User.hasMany(Post, { foreignKey: 'fk_user_id' });
-Post.belongsTo(User, { foreignKey: 'fk_user_id' });
 
 export default User;

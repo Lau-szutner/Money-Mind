@@ -1,5 +1,4 @@
-import Post from '../models/Post.js';
-import User from '../models/User.js';
+import { Post, User } from '../models/index.js';
 
 // Obtener todos los posts con su autor
 export const getAllPosts = async (req, res) => {
@@ -47,7 +46,7 @@ export const createPost = async (req, res) => {
   console.log('UserID from token:', userId);
   try {
     const result = await Post.create({
-      fk_user_id: userId,
+      user_id: userId,
       title,
       body,
     });
