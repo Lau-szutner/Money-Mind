@@ -4,6 +4,7 @@ import sequelize from '../config/database.js';
 import User from './User.js';
 import Post from './Post.js';
 import Transaction from './Transaction.js';
+import PostVote from './PostVote.js';
 
 // Relaciones
 
@@ -15,30 +16,37 @@ Transaction.belongsTo(User, { foreignKey: 'fk_user_id' });
 User.hasMany(Post, { foreignKey: 'fk_user_id' });
 Post.belongsTo(User, { foreignKey: 'fk_user_id' });
 
+// 🗳️ Usuario - PostVotes
+User.hasMany(PostVote, { foreignKey: 'fk_user_id' });
+PostVote.belongsTo(User, { foreignKey: 'fk_user_id' });
+
+// 📝 Post - PostVotes
+Post.hasMany(PostVote, { foreignKey: 'fk_post_id' });
+PostVote.belongsTo(Post, { foreignKey: 'fk_post_id' });
+
 /*
   Métodos generados por Sequelize para las relaciones:
 
   // Para un usuario:
   const user = await User.findByPk(1);
-
-  // Obtener todas las transacciones de un usuario
   const transactions = await user.getTransactions();
-
-  // Obtener todos los posts de un usuario
   const posts = await user.getPosts();
+  const votes = await user.getPostVotes();
 
   // Para una transacción:
   const transaction = await Transaction.findByPk(10);
-
-  // Obtener el usuario dueño de la transacción
   const ownerUser = await transaction.getUser();
 
   // Para un post:
   const post = await Post.findByPk(5);
-
-  // Obtener el usuario dueño del post
   const ownerUserPost = await post.getUser();
+  const votes = await post.getPostVotes();
+
+  // Para un voto:
+  const vote = await PostVote.findByPk(2);
+  const user = await vote.getUser();
+  const post = await vote.getPost();
 */
 
 // Exportar modelos y sequelize para usar en app
-export { sequelize, User, Post, Transaction };
+export { sequelize, User, Post, Transaction, PostVote }; // 👈 exportar PostVote

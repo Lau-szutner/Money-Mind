@@ -44,9 +44,10 @@ export const createPost = async (req, res) => {
   const userId = req.userId;
 
   console.log('UserID from token:', userId);
+
   try {
     const result = await Post.create({
-      user_id: userId,
+      fk_user_id: userId,
       title,
       body,
     });

@@ -1,33 +1,35 @@
-// models/Post.js
-import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+//models/PostVote.js
 
-const Post = sequelize.define(
-  'Post',
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database';
+
+const PostVote = sequelize.define(
+  'PostVote',
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
     },
-    title: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    body: {
-      type: DataTypes.TEXT,
+    vote_type: {
+      type: DataTypes.ENUM('up', 'down'),
       allowNull: false,
     },
     fk_user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    fk_post_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
-    tableName: 'posts',
+    tableName: 'Post_Votes',
+    freezeTableName: true,
     timestamps: true,
     underscored: true,
   }
 );
 
-export default Post;
+export default PostVote;
