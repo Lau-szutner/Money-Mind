@@ -82,8 +82,8 @@ const Navbar: React.FC<Props> = ({ id }) => {
             <Image
               src="/isologo.png"
               alt="logo"
-              width={150}
-              height={150}
+              width={250}
+              height={250}
               priority
             />
             {/* <span className="text-green-500">Money</span>Mind */}

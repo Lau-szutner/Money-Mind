@@ -1,7 +1,7 @@
 //models/PostVote.js
 
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database';
+import sequelize from '../config/database.js';
 
 const PostVote = sequelize.define(
   'PostVote',
@@ -13,14 +13,6 @@ const PostVote = sequelize.define(
     },
     vote_type: {
       type: DataTypes.ENUM('up', 'down'),
-      allowNull: false,
-    },
-    fk_user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    fk_post_id: {
-      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

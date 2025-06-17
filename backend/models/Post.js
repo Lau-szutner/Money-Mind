@@ -18,10 +18,6 @@ const Post = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    fk_user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
   },
   {
     tableName: 'posts',
