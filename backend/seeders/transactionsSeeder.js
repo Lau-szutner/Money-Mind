@@ -1,5 +1,4 @@
-import Transaction from '../models/Transaction.js';
-import User from '../models/User.js';
+import { Transaction, User } from '../models/index.js';
 
 async function seedTransactions() {
   try {

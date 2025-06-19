@@ -9,20 +9,21 @@ import PostVote from './PostVote.js';
 // Relaciones
 
 // Usuario - Transacciones
-User.hasMany(Transaction, { foreignKey: 'fk_user_id' });
-Transaction.belongsTo(User, { foreignKey: 'fk_user_id' });
+// Usuario - Transacciones
+User.hasMany(Transaction, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Transaction.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 
 // Usuario - Posts
-User.hasMany(Post, { foreignKey: 'fk_user_id' });
-Post.belongsTo(User, { foreignKey: 'fk_user_id' });
+User.hasMany(Post, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Post.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 
-// 🗳️ Usuario - PostVotes
-User.hasMany(PostVote, { foreignKey: 'fk_user_id' });
-PostVote.belongsTo(User, { foreignKey: 'fk_user_id' });
+// Usuario - PostVotes
+User.hasMany(PostVote, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+PostVote.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 
-// 📝 Post - PostVotes
-Post.hasMany(PostVote, { foreignKey: 'fk_post_id' });
-PostVote.belongsTo(Post, { foreignKey: 'fk_post_id' });
+// Post - PostVotes
+Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
+PostVote.belongsTo(Post, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 
 /*
   Métodos generados por Sequelize para las relaciones:

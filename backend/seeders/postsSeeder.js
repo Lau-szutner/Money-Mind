@@ -1,5 +1,4 @@
-import Post from '../models/Post.js';
-import User from '../models/User.js';
+import { Post, User } from '../models/index.js';
 
 async function seedPosts() {
   try {
