@@ -27,7 +27,7 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-5/12">
       <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl">
         <div className="flex flex-col gap-2 w-full">
           <div className="w-full flex justify-between bg-background p-2 rounded-md items-center">

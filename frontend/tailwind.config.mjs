@@ -14,13 +14,13 @@ export default {
         sans: ['Montserrat', 'var(--font-montserrat)', 'Arial', 'sans-serif'], // Cambia la fuente por defecto
       },
       colors: {
+        bgComponents: '#1E1C1D', // Background de componentes
         background: '#232323',
         foreground: '#DDDDDD',
-        topHeader: '#131313',
+        btnBach: '#131313',
         whiteText: '#DDDDDD',
         redSpend: '#D54C4C',
         greenIn: '#39B54A',
-        bgComponents: '#626262',
       },
     },
   },

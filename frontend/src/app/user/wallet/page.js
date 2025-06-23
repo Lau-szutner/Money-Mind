@@ -96,19 +96,23 @@ export default function wallet() {
   // }
 
   return (
-    <div className="grid">
-      <Balance
-        income={income}
-        spends={spends}
-        saving={`48.000`}
-        onDateSelected={fetchTransactions}
-      />
-      <TransactionsGrap id={id} transactions={transactions} />
-      <TransactionsList
-        transactions={transactions}
-        token={token}
-        refreshTransactions={fetchTransactions}
-      />
+    <div className="grid w-full place-items-center">
+      <div className="w-10/12">
+        <div className="w-full flex">
+          <Balance
+            income={income}
+            spends={spends}
+            saving={`48.000`}
+            onDateSelected={fetchTransactions}
+          />
+          <TransactionsGrap id={id} transactions={transactions} />
+        </div>
+        <TransactionsList
+          transactions={transactions}
+          token={token}
+          refreshTransactions={fetchTransactions}
+        />
+      </div>
     </div>
   );
 }
