@@ -21,6 +21,12 @@ body {
   height: 100vh;
   /* width: 100vw; */
 }
+
+.bg-pattern {
+  background-image: url('/pattern.png');
+  background-repeat: repeat;
+  background-size: 1000px;
+}
 /* .glass {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);

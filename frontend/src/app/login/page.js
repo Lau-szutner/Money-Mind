@@ -8,7 +8,7 @@ export default function Login() {
   const [hasAccount, setHasAccount] = useState(false);
 
   return (
-    <div className="flex flex-col bg-background h-screen w-full items-center justify-center">
+    <div className="flex flex-col h-screen w-full items-center justify-center">
       {hasAccount ? (
         <DoLogin hasAccount={() => setHasAccount(false)}></DoLogin>
       ) : (

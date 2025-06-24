@@ -72,7 +72,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
   const title = (
     <div
-      className={`bg-background Header flex justify-center ${
+      className={`bg-bgComponents Header flex justify-center ${
         pathname === '/login' || pathname === '/' ? 'w-full' : ''
       }`}
     >
@@ -133,8 +133,8 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-background text-white sticky top-0 z-10 w-full shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <nav className="bg-background text-white  w-full shadow-md">
+      <div className="w-full flex items-center justify-between">
         {pathname == '/login' || pathname === '/' ? (
           title
         ) : (

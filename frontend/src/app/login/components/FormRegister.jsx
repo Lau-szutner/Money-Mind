@@ -8,6 +8,7 @@ const FormRegister = ({ hasAccount }) => {
     email: '',
     name: '',
     password: '',
+    Rpassword: '',
   });
 
   const handleChange = (name, value) => {
@@ -16,6 +17,10 @@ const FormRegister = ({ hasAccount }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.Rpassword) {
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:4000/users/', {
@@ -40,9 +45,9 @@ const FormRegister = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleRegister}
-      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-6/12 xl:w-4/1 "
+      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-6/12 xl:w-4/1"
     >
-      <h1 className="mb-4 text-center font-bold text-xl">Create Account</h1>
+      <h1 className="mb-4 text-center font-bold text-3xl">Registration</h1>
 
       <InputField
         label="Email"
@@ -71,20 +76,41 @@ const FormRegister = ({ hasAccount }) => {
         onChange={handleChange}
       />
 
+      <InputField
+        label="Repeat Password"
+        name="password"
+        type="password"
+        placeholder="Enter your password"
+        value={formData.Rpassword}
+        onChange={handleChange}
+      />
+
+      <label for="subscribeNews ">
+        <input type="checkbox" /> I agree to the{' '}
+        <span className="text-greenIn">terms and conditions?</span>
+      </label>
       <button
         type="submit"
-        className="p-2 bg-blue-500 text-white rounded w-full"
+        className="p-2 bg-greenIn text-white rounded w-full"
       >
-        Submit
+        Register
       </button>
 
-      <button
+      <div className="flex gap-3 justify-center">
+        <p>Already have and account?</p>
+        <button className="font-bold m-1" onClick={hasAccount}>
+          {' '}
+          Login
+        </button>
+      </div>
+
+      {/* <button
         type="button"
         className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
-        onClick={hasAccount}
+        
       >
         Login
-      </button>
+      </button> */}
     </form>
   );
 };

@@ -25,7 +25,7 @@ const InputField = ({
 
   return (
     <div className={`flex flex-col gap-3 w-full ${inputClassName}`}>
-      <label htmlFor={name} className="text-lg font-bold">
+      <label htmlFor={name} className="text-xl font-semibold">
         {label}
       </label>
       <input
