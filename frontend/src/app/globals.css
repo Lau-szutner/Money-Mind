@@ -27,6 +27,11 @@ body {
   background-repeat: repeat;
   background-size: 1000px;
 }
+
+.loginFormTitle {
+  @apply font-bold text-3xl text-center;
+}
+
 /* .glass {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);

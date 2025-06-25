@@ -69,9 +69,9 @@ const DoLogin = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleDoLogin}
-      className="bg-bgComponents rounded-lg text-2xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
+      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
     >
-      <h1 className="mb-4 text-center font-bold text-3xl">Login</h1>
+      <h1 className="loginFormTitle">Login</h1>
 
       <InputField
         label="Email"
@@ -90,6 +90,15 @@ const DoLogin = ({ hasAccount }) => {
         value={formData.password}
         onChange={handleChange}
       />
+      <div className="flex items-center justify-between w-full">
+        <label className="flex items-center gap-2">
+          Remember me
+          <input type="checkbox" />
+        </label>
+        <button type="button" className="hover:underline">
+          Forgot password?
+        </button>
+      </div>
 
       {userNotFound && (
         <div className="bg-redSpend p-3 rounded-md text-center">
@@ -101,20 +110,20 @@ const DoLogin = ({ hasAccount }) => {
           Password incorrect, please enter a valir password
         </div>
       )}
-      <p className=" text-xl">forgot password?</p>
+
       <button
         type="submit"
-        className="p-2 bg-blue-500 text-white rounded w-full"
+        className="p-2 bg-greenIn text-white rounded w-full"
       >
         Login
       </button>
-      <button
-        type="button"
-        className="p-2 bg-blue-500 text-white rounded w-full bg-greenIn"
-        onClick={hasAccount}
-      >
-        Register
-      </button>
+
+      <div className="flex gap-3 justify-center">
+        <p>Already have and account?</p>
+        <button className="font-bold" onClick={hasAccount}>
+          Login
+        </button>
+      </div>
     </form>
   );
 };

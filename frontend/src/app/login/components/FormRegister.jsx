@@ -45,9 +45,9 @@ const FormRegister = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleRegister}
-      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-6/12 xl:w-4/1"
+      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
     >
-      <h1 className="mb-4 text-center font-bold text-3xl">Registration</h1>
+      <h1 className="loginFormTitle">Registration</h1>
 
       <InputField
         label="Email"
@@ -98,8 +98,7 @@ const FormRegister = ({ hasAccount }) => {
 
       <div className="flex gap-3 justify-center">
         <p>Already have and account?</p>
-        <button className="font-bold m-1" onClick={hasAccount}>
-          {' '}
+        <button className="font-bold" onClick={hasAccount}>
           Login
         </button>
       </div>
