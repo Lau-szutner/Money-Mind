@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { TransactionsGrap } from '@/app/components/TransactionsGrap';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
+import Tracker from '@/app/components/Tracker';
 
 export default function wallet() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -107,11 +108,14 @@ export default function wallet() {
           />
           <TransactionsGrap id={id} transactions={transactions} />
         </div>
-        <TransactionsList
-          transactions={transactions}
-          token={token}
-          refreshTransactions={fetchTransactions}
-        />
+        <div className="w-full flex">
+          <TransactionsList
+            transactions={transactions}
+            token={token}
+            refreshTransactions={fetchTransactions}
+          />
+          <Tracker title="tiITIT"></Tracker>
+        </div>
       </div>
     </div>
   );

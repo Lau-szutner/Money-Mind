@@ -27,7 +27,7 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
   };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl h-fit">
         <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
         <div className="flex flex-col gap-6 w-full py-4 h-full justify-evenly">
