@@ -20,24 +20,24 @@ export default function wallet() {
   const [spends, setSpends] = useState(0);
   const [balance, setBalance] = useState(0);
 
-  // useEffect(() => {
-  //   const token = Cookies.get('authToken');
-  //   if (!token) {
-  //     router.push('/login');
-  //     return;
-  //   }
+  useEffect(() => {
+    const token = Cookies.get('authToken');
+    if (!token) {
+      router.push('/login');
+      return;
+    }
 
-  //   setToken(token);
+    setToken(token);
 
-  //   try {
-  //     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-  //     setId(decodedToken.id);
-  //     setIsLoggedIn(true);
-  //   } catch (error) {
-  //     console.error('Error al decodificar el token:', error);
-  //     router.push('/login');
-  //   }
-  // }, [router]);
+    try {
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      setId(decodedToken.id);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      router.push('/login');
+    }
+  }, [router]);
 
   useEffect(() => {
     if (id) {
@@ -98,7 +98,7 @@ export default function wallet() {
   return (
     <div className="grid w-full place-items-center">
       <div className="w-10/12">
-        <div className="w-full flex">
+        <div className="flex justify-around">
           <Balance
             income={income}
             spends={spends}

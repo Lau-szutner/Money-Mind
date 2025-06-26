@@ -27,11 +27,12 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
   };
 
   return (
-    <div className="w-5/12">
-      <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl">
-        <div className="flex flex-col gap-2 w-full">
-          <div className="w-full flex justify-between bg-background p-2 rounded-md items-center">
-            <p className="font-bold">
+    <div className="w-full ">
+      <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl h-fit">
+        <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
+        <div className="flex flex-col gap-6 w-full py-4 h-full justify-evenly">
+          <div className="w-full flex justify-between bg-black p-2 rounded-md items-center">
+            <p className="">
               {balanceMonth
                 ? `Balance of ${balanceMonth}`
                 : 'Please select a month'}
@@ -55,29 +56,33 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
           </div>
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p className="font-bold">Income:</p>
+            <p>Income:</p>
             <p className="text-greenIn font-medium">{income}</p>
           </div>
 
           <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p className="font-bold">Spends:</p>
+            <p>Spends:</p>
             <p className="text-redSpend font-medium">{spends}</p>
           </div>
-        </div>
 
-        <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
-          <button
-            className="py-1 bg-redSpend rounded w-full text-3xl shadow-custom"
-            onClick={handleAddSpend}
-          >
-            -
-          </button>
-          <button
-            className="py-1 bg-greenIn rounded w-full shadow-custom text-3xl"
-            onClick={handleNewIncome}
-          >
-            +
-          </button>
+          <div className="w-full flex justify-between border-b border-b-whiteText">
+            <p>Saving:</p>
+            <p className="text-redSpend font-medium">{spends}</p>
+          </div>
+          <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
+            <button
+              className="py-3 bg-greenIn rounded w-full shadow-custom text-4xl"
+              onClick={handleNewIncome}
+            >
+              +
+            </button>
+            <button
+              className="py-3 bg-redSpend rounded w-full text-4xl shadow-custom"
+              onClick={handleAddSpend}
+            >
+              -
+            </button>
+          </div>
         </div>
       </div>
 
