@@ -5,12 +5,18 @@ import User from './User.js';
 import Post from './Post.js';
 import Transaction from './Transaction.js';
 import PostVote from './PostVote.js';
+import Community from './Community.js';
 
 // Relaciones
 
 // Usuario - Transacciones
 // Usuario - Transacciones
+
+// Crea una relación de 1:N. hasMany indica que un User tiene muchas Transactions.
+// La foreign key 'fk_user_id' se define en el modelo Transaction (target model).
 User.hasMany(Transaction, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+// Crea una relación inversa de N:1. Cada Transaction pertenece a un User.
+// También usa 'fk_user_id' como foreign key en Transaction.
 Transaction.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 
 // Usuario - Posts
@@ -25,6 +31,10 @@ PostVote.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 PostVote.belongsTo(Post, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 
+// MUCHOS USUARIOS TIENE MUCHAS COMUNIDADES
+
+User.belongsToMany(Community, { through: 'UserCommunities' });
+Community.belongsToMany(User, { through: 'UserCommunities' });
 /*
   Métodos generados por Sequelize para las relaciones:
 
@@ -50,4 +60,4 @@ PostVote.belongsTo(Post, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 */
 
 // Exportar modelos y sequelize para usar en app
-export { sequelize, User, Post, Transaction, PostVote }; // 👈 exportar PostVote
+export { sequelize, User, Post, Transaction, PostVote, Community }; // 👈 exportar PostVote
