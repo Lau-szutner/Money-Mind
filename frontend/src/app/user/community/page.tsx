@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Post from './components/Post';
 import NewPostModal from './components/NewPostModal';
 import Cookies from 'js-cookie';
+import Communities from '@/app/components/Communities';
+import { FaCalendarCheck } from 'react-icons/fa';
 
 interface PostType {
   id: number;
@@ -132,7 +134,7 @@ export default function Community() {
           +
         </button>
       </div>
-
+      <Communities communities="gola"></Communities>
       {newPostOpen && (
         <NewPostModal
           onClose={() => setNewPostOpen(false)}
