@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Post from './components/Post';
 import NewPostModal from './components/NewPostModal';
 import Cookies from 'js-cookie';
-import Communities from '@/app/components/Communities';
+
 import { FaCalendarCheck } from 'react-icons/fa';
 
 interface PostType {
@@ -21,36 +21,36 @@ export default function Community() {
   const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // // Obtener el nombre del usuario autenticado
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     const token = Cookies.get('authToken');
-  //     if (!token) {
-  //       console.warn('No token found');
-  //       return;
-  //     }
+  // Obtener el nombre del usuario autenticado
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = Cookies.get('authToken');
+      if (!token) {
+        console.warn('No token found');
+        return;
+      }
 
-  //     try {
-  //       const res = await fetch('/api/user/me', {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
+      try {
+        const res = await fetch('/api/user/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  //       if (res.ok) {
-  //         const userData = await res.json();
-  //         setUserName(userData.name);
-  //       } else {
-  //         console.warn('No se pudo obtener el usuario');
-  //       }
-  //     } catch (err) {
-  //       console.error('Error al obtener usuario:', err);
-  //     }
-  //   };
+        if (res.ok) {
+          const userData = await res.json();
+          setUserName(userData.name);
+        } else {
+          console.warn('No se pudo obtener el usuario');
+        }
+      } catch (err) {
+        console.error('Error al obtener usuario:', err);
+      }
+    };
 
-  //   fetchUserData();
-  // }, []);
+    fetchUserData();
+  }, []);
 
   // Fetch posts desde backend al montar el componente
   useEffect(() => {
@@ -134,7 +134,7 @@ export default function Community() {
           +
         </button>
       </div>
-      <Communities communities="gola"></Communities>
+
       {newPostOpen && (
         <NewPostModal
           onClose={() => setNewPostOpen(false)}
