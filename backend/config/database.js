@@ -1,4 +1,4 @@
-// config/db.js
+// config/database.js
 import { Sequelize } from 'sequelize'; // Importa Sequelize
 import dotenv from 'dotenv'; // Importa dotenv para manejar variables de entorno
 
@@ -33,7 +33,7 @@ const verifyConnection = async () => {
 const syncDatabase = async () => {
   try {
     // Sincroniza los modelos con la base de datos
-    await sequelize.sync({ force: true }); // Cambia a `force: true` si quieres reiniciar la base de datos
+    await sequelize.sync({ force: false }); // Cambia a `force: true` si quieres reiniciar la base de datos
     console.log('Base de datos sincronizada');
   } catch (error) {
     console.error('Error al sincronizar la base de datos:', error);
