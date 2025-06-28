@@ -4,10 +4,11 @@ async function coursesSeeder() {
   try {
     await Course.bulkCreate([
       {
-        title: 'hello',
-        author: 'none',
-        description: 'ffff',
-        price: 12,
+        title: 'Monthly Budget',
+        author: 'Sarah Thompson',
+        description:
+          'Learn how to take control of your personal finances with practical budgeting techniques. This course provides step-by-step guidance to track your expenses, reduce unnecessary costs.',
+        price: 1,
       },
       {
         title: 'Curso avanzado',

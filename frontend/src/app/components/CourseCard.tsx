@@ -31,9 +31,9 @@ const CourseCard: React.FC<CourseData> = ({
       <p className="text-2xl font-medium">{author}</p>
       <p className="text-1xl">{description}</p>
       <ul className="flex gap-2 font-semibold text-2xl">
-        {topics.map((topic, index) => (
+        {/* {topics.map((topic, index) => (
           <li key={index}>{topic}</li>
-        ))}
+        ))} */}
       </ul>
       <p className="text-3xl font-bold">${price}</p>
     </div>

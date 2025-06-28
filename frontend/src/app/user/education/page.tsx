@@ -1,35 +1,34 @@
-// app/education/page.tsx
-
+'use client';
 import EducationTabBar from './components/EducationTabBar';
 import CourseCard from '@/app/components/CourseCard';
+import { useEffect, useState } from 'react';
+
+type Course = {
+  title: string;
+  author: string;
+  description: string;
+  topics: string[];
+  price: number;
+};
 
 export default function EducationPage() {
-  const cursos = [
-    {
-      title: 'Monthly Budget',
-      author: 'Sarah Thompson',
-      description:
-        'Learn how to take control of your personal finances with practical budgeting techniques. This course provides step-by-step guidance to track your expenses, reduce unnecessary costs.',
-      topics: ['Financial', 'Planning'],
-      price: 20,
-    },
-    {
-      title: 'Investment Basics',
-      author: 'John Doe',
-      description:
-        'Understand the basics of investing, stocks, bonds, and portfolios. A beginner-friendly course to grow your wealth wisely.',
-      topics: ['Investing', 'Finance'],
-      price: 35,
-    },
-    {
-      title: 'Debt Management',
-      author: 'Jane Smith',
-      description:
-        'Learn practical strategies to manage and reduce your debt effectively. Take control of your financial future.',
-      topics: ['Debt', 'Budgeting'],
-      price: 25,
-    },
-  ];
+  const [data, setData] = useState<Course[]>([]);
+
+  const fetchingCourses = async () => {
+    try {
+      const url = 'http://localhost:4000/courses/';
+      const response = await fetch(url, { method: 'GET' });
+      const data = await response.json();
+      setData(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchingCourses();
+  }, []);
 
   return (
     <main className="min-h-screen p-8 text-white">
@@ -38,7 +37,7 @@ export default function EducationPage() {
       <EducationTabBar />
 
       <div className="flex gap-8 flex-wrap">
-        {cursos.map((curso, index) => (
+        {data.map((curso, index) => (
           <CourseCard key={index} {...curso} />
         ))}
       </div>
