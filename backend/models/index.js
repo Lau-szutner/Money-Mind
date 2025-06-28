@@ -63,4 +63,4 @@ Community.belongsToMany(User, { through: 'UserCommunities' });
 */
 
 // Exportar modelos y sequelize para usar en app
-export { sequelize, User, Post, Transaction, PostVote, Community, Course }; // 👈 exportar PostVote
+export { sequelize, User, Post, Transaction, PostVote, Community, Course };
