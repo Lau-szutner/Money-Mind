@@ -17,14 +17,9 @@ const Navbar: React.FC<Props> = ({ id }) => {
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li>
-        <Link href="/user" className="hover:text-cyan-400 cursor-pointer">
-          Home
-        </Link>
-      </li>
-      <li>
         <Link
           href="/user/education"
-          className="hover:text-cyan-400 cursor-pointer"
+          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
         >
           Education
         </Link>
@@ -32,7 +27,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/wallet"
-          className="hover:text-cyan-400 cursor-pointer"
+          className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md"
         >
           Wallet
         </Link>
@@ -40,7 +35,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/community"
-          className="hover:text-cyan-400 cursor-pointer"
+          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
         >
           Community
         </Link>
