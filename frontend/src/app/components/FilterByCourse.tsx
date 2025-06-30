@@ -24,14 +24,37 @@ const FilterByCourse: React.FC = () => {
   const Price = ['Paid', 'Free'];
 
   return (
-    <div className="bg-blue-500 h-full">
-      <h2>Filter by</h2>
-      <ul>
-        <h3>Topic</h3>
-        {Topic.map((t, index) => (
-          <li>{t}</li>
-        ))}
-      </ul>
+    <div className="bg-bgComponents h-full p-7">
+      <div>
+        <h2 className="border-b-4 border-indigo-600 text-xl">Filter by</h2>
+        <div className="border-b-4 border-indigo-600">
+          <h3>Topic</h3>
+          <ul>
+            {Topic.map((t, index) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="border-b-4 border-indigo-600">
+          <h3>Duration</h3>
+          <ul>
+            {Duration.map((t, index) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="border-b-4 border-indigo-600">
+          <h3>Price</h3>
+
+          <ul>
+            {Price.map((t, index) => (
+              <li>{t}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
