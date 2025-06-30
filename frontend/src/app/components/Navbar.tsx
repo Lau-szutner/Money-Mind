@@ -81,6 +81,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
               height={250}
               priority
             />
+
             {/* <span className="text-green-500">Money</span>Mind */}
           </div>
         </Link>
@@ -128,7 +129,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-background text-white  w-full shadow-md">
+    <nav className="bg-bgComponents text-white  w-full shadow-md">
       <div className="w-full flex items-center justify-between">
         {pathname == '/login' || pathname === '/' ? (
           title

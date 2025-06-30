@@ -24,7 +24,7 @@ const CourseCard: React.FC<CourseData> = ({
   topics,
 }) => {
   return (
-    <div className="bg-bgComponents p-7 flex flex-col w-3/12 gap-5 rounded-lg align-center">
+    <div className="bg-bgComponents p-7 flex flex-col w-3/12 gap-5 rounded-lg align-center hover:scale-105 w-fit">
       <Image
         src={`/courses/image-${id}.png`}
         alt="123"
@@ -33,15 +33,17 @@ const CourseCard: React.FC<CourseData> = ({
         className="rounded-md"
       ></Image>
 
-      <h3 className="text-2xl font-bold">{title}</h3>
-      <p className="text-2xl font-medium">{author}</p>
-      <p className="text-1xl">{description}</p>
-      <ul className="flex gap-2 font-semibold text-2xl">
-        {/* {topics.map((topic, index) => (
+      <div className="w-96 flex flex-col gap-4">
+        <h3 className="text-2xl font-bold">{title}</h3>
+        <p className="text-2xl font-medium">{author}</p>
+        <p className="text-1xl">{description}</p>
+        <ul className="flex gap-2 font-semibold text-2xl">
+          {/* {topics.map((topic, index) => (
           <li key={index}>{topic}</li>
         ))} */}
-      </ul>
-      <p className="text-3xl font-bold">${price}</p>
+        </ul>
+        <p className="text-3xl font-bold">${price}</p>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 import CourseCard from '@/app/components/CourseCard';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import FilterByCourse from '@/app/components/FilterByCourse';
 
 type Course = {
   id: number;
@@ -35,9 +35,11 @@ export default function EducationPage() {
   let i = 1;
 
   return (
-    <main className="min-h-screen p-8 text-white">
-      <Image src={`/Banner.png`} alt="123" width="64" height="64"></Image>
-      <div className="flex gap-8 flex-wrap">
+    <main className="min-h-screen p-8 text-white w-full grid grid-cols-[300px_1fr_300px] gap-8">
+      <div>
+        <FilterByCourse />
+      </div>
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center items-center">
         {data.map((curso, index) => (
           <CourseCard key={index} {...curso} />
         ))}
@@ -45,11 +47,3 @@ export default function EducationPage() {
     </main>
   );
 }
-
-// export function Avatar({ id, alt }) {
-//   return <Image src={`/avatars/${id}.png`} alt={alt} width="64" height="64" />;
-// }
-
-// export function AvatarOfMe() {
-//   return <Avatar id="me" alt="A portrait of me" />;
-// }
