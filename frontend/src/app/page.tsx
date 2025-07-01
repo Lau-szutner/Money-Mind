@@ -1,17 +1,18 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#302E2F] text-white px-6 py-12">
-      <div className="max-w-6xl mx-auto space-y-20">
+    <main className="min-h-screen text-white px-6 py-12">
+      <div className="max-w-6xl mx-auto space-y-20 bg-">
         {/* Sobre la marca */}
-        <section className="grid md:grid-cols-2 gap-10 items-center">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-semibold text-white">
+        <section className="grid md:grid-cols-2 gap-2 items-stretch">
+          <div className="space-y-2 bg-bgComponents p-5 rounded-xl h-full">
+            <h2 className="text-2xl font-semibold text-white">
               ¿Qué es <span className="text-green-500">Money</span>Mind?
             </h2>
 
-            <p className="text-gray-400 text-base leading-relaxed">
+            <p className="text-gray-400 ">
               MoneyMind nace con el objetivo de cerrar la brecha en educación
               financiera que muchas personas enfrentan. No solo te enseñamos a
               ahorrar e invertir, sino que te damos las herramientas para
@@ -19,8 +20,14 @@ export default function Home() {
               comunidad activa que crece con vos.
             </p>
           </div>
-          <div className="w-full h-fit bg-neutral-800 rounded-xl flex items-center justify-center text-gray-500 text-sm">
-            <img src="/banner.png" alt="" />
+          <div className="h-full flex items-center justify-center">
+            <Image
+              src="/banner.png"
+              width={1000}
+              height={100}
+              alt="Money mind logo"
+              className="object-contain h-full w-full"
+            />
           </div>
         </section>
 
@@ -32,8 +39,8 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Educación */}
-            <div className="bg-neutral-900 rounded-xl p-6 border border-neutral-800 space-y-3">
-              <h3 className="text-xl font-medium text-white">Educación</h3>
+            <div className="bg-bgComponents rounded-xl p-6 border border-neutral-800 space-y-3">
+              <h3 className="text-xl font-bold text-greenIn">Educación</h3>
               <p className="text-sm text-gray-400">
                 Accedé a cursos sobre ahorro, inversión, criptomonedas, acciones
                 y más. Diseñados para todas las etapas de tu vida financiera.
@@ -41,8 +48,8 @@ export default function Home() {
             </div>
 
             {/* Wallet */}
-            <div className="bg-neutral-900 rounded-xl p-6 border border-neutral-800 space-y-3">
-              <h3 className="text-xl font-medium text-white">
+            <div className="bg-bgComponents rounded-xl p-6 border border-neutral-800 space-y-3">
+              <h3 className="text-xl font-bold text-greenIn">
                 Wallet inteligente
               </h3>
               <p className="text-sm text-gray-400">
@@ -53,8 +60,8 @@ export default function Home() {
             </div>
 
             {/* Comunidad */}
-            <div className="bg-neutral-900 rounded-xl p-6 border border-neutral-800 space-y-3">
-              <h3 className="text-xl font-medium text-white">Comunidad</h3>
+            <div className="bg-bgComponents rounded-xl p-6 border border-neutral-800 space-y-3">
+              <h3 className="text-xl font-bold text-greenIn">Comunidad</h3>
               <p className="text-sm text-gray-400">
                 Compartí experiencias, hacé preguntas, publicá tips de ahorro o
                 inversión y descubrí que no estás solo en tu camino financiero.
