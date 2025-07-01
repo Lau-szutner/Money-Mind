@@ -35,15 +35,26 @@ export default function EducationPage() {
   let i = 1;
 
   return (
-    <main className="min-h-screen p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
-      <div>
-        <FilterByCourse />
+    <main className="flex flex-col w-full ">
+      <div className="p-8">
+        <div className="h-fit w-[700px] p-5 bg-bgComponents mt-5 rounded-xl">
+          <input
+            type="text"
+            placeholder="Search on MoneyMind"
+            className="bg-bgComponents placeholder-white text-2xl"
+          />
+        </div>
       </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center items-center">
-        {data.map((curso, index) => (
-          <CourseCard key={index} {...curso} />
-        ))}
-      </div>
+      <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
+        <div>
+          <FilterByCourse />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+          {data.map((curso, index) => (
+            <CourseCard key={index} {...curso} />
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
