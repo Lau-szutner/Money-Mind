@@ -39,3 +39,14 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.circle-shadow-green {
+  border-radius: 9999px;
+  box-shadow: 0 0 4px 4px rgba(34, 197, 94, 0.5),
+    /* Drop shadow */ inset 0 0 4px 4px rgba(34, 197, 94, 0.5); /* Inner shadow */
+}
+.circle-shadow-red {
+  border-radius: 9999px;
+  box-shadow: 0 0 4px 4px rgba(239, 68, 68, 0.5),
+    /* Drop shadow */ inset 0 0 4px 4px rgba(239, 68, 68, 0.5); /* Inner shadow */
+}

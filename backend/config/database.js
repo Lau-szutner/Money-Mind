@@ -29,7 +29,7 @@ const verifyConnection = async () => {
   }
 };
 
-// Sincronización de los modelos con la base de datos
+// Sincronización de los modelos con la base de datovs
 const syncDatabase = async () => {
   try {
     // Sincroniza los modelos con la base de datos

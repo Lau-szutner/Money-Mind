@@ -35,7 +35,7 @@ export default function EducationPage() {
   let i = 1;
 
   return (
-    <main className="min-h-screen p-8 text-white w-full grid grid-cols-[300px_1fr_300px] gap-8">
+    <main className="min-h-screen p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
       <div>
         <FilterByCourse />
       </div>

@@ -85,7 +85,7 @@ const FormRegister = ({ hasAccount }) => {
         onChange={handleChange}
       />
 
-      <label for="subscribeNews ">
+      <label htmlFor="subscribeNews ">
         <input type="checkbox" /> I agree to the{' '}
         <span className="text-greenIn">terms and conditions?</span>
       </label>

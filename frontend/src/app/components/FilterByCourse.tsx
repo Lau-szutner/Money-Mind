@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const FilterByCourse: React.FC = () => {
   const Topic = [
@@ -12,6 +12,10 @@ const FilterByCourse: React.FC = () => {
     'New releases',
   ];
 
+  const [topicFilters, setTopicFilters] = useState<boolean[]>(
+    Array(Topic.length).fill(false)
+  );
+
   const Duration = [
     '0-1 Hour',
     '1-3 Hours',
@@ -24,33 +28,53 @@ const FilterByCourse: React.FC = () => {
   const Price = ['Paid', 'Free'];
 
   return (
-    <div className="bg-bgComponents h-full p-7">
+    <div className="bg-bgComponents h-full p-7 rounded-xl">
       <div>
-        <h2 className="border-b-4 border-indigo-600 text-xl">Filter by</h2>
-        <div className="border-b-4 border-indigo-600">
-          <h3>Topic</h3>
-          <ul>
+        <h2 className="text-3xl font-bold pb-5">Filter by</h2>
+        <div>
+          <h3 className="text-2xl border-b-2 border-white font-bold">Topic</h3>
+          <ul className="p-4 flex flex-col gap-4">
             {Topic.map((t, index) => (
-              <li>{t}</li>
+              <div className="flex justify-between" key={t}>
+                <li className="text-2xl">{t}</li>
+                <button
+                  onClick={() => {
+                    const newFilters = [...topicFilters];
+                    newFilters[index] = !newFilters[index];
+                    setTopicFilters(newFilters);
+                  }}
+                  className={`w-8 h-8 rounded-full ${
+                    topicFilters[index]
+                      ? 'bg-greenIn circle-shadow-green'
+                      : 'bg-redSpend circle-shadow-red'
+                  }`}
+                ></button>
+              </div>
             ))}
           </ul>
         </div>
 
-        <div className="border-b-4 border-indigo-600">
-          <h3>Duration</h3>
-          <ul>
+        <div>
+          <h3 className="text-2xl border-b-2 border-white font-bold">
+            Duration
+          </h3>
+          <ul className="p-4 flex flex-col gap-4">
             {Duration.map((t, index) => (
-              <li>{t}</li>
+              <div className="flex justify-between" key={t}>
+                <li className="text-2xl">{t}</li>
+                <div className="w-8 h-8 rounded-full bg-redSpend circle-shadow-red"></div>
+              </div>
             ))}
           </ul>
         </div>
 
-        <div className="border-b-4 border-indigo-600">
-          <h3>Price</h3>
-
-          <ul>
+        <div>
+          <h3 className="text-2xl border-b-2 border-white font-bold">Price</h3>
+          <ul className="p-4 flex flex-col gap-4">
             {Price.map((t, index) => (
-              <li>{t}</li>
+              <li className="p-1" key={t}>
+                {t}
+              </li>
             ))}
           </ul>
         </div>
