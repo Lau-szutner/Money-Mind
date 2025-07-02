@@ -121,7 +121,7 @@ export default function Community() {
   };
 
   return (
-    <main className="h-full w-full">
+    <main className="">
       <div className="flex items-center mt-5 h-full">
         <SearchBy />
         <button

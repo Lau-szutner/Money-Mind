@@ -1,5 +1,5 @@
 'use client';
-
+//Cambiar libreria a Doughnut
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
@@ -15,7 +15,7 @@ export const TransactionsGrap = ({ transactions }) => {
   const total = data.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl flex flex-col gap-4  items-center w-full h-full">
+    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl flex flex-col gap-4  items-center w-full">
       <h1 className="font-bold text-3xl border-b-2 w-full top-0">Analytic</h1>
 
       <PieChart width={400} height={200}>

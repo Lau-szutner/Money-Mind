@@ -42,7 +42,7 @@ const DoLogin = ({ hasAccount }) => {
           secure: true,
           sameSite: 'Strict',
         });
-        router.push('/user');
+        router.push('/user/wallet');
         console.log('Login successful', data);
       } else {
         console.log('Server responded with error:', data);

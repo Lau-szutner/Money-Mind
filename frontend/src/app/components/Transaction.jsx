@@ -119,7 +119,7 @@ export const Transaction = ({
           </button>
         </div>
       ) : isEditing ? (
-        <div className="w-full flex flex-col gap-2">
+        <form className="w-full flex flex-col gap-2" onSubmit={handleUpdate}>
           <input
             type="text"
             name="title"
@@ -140,19 +140,17 @@ export const Transaction = ({
             onChange={handleChange}
             className="p-2 border rounded text-black"
           />
-          <button
-            className="bg-green-500 rounded-md py-1 w-full"
-            onClick={handleUpdate}
-          >
+          <button type="submit" className="bg-green-500 rounded-md py-1 w-full">
             Guardar
           </button>
           <button
+            type="button"
             className="bg-redSpend rounded-md py-1 w-full"
             onClick={() => setIsEditing(false)}
           >
             No guardar
           </button>
-        </div>
+        </form>
       ) : (
         <>
           <div className="flex justify-between w-full">
