@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import Post from './components/Post';
 import NewPostModal from './components/NewPostModal';
 import Cookies from 'js-cookie';
-
+import FilterByCommunity from '@/app/components/FilterByCommunity';
+import SearchBy from '@/app/components/SearchBy';
 import { FaCalendarCheck } from 'react-icons/fa';
 
 interface PostType {
@@ -62,10 +63,10 @@ export default function Community() {
 
         const postsFormatted = data.map((post: any) => ({
           id: post.id,
-          user: post.User.name, // <-- corregido aquí
+          user: post.User.name,
           title: post.title,
           body: post.body,
-          createdAt: post.created_at,
+          createdAt: post.created_at || post.createdAt || '',
         }));
 
         setPosts(postsFormatted);
@@ -111,7 +112,7 @@ export default function Community() {
         user: userName || 'Usuario',
         title: data.title,
         body: data.body,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toISOString().split('T')[0], // solo fecha, igual que backend
       };
       setPosts([newPost, ...posts]);
     } catch (error: any) {
@@ -120,35 +121,28 @@ export default function Community() {
   };
 
   return (
-    <main className="min-h-screen p-8 bg-neutral-950 text-white">
-      <h1 className="text-4xl font-bold mb-4">Community</h1>
+    <main className="min-h-screen p-8 text-white">
+      <SearchBy></SearchBy>
+      <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
+        <FilterByCommunity></FilterByCommunity>
 
-      <div className="flex gap-5 mb-4">
-        <div className="h-50 bg-background p-5 rounded-md w-11/12 gap-5">
-          Search
+        <div className="p-10 bg-bgComponents rounded-xl">
+          {newPostOpen && (
+            <NewPostModal
+              onClose={() => setNewPostOpen(false)}
+              onSubmit={handleCreatePost}
+            />
+          )}
+
+          {loading ? (
+            <p>Cargando posts...</p>
+          ) : posts.length === 0 ? (
+            <p>No hay posts aún.</p>
+          ) : (
+            posts.map((post) => <Post key={post.id} {...post} />)
+          )}
         </div>
-        <button
-          className="w-1/12 bg-greenIn rounded-md"
-          onClick={() => setNewPostOpen((prev) => !prev)}
-        >
-          +
-        </button>
-      </div>
-
-      {newPostOpen && (
-        <NewPostModal
-          onClose={() => setNewPostOpen(false)}
-          onSubmit={handleCreatePost}
-        />
-      )}
-
-      {loading ? (
-        <p>Cargando posts...</p>
-      ) : posts.length === 0 ? (
-        <p>No hay posts aún.</p>
-      ) : (
-        posts.map((post) => <Post key={post.id} {...post} />)
-      )}
+      </section>
     </main>
   );
 }

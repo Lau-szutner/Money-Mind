@@ -7,10 +7,11 @@ interface post {
 
 const Post = (post: post) => {
   return (
-    <div className="p-5 bg-background rounded-xl mt-10">
+    <div className="p-5 border-t-2 border-white">
       <div className="flex flex-col">
         <div className="flex gap-5">
           <p className="text-xl text-greenIn font-bold">/PersonalBudgeting</p>
+          <p>-</p>
           <p className="text-xl font-light">{post.createdAt}</p>
         </div>
         <h1 className="text-xl">{post.user}</h1>
