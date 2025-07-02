@@ -18,14 +18,6 @@ const Navbar: React.FC<Props> = ({ id }) => {
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li>
         <Link
-          href="/user/education"
-          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
-        >
-          Education
-        </Link>
-      </li>
-      <li>
-        <Link
           href="/user/wallet"
           className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md"
         >
@@ -38,6 +30,14 @@ const Navbar: React.FC<Props> = ({ id }) => {
           className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
         >
           Community
+        </Link>
+      </li>
+      <li>
+        <Link
+          href="/user/education"
+          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
+        >
+          Education
         </Link>
       </li>
     </ul>
@@ -129,7 +129,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-bgComponents text-white  w-full shadow-md">
+    <nav className="bg-bgComponents text-white  w-full shadow-md px-10">
       <div className="w-full flex items-center justify-between">
         {pathname == '/login' || pathname === '/' ? (
           title
