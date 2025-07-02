@@ -2,7 +2,7 @@
 import CourseCard from '@/app/components/CourseCard';
 import { useEffect, useState } from 'react';
 import FilterByCourse from '@/app/components/FilterByCourse';
-
+import SearchBy from '@/app/components/SearchBy';
 type Course = {
   id: number;
   title: string;
@@ -35,15 +35,9 @@ export default function EducationPage() {
   let i = 1;
 
   return (
-    <main className="flex flex-col w-full ">
-      <div className="p-8">
-        <div className="h-fit w-[700px] p-5 bg-bgComponents mt-5 rounded-xl">
-          <input
-            type="text"
-            placeholder="Search on MoneyMind"
-            className="bg-bgComponents placeholder-white text-2xl"
-          />
-        </div>
+    <main className="flex flex-col w-full">
+      <div className="mt-5">
+        <SearchBy />
       </div>
       <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
         <div>

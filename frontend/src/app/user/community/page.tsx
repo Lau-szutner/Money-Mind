@@ -121,8 +121,17 @@ export default function Community() {
   };
 
   return (
-    <main className="min-h-screen p-8 text-white">
-      <SearchBy></SearchBy>
+    <main className="h-full w-full">
+      <div className="flex items-center mt-5 h-full">
+        <SearchBy />
+        <button
+          className="rounded-md p-5 w-64  text-2xl font-light bg-bgComponents transition hover:bg-green-600  focus:ring-2 focus:ring-greenIn"
+          onClick={() => setNewPostOpen((prev) => !prev)}
+          aria-label="New post"
+        >
+          New post
+        </button>
+      </div>
       <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
         <FilterByCommunity></FilterByCommunity>
 
