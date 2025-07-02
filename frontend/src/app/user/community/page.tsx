@@ -12,7 +12,7 @@ interface PostType {
   user: string;
   title: string;
   body: string;
-  createdAt?: string;
+  createdAt: string;
 }
 
 export default function Community() {
@@ -65,7 +65,7 @@ export default function Community() {
           user: post.User.name, // <-- corregido aquí
           title: post.title,
           body: post.body,
-          createdAt: post.createdAt,
+          createdAt: post.created_at,
         }));
 
         setPosts(postsFormatted);

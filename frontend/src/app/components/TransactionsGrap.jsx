@@ -15,10 +15,10 @@ export const TransactionsGrap = ({ transactions }) => {
   const total = data.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl flex flex-col gap-4 justify-center items-center w-full ">
-      <h1 className="font-bold text-3xl border-b-2 w-full">Analytic</h1>
+    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl flex flex-col gap-4  items-center w-full h-full">
+      <h1 className="font-bold text-3xl border-b-2 w-full top-0">Analytic</h1>
 
-      <PieChart width={400} height={400}>
+      <PieChart width={400} height={200}>
         <Pie
           data={data}
           cx="50%"

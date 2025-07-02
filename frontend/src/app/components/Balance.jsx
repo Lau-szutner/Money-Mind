@@ -27,62 +27,60 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl h-fit">
-        <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
-        <div className="flex flex-col gap-6 w-full py-4 h-full justify-evenly">
-          <div className="w-full flex justify-between bg-black p-2 rounded-md items-center">
-            <p className="">
-              {balanceMonth
-                ? `Balance of ${balanceMonth}`
-                : 'Please select a month'}
-            </p>
+    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl h-full w-full">
+      <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
+      <div className="flex flex-col gap-6 w-full py-4 h-full justify-between">
+        <div className="w-full flex justify-between bg-black p-2 rounded-md items-center">
+          <p className="">
+            {balanceMonth
+              ? `Balance of ${balanceMonth}`
+              : 'Please select a month'}
+          </p>
 
-            {/* 📅 con input transparente encima */}
-            <div className="relative w-6 h-6">
-              <label
-                htmlFor="monthPicker"
-                className="absolute inset-0 z-10 cursor-pointer"
-              >
-                📅
-              </label>
-              <input
-                id="monthPicker"
-                type="month"
-                onChange={handleDateChange}
-                className="absolute inset-0 opacity-0 cursor-pointer z-20"
-              />
-            </div>
-          </div>
-
-          <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p>Income:</p>
-            <p className="text-greenIn font-medium">{income}</p>
-          </div>
-
-          <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p>Spends:</p>
-            <p className="text-redSpend font-medium">{spends}</p>
-          </div>
-
-          <div className="w-full flex justify-between border-b border-b-whiteText">
-            <p>Saving:</p>
-            <p className="text-redSpend font-medium">{spends}</p>
-          </div>
-          <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
-            <button
-              className="py-3 bg-greenIn rounded w-full shadow-custom text-4xl"
-              onClick={handleNewIncome}
+          {/* 📅 con input transparente encima */}
+          <div className="relative w-6 h-6">
+            <label
+              htmlFor="monthPicker"
+              className="absolute inset-0 z-10 cursor-pointer"
             >
-              +
-            </button>
-            <button
-              className="py-3 bg-redSpend rounded w-full text-4xl shadow-custom"
-              onClick={handleAddSpend}
-            >
-              -
-            </button>
+              📅
+            </label>
+            <input
+              id="monthPicker"
+              type="month"
+              onChange={handleDateChange}
+              className="absolute inset-0 opacity-0 cursor-pointer z-20"
+            />
           </div>
+        </div>
+
+        <div className="w-full flex justify-between border-b border-b-whiteText">
+          <p>Income:</p>
+          <p className="text-greenIn font-medium">{income}</p>
+        </div>
+
+        <div className="w-full flex justify-between border-b border-b-whiteText">
+          <p>Spends:</p>
+          <p className="text-redSpend font-medium">{spends}</p>
+        </div>
+
+        <div className="w-full flex justify-between border-b border-b-whiteText">
+          <p>Saving:</p>
+          <p className="text-redSpend font-medium">{spends}</p>
+        </div>
+        <div className="flex justify-between gap-2 mt-2 flex-col lg:flex-row">
+          <button
+            className="py-3 bg-greenIn rounded w-full shadow-custom text-4xl"
+            onClick={handleNewIncome}
+          >
+            +
+          </button>
+          <button
+            className="py-3 bg-redSpend rounded w-full text-4xl shadow-custom"
+            onClick={handleAddSpend}
+          >
+            -
+          </button>
         </div>
       </div>
 

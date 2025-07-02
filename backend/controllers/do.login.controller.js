@@ -1,5 +1,5 @@
 // controllers/authController.js
-import { DoLogin } from '../models/doLogin.js';
+import { DoLogin } from '../models/DoLogin.js';
 import { generateToken } from '../config/jwtUtils.js';
 
 const doLogin = async (req, res) => {
