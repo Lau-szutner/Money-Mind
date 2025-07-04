@@ -97,7 +97,7 @@ export default function wallet() {
   // }
 
   return (
-    <div className="grid w-full place-items-center">
+    <div className="grid w-full place-items-center h-full">
       <div className="w-10/12">
         <div className="flex justify-around">
           <Balance

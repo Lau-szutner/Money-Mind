@@ -20,25 +20,33 @@ const FilterByCommunity: React.FC = () => {
           <ul className="p-4 pl-0 flex flex-col gap-4">
             {communities.map((t, index) => (
               <div className="flex justify-between" key={t}>
-                <li className="text-2xl">/{t}</li>
+                <li className="text-2xl hover:text-greenIn  cursor-pointer">
+                  /{t}
+                </li>
               </div>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
+      <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold hover:text-greenIn  cursor-pointer">
         New Communitie +
       </div>
 
       <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
-        <p className="font-bold">Chats</p>
+        <p className="text-3xl font-bold pb-5">Chats</p>
         <div className="font-light">
-          <p>MoneyGOl123</p>
-          <p>nickBlack1</p>
-          <p>Szet13</p>
-          <p>CoffeBlow</p>
-          <p>LoeMi</p>
+          <p className="text-2xl hover:text-greenIn  cursor-pointer">
+            MoneyGOl123
+          </p>
+          <p className="text-2xl hover:text-greenIn  cursor-pointer">
+            nickBlack1
+          </p>
+          <p className="text-2xl hover:text-greenIn  cursor-pointer">Szet13</p>
+          <p className="text-2xl hover:text-greenIn  cursor-pointer">
+            CoffeBlow
+          </p>
+          <p className="text-2xl hover:text-greenIn  cursor-pointer">LoeMi</p>
         </div>
       </div>
     </div>
