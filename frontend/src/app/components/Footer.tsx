@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 function Footer() {
   return (
-    <footer className="h-10 bg-gray-600 w-full flex justify-between items-center p-5 flex-col lg:flex-row bottom-0 ">
+    <footer className="h-10 bg-gray-600 w-full flex justify-between items-center p-5 flex-col lg:flex-row">
       <ul className="flex gap-10">
         <li>Transactions</li>
         <li>Home</li>

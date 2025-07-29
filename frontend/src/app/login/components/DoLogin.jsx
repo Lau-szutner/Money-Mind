@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import Cookies from 'js-cookie';
 import InputField from './InputField';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const DoLogin = ({ hasAccount }) => {
   const [userNotFound, setUserNotFound] = useState(false);
@@ -69,7 +69,7 @@ const DoLogin = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleDoLogin}
-      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
+      className="bg-bgComponents rounded-lg text-xl grid items-center w-11/12 p-5 gap-5 lg:w-4/12"
     >
       <h1 className="loginFormTitle">Login</h1>
 
@@ -91,12 +91,12 @@ const DoLogin = ({ hasAccount }) => {
         onChange={handleChange}
       />
 
-      <div className="flex items-center justify-between w-full">
-        <label className="flex items-center gap-2">
+      <div className="w-full grid place-items-center gap-2 md:grid-cols-2 md">
+        <label className="flex items-center gap-2 md:justify-self-start">
           Remember me
           <input type="checkbox" />
         </label>
-        <button type="button" className="hover:underline">
+        <button type="button" className="hover:underline md:justify-self-end">
           Forgot password?
         </button>
       </div>
