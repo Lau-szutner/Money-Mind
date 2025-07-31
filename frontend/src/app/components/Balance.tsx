@@ -3,7 +3,19 @@
 import React, { useState } from 'react';
 import NewTransaction from './NewTransaction';
 
-export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
+type BalanceProps = {
+  income: number;
+  spends: number;
+  saving: string;
+  onDateSelected: (year: number, month: number) => void;
+};
+
+export const Balance: React.FC<BalanceProps> = ({
+  income,
+  saving,
+  spends,
+  onDateSelected,
+}) => {
   const [newSpend, setNewSpend] = useState(false);
   const [newIncome, setNewIncome] = useState(false);
   const [balanceMonth, setBalanceMonth] = useState(null);
@@ -66,7 +78,7 @@ export const Balance = ({ income, saving, spends, id, onDateSelected }) => {
 
         <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
           <p>Saving:</p>
-          <p className="text-redSpend font-medium">{spends}</p>
+          <p className="text-redSpend font-medium">{saving}</p>
         </div>
 
         <div className="flex justify-between flex-col lg:flex-row gap-5">

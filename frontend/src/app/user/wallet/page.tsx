@@ -9,18 +9,31 @@ import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 
-export default function wallet() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [id, setId] = useState('');
-  const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
+type Transaction = {
+  id: string;
+  type: 'income' | 'expense';
+  amount: number | string;
+  [key: string]: any;
+};
+
+export default function Wallet() {
+  // credentials
+  const [id, setId] = useState<string>('');
+  const [token, setToken] = useState<string>('');
+
+  // Loading page
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Transactions and stuff
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [income, setIncome] = useState<number>(0);
+  const [spends, setSpends] = useState<number>(0);
+  const [balance, setBalance] = useState<number>(0);
+
   const router = useRouter();
-  const [token, setToken] = useState('');
 
-  const [income, setIncome] = useState(0);
-  const [spends, setSpends] = useState(0);
-  const [balance, setBalance] = useState(0);
-
+  // Set session or return to login
   useEffect(() => {
     const token = Cookies.get('authToken');
     if (!token) {
@@ -35,7 +48,7 @@ export default function wallet() {
       setId(decodedToken.id);
       setIsLoggedIn(true);
     } catch (error) {
-      console.error('Error al decodificar el token:', error);
+      console.error('Error decoding token', error);
       router.push('/login');
     }
   }, [router]);
@@ -46,10 +59,13 @@ export default function wallet() {
     }
   }, [id]);
 
-  const fetchTransactions = async (year, month) => {
+  const fetchTransactions = async (year?: number, month?: number) => {
     try {
       setLoading(true);
-      const url = `http://localhost:4000/transactions/filter/by-month?year=${year}&month=${month}`;
+      let url = 'http://localhost:4000/transactions/filter/by-month';
+      if (year && month) {
+        url += `?year=${year}&month=${month}`;
+      }
 
       const response = await fetch(url, {
         method: 'GET',
@@ -66,18 +82,18 @@ export default function wallet() {
         return;
       }
 
-      const data = await response.json();
+      const data: Transaction[] = await response.json();
       setTransactions(data);
 
       const incomes = data.filter((item) => item.type === 'income');
       const expenses = data.filter((item) => item.type === 'expense');
 
       const totalIncome = incomes.reduce(
-        (acc, item) => acc + parseFloat(item.amount),
+        (acc, item) => acc + parseFloat(item.amount as string),
         0
       );
       const totalSpends = expenses.reduce(
-        (acc, item) => acc + parseFloat(item.amount),
+        (acc, item) => acc + parseFloat(item.amount as string),
         0
       );
       const totalBalance = totalIncome - totalSpends;
@@ -92,9 +108,9 @@ export default function wallet() {
     }
   };
 
-  // if (!isLoggedIn || loading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!isLoggedIn || loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="grid w-full place-items-center h-full">
@@ -106,7 +122,7 @@ export default function wallet() {
             saving={`48.000`}
             onDateSelected={fetchTransactions}
           />
-          <TransactionsGrap id={id} transactions={transactions} />
+          {/* <TransactionsGrap id={id} transactions={transactions} /> */}
         </div>
         <div className="w-full flex">
           <TransactionsList
