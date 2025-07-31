@@ -129,7 +129,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-bgComponents text-white  w-full shadow-md px-10">
+    <nav className="bg-bgComponents text-white w-full h-fit px-10">
       <div className="w-full flex items-center justify-between">
         {pathname == '/login' || pathname === '/' ? (
           title

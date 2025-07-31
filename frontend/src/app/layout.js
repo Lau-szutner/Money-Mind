@@ -22,8 +22,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={montserrat.variable}>
-      <body className="font-sans bg-pattern grid gap-5">
+    <html lang="en" className={`${montserrat.variable} h-full`}>
+      <body className="font-sans h-full grid grid-rows-[auto_1fr_auto]">
         <Navbar />
         {children}
         <Footer />
