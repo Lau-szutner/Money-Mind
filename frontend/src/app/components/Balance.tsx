@@ -39,7 +39,7 @@ export const Balance: React.FC<BalanceProps> = ({
   };
 
   return (
-    <div className="bg-bgComponents rounded-lg m-5 text-2xl w-full flex flex-col p-5">
+    <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5">
       <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
       <div className="grid w-full h-full gap-5 ">
         <div className="w-full flex justify-between bg-black p-2 rounded-md items-center h-fit p-5 mt-5">

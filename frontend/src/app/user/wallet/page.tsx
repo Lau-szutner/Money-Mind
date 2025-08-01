@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 // Components
 import { TransactionsGrap } from '@/app/components/TransactionsGrap';
+import ChartTransactions from '@/app/components/ChartTransactions';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
@@ -115,6 +116,8 @@ export default function Wallet() {
 
       setTransactions(data);
 
+      console.log(data);
+
       // Separate transactions by type
       const incomes = data.filter((item) => item.type === 'income');
       const expenses = data.filter((item) => item.type === 'expense');
@@ -160,16 +163,17 @@ export default function Wallet() {
   // ============================
 
   return (
-    <div className="grid w-full place-items-center h-full">
+    <div className="grid  place-items-center ">
       <div className="w-10/12">
-        <div className="flex justify-around">
+        <div className="grid grid-cols-2 gap-5 m-5">
           <Balance
             income={income}
             spends={spends}
             saving={`48.000`} // Este valor parece estar fijo, podrías considerarlo dinámico
             onDateSelected={fetchTransactions}
           />
-          <TransactionsGrap transactions={transactions} />
+          {/* <TransactionsGrap transactions={transactions} /> */}
+          <ChartTransactions transactions={transactions}></ChartTransactions>
         </div>
 
         <div className="w-full flex">
