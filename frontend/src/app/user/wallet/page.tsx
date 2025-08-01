@@ -9,9 +9,11 @@ import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 
+// Type of each transaction
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
+  title: string; // <-- necesario
   amount: number | string;
   [key: string]: any;
 };
@@ -59,12 +61,14 @@ export default function Wallet() {
     }
   }, [id]);
 
+  // fetch all transactions by month
   const fetchTransactions = async (year?: number, month?: number) => {
     try {
       setLoading(true);
-      let url = 'http://localhost:4000/transactions/filter/by-month';
+      let url = 'http://localhost:4000/transactions/filter/by-month'; //url just for dev
       if (year && month) {
-        url += `?year=${year}&month=${month}`;
+        // "validations"
+        url += `?year=${year}&month=${month}`; // query for extracting the year and month
       }
 
       const response = await fetch(url, {
@@ -82,20 +86,24 @@ export default function Wallet() {
         return;
       }
 
-      const data: Transaction[] = await response.json();
-      setTransactions(data);
+      const data: Transaction[] = await response.json(); //take the reponse and json it throught data const
+      // console.log(data);
+      setTransactions(data); // changing data
 
-      const incomes = data.filter((item) => item.type === 'income');
-      const expenses = data.filter((item) => item.type === 'expense');
+      const incomes = data.filter((item) => item.type === 'income'); // filter to sort all incomes
+      // console.log(incomes);
+      const expenses = data.filter((item) => item.type === 'expense'); // filter to sort all expenses
 
       const totalIncome = incomes.reduce(
-        (acc, item) => acc + parseFloat(item.amount as string),
+        (acc, item) => acc + parseFloat(item.amount as string), // take eacht income and reducit to get the total, as string becouse it cames from json
         0
       );
+
       const totalSpends = expenses.reduce(
         (acc, item) => acc + parseFloat(item.amount as string),
         0
       );
+
       const totalBalance = totalIncome - totalSpends;
 
       setIncome(totalIncome);
@@ -122,7 +130,7 @@ export default function Wallet() {
             saving={`48.000`}
             onDateSelected={fetchTransactions}
           />
-          {/* <TransactionsGrap id={id} transactions={transactions} /> */}
+          {/* <TransactionsGrap transactions={transactions} /> */}
         </div>
         <div className="w-full flex">
           <TransactionsList

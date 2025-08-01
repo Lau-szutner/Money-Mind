@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className="min-h-screen text-white px-6 py-12">
+    <main className="h-full text-white px-6 py-12">
       <div className="max-w-6xl mx-auto space-y-20 bg-">
         {/* Sobre la marca */}
         <section className="grid md:grid-cols-2 gap-2 items-stretch">

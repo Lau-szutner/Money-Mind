@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import NewTransaction from './NewTransaction';
 
 type BalanceProps = {
@@ -16,9 +16,9 @@ export const Balance: React.FC<BalanceProps> = ({
   spends,
   onDateSelected,
 }) => {
-  const [newSpend, setNewSpend] = useState(false);
-  const [newIncome, setNewIncome] = useState(false);
-  const [balanceMonth, setBalanceMonth] = useState(null);
+  const [newSpend, setNewSpend] = useState<boolean>(false);
+  const [newIncome, setNewIncome] = useState<boolean>(false);
+  const [balanceMonth, setBalanceMonth] = useState<string>(null);
 
   const handleAddSpend = () => {
     setNewSpend(!newSpend);
@@ -30,12 +30,12 @@ export const Balance: React.FC<BalanceProps> = ({
     setNewSpend(false);
   };
 
-  const handleDateChange = (e) => {
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedMonth = e.target.value;
     console.log('Selected Month:', selectedMonth); // Debugging line
     setBalanceMonth(selectedMonth);
     const [year, month] = selectedMonth.split('-');
-    onDateSelected(year, month);
+    onDateSelected(Number(year), Number(month));
   };
 
   return (

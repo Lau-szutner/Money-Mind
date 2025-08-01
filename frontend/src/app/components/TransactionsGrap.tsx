@@ -5,7 +5,21 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-export const TransactionsGrap = ({ transactions }) => {
+type Transaction = {
+  id: string;
+  type: 'income' | 'expense';
+  amount: number | string;
+  title: string;
+  [key: string]: any; // Extra props permitidas
+};
+
+type TransactionProps = {
+  transactions: Transaction[];
+};
+
+export const TransactionsGrap: React.FC<TransactionProps> = ({
+  transactions,
+}) => {
   // Convertimos los datos: parseamos amount a número
   const data = transactions.map((t) => ({
     title: t.title,
