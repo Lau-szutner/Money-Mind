@@ -7,11 +7,17 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type Transaction = {
-  id: string;
-  type: 'income' | 'expense';
-  amount: string;
+  id: number;
   title: string;
-  [key: string]: any;
+  type: string;
+  amount: string;
+  description: string;
+  category: string;
+  photo: string | null;
+  createdAt: string;
+  date: string;
+  fk_user_id: number;
+  updatedAt: string;
 };
 
 interface ChartProps {
@@ -19,15 +25,12 @@ interface ChartProps {
 }
 
 const ChartTransactions: React.FC<ChartProps> = ({ transactions }) => {
-  const spends = transactions.map((t) => ({
-    title: t.title,
-    amount: parseFloat(t.amount),
-  }));
+  const spends = transactions.filter((t) => t.type === 'expense');
 
-  console.log(spends);
+  // const sumWithInitial = spends.reduce((acc, cur) => acc + cur);
 
   const data = {
-    labels: spends.map((t) => t.title),
+    labels: spends.map((t) => t.category),
     datasets: [
       {
         label: 'Gastos',
@@ -53,7 +56,7 @@ const ChartTransactions: React.FC<ChartProps> = ({ transactions }) => {
     <div>
       <div className="bg-bgComponents p-10 rounded-lg  text-2xl flex flex-col items-center w-full">
         <h1 className="font-bold text-3xl border-b-2 w-full top-0">Analytic</h1>
-        <h2 className="font-semibold text-xl">Total spends month: </h2>
+        <h2 className="font-semibold text-xl">{`Total spends month: `}</h2>
 
         <div className="w-70 h-70">
           <Chart type="doughnut" data={data} options={options} />

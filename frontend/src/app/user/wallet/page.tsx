@@ -17,11 +17,17 @@ import Tracker from '@/app/components/Tracker';
 
 // Define the structure of a transaction
 type Transaction = {
-  id: string;
-  type: 'income' | 'expense';
-  title: string; // <-- necesario
+  id: number;
+  title: string;
+  type: string;
   amount: string;
-  [key: string]: any;
+  description: string;
+  category: string;
+  photo: string | null;
+  createdAt: string;
+  date: string;
+  fk_user_id: number;
+  updatedAt: string;
 };
 
 export default function Wallet() {
