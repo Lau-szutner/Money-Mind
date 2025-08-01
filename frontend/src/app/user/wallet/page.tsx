@@ -1,15 +1,20 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
-// components
+// Components
 import { TransactionsGrap } from '@/app/components/TransactionsGrap';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 
-// Type of each transaction
+// ============================
+// Types
+// ============================
+
+// Define the structure of a transaction
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
@@ -19,15 +24,19 @@ type Transaction = {
 };
 
 export default function Wallet() {
-  // credentials
-  const [id, setId] = useState<string>('');
-  const [token, setToken] = useState<string>('');
+  // ============================
+  // State: Auth & Loading
+  // ============================
 
-  // Loading page
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [id, setId] = useState<string>(''); // user ID from decoded token
+  const [token, setToken] = useState<string>(''); // JWT token
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // flag for auth check
+  const [loading, setLoading] = useState<boolean>(true); // flag to show loading state
 
-  // Transactions and stuff
+  // ============================
+  // State: Transactions & Balances
+  // ============================
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [income, setIncome] = useState<number>(0);
   const [spends, setSpends] = useState<number>(0);
@@ -35,10 +44,15 @@ export default function Wallet() {
 
   const router = useRouter();
 
-  // Set session or return to login
+  // ============================
+  // useEffect: Token validation on mount
+  // ============================
+
   useEffect(() => {
     const token = Cookies.get('authToken');
+
     if (!token) {
+      // No token found, redirect to login
       router.push('/login');
       return;
     }
@@ -46,6 +60,7 @@ export default function Wallet() {
     setToken(token);
 
     try {
+      // Decode JWT token to extract user ID
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       setId(decodedToken.id);
       setIsLoggedIn(true);
@@ -55,20 +70,29 @@ export default function Wallet() {
     }
   }, [router]);
 
+  // ============================
+  // useEffect: Fetch transactions when ID is available
+  // ============================
+
   useEffect(() => {
     if (id) {
       fetchTransactions();
     }
   }, [id]);
 
-  // fetch all transactions by month
+  // ============================
+  // Fetch: Get transactions (by month/year)
+  // ============================
+
   const fetchTransactions = async (year?: number, month?: number) => {
     try {
       setLoading(true);
-      let url = 'http://localhost:4000/transactions/filter/by-month'; //url just for dev
+
+      let url = 'http://localhost:4000/transactions/filter/by-month';
+
+      // Add query params, filtering by year/month
       if (year && month) {
-        // "validations"
-        url += `?year=${year}&month=${month}`; // query for extracting the year and month
+        url += `?year=${year}&month=${month}`;
       }
 
       const response = await fetch(url, {
@@ -79,6 +103,7 @@ export default function Wallet() {
       });
 
       if (!response.ok) {
+        // If request fails, reset state
         setTransactions([]);
         setIncome(0);
         setSpends(0);
@@ -86,16 +111,17 @@ export default function Wallet() {
         return;
       }
 
-      const data: Transaction[] = await response.json(); //take the reponse and json it throught data const
-      // console.log(data);
-      setTransactions(data); // changing data
+      const data: Transaction[] = await response.json();
 
-      const incomes = data.filter((item) => item.type === 'income'); // filter to sort all incomes
-      // console.log(incomes);
-      const expenses = data.filter((item) => item.type === 'expense'); // filter to sort all expenses
+      setTransactions(data);
 
+      // Separate transactions by type
+      const incomes = data.filter((item) => item.type === 'income');
+      const expenses = data.filter((item) => item.type === 'expense');
+
+      // Sum all incomes and expenses
       const totalIncome = incomes.reduce(
-        (acc, item) => acc + parseFloat(item.amount as string), // take eacht income and reducit to get the total, as string becouse it cames from json
+        (acc, item) => acc + parseFloat(item.amount as string),
         0
       );
 
@@ -106,19 +132,32 @@ export default function Wallet() {
 
       const totalBalance = totalIncome - totalSpends;
 
+      // Update state with calculated values
       setIncome(totalIncome);
       setSpends(totalSpends);
       setBalance(totalBalance);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching transactions:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  // ============================
+  // UI: Show loading spinner while fetching
+  // ============================
+
   if (!isLoggedIn || loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-full w-full grid place-items-center">
+        <div>Loading...</div>
+      </div>
+    );
   }
+
+  // ============================
+  // UI: Render dashboard
+  // ============================
 
   return (
     <div className="grid w-full place-items-center h-full">
@@ -127,18 +166,19 @@ export default function Wallet() {
           <Balance
             income={income}
             spends={spends}
-            saving={`48.000`}
+            saving={`48.000`} // Este valor parece estar fijo, podrías considerarlo dinámico
             onDateSelected={fetchTransactions}
           />
           <TransactionsGrap transactions={transactions} />
         </div>
+
         <div className="w-full flex">
           <TransactionsList
             transactions={transactions}
             token={token}
             refreshTransactions={fetchTransactions}
           />
-          <Tracker title="tiITIT"></Tracker>
+          <Tracker title="tiITIT" />
         </div>
       </div>
     </div>
