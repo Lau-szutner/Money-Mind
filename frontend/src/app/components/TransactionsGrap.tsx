@@ -8,7 +8,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
-  amount: number | string;
+  amount: string;
   title: string;
   [key: string]: any; // Extra props permitidas
 };

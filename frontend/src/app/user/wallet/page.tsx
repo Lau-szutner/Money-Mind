@@ -14,7 +14,7 @@ type Transaction = {
   id: string;
   type: 'income' | 'expense';
   title: string; // <-- necesario
-  amount: number | string;
+  amount: string;
   [key: string]: any;
 };
 
@@ -130,7 +130,7 @@ export default function Wallet() {
             saving={`48.000`}
             onDateSelected={fetchTransactions}
           />
-          {/* <TransactionsGrap transactions={transactions} /> */}
+          <TransactionsGrap transactions={transactions} />
         </div>
         <div className="w-full flex">
           <TransactionsList
