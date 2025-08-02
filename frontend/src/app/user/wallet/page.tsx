@@ -182,7 +182,7 @@ export default function Wallet() {
           <ChartTransactions transactions={transactions}></ChartTransactions>
         </div>
 
-        <div className="w-full flex">
+        <div className="grid grid-cols-2 gap-5 m-5">
           <TransactionsList
             transactions={transactions}
             token={token}
