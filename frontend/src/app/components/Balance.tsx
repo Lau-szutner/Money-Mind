@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import NewTransaction from './NewTransaction';
 
 type BalanceProps = {
@@ -8,6 +8,8 @@ type BalanceProps = {
   spends: number;
   saving: string;
   onDateSelected: (year: number, month: number) => void;
+  onTransactionAdded: () => void;
+  month: string; // recibe el mes en formato "YYYY-MM"
 };
 
 export const Balance: React.FC<BalanceProps> = ({
@@ -15,10 +17,17 @@ export const Balance: React.FC<BalanceProps> = ({
   saving,
   spends,
   onDateSelected,
+  onTransactionAdded,
+  month,
 }) => {
   const [newSpend, setNewSpend] = useState<boolean>(false);
   const [newIncome, setNewIncome] = useState<boolean>(false);
   const [balanceMonth, setBalanceMonth] = useState<string>(null);
+
+  // Sincronizar balanceMonth con prop month para mostrar el texto correctamente
+  useEffect(() => {
+    setBalanceMonth(month);
+  }, [month]);
 
   const handleAddSpend = () => {
     setNewSpend(!newSpend);
@@ -32,7 +41,6 @@ export const Balance: React.FC<BalanceProps> = ({
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedMonth = e.target.value;
-    console.log('Selected Month:', selectedMonth); // Debugging line
     setBalanceMonth(selectedMonth);
     const [year, month] = selectedMonth.split('-');
     onDateSelected(Number(year), Number(month));
@@ -62,6 +70,7 @@ export const Balance: React.FC<BalanceProps> = ({
               type="month"
               onChange={handleDateChange}
               className="absolute inset-0 opacity-0 cursor-pointer z-20"
+              value={month || ''}
             />
           </div>
         </div>
@@ -97,8 +106,20 @@ export const Balance: React.FC<BalanceProps> = ({
         </div>
       </div>
 
-      {newIncome && <NewTransaction type="income" title="New income" />}
-      {newSpend && <NewTransaction type="expense" title="New spend" />}
+      {newIncome && (
+        <NewTransaction
+          type="income"
+          title="New income"
+          onTransactionAdded={onTransactionAdded}
+        />
+      )}
+      {newSpend && (
+        <NewTransaction
+          type="expense"
+          title="New spend"
+          onTransactionAdded={onTransactionAdded}
+        />
+      )}
     </div>
   );
 };

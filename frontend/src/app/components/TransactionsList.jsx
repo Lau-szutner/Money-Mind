@@ -7,7 +7,6 @@ export const TransactionsList = ({
   refreshTransactions,
 }) => {
   return (
-<<<<<<< HEAD
     <div className="w-full">
       <div className="bg-bgComponents  p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
         <h2 className="text-2xl font-bold">Transactions List</h2>
@@ -35,33 +34,6 @@ export const TransactionsList = ({
           </ul>
         )}
       </div>
-=======
-    <div className="bg-bgComponents p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
-      <h2 className="text-2xl font-bold">Transactions List</h2>
-      {transactions.length === 0 ? (
-        <p>No transaction avalible, do the first one!</p>
-      ) : (
-        <ul className="w-full flex flex-col gap-2">
-          {transactions.map((transactions) => {
-            return (
-              <Transaction
-                key={transactions.id}
-                title={transactions.title}
-                description={transactions.description}
-                category={transactions.category}
-                photo={transactions.photo}
-                date={transactions.date}
-                type={transactions.type}
-                amount={transactions.amount}
-                token={token}
-                id={transactions.id}
-                onUpdate={refreshTransactions} //
-              />
-            );
-          })}
-        </ul>
-      )}
->>>>>>> 708f2e7 (ajustes de estilos)
     </div>
   );
 };
