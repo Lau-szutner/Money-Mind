@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import decodeToken from '@/app/utils/decodeToken.js';
 
 // Components
 import { TransactionsGrap } from '@/app/components/TransactionsGrap';
@@ -26,17 +27,19 @@ type Transaction = {
 };
 
 export default function Wallet() {
-  const [id, setId] = useState<string>('');
-  const [token, setToken] = useState<string>('');
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [authReady, setAuthReady] = useState<boolean>(false); // <--- nuevo
+  const [user, setUser] = useState({
+    id: null as string | null,
+    token: null as string | null,
+    isLoggedIn: false,
+    authReady: false,
+  });
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [income, setIncome] = useState<number>(0);
-  const [spends, setSpends] = useState<number>(0);
-  const [balance, setBalance] = useState<number>(0);
+  const [income, setIncome] = useState(0);
+  const [spends, setSpends] = useState(0);
+  const [balance, setBalance] = useState(0);
 
   const [selectedMonth, setSelectedMonth] = useState<string>(() => {
     return Cookies.get('selectedMonth') || '';
@@ -46,35 +49,36 @@ export default function Wallet() {
 
   // Validar token y obtener id
   useEffect(() => {
-    const token = Cookies.get('authToken');
-    if (!token) {
+    const tokenData = decodeToken();
+    if (!tokenData) {
       router.push('/login');
       return;
     }
-    setToken(token);
 
-    try {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      setId(decodedToken.id);
-      setIsLoggedIn(true);
-      setAuthReady(true); // <-- Indico que ya puedo hacer fetch
-    } catch (error) {
-      console.error('Error decoding token', error);
-      router.push('/login');
-    }
+    setUser({
+      id: tokenData.id,
+      token: tokenData.token,
+      isLoggedIn: true,
+      authReady: true,
+    });
+    setLoading(false);
   }, [router]);
 
-  // fetchTransactions memoizado para evitar recreaciones innecesarias
+  // fetchTransactions memoizado
   const fetchTransactions = useCallback(
     async (year?: number, month?: number) => {
+      if (!user.token) return;
+
       if (year && month) {
         const monthString = `${year.toString().padStart(4, '0')}-${month
           .toString()
           .padStart(2, '0')}`;
         Cookies.set('selectedMonth', monthString, { expires: 30 });
       }
+
       try {
         setLoading(true);
+
         let url = 'http://localhost:4000/transactions/filter/by-month';
         if (year && month) {
           url += `?year=${year}&month=${month}`;
@@ -83,7 +87,7 @@ export default function Wallet() {
         const response = await fetch(url, {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         });
 
@@ -120,16 +124,16 @@ export default function Wallet() {
         setLoading(false);
       }
     },
-    [token]
+    [user.token]
   );
 
   // Cuando auth está listo y hay mes seleccionado, llamo fetch
   useEffect(() => {
-    if (authReady && selectedMonth) {
+    if (user.authReady && selectedMonth) {
       const [yearStr, monthStr] = selectedMonth.split('-');
       fetchTransactions(Number(yearStr), Number(monthStr));
     }
-  }, [authReady, selectedMonth, fetchTransactions]);
+  }, [user.authReady, selectedMonth, fetchTransactions]);
 
   // Cambio de mes por Balance
   const handleDateSelected = (year: number, month: number) => {
@@ -139,7 +143,7 @@ export default function Wallet() {
     setSelectedMonth(monthStr);
   };
 
-  if (!isLoggedIn || loading) {
+  if (loading) {
     return (
       <div className="h-full w-full grid place-items-center">
         <div>Loading...</div>
@@ -154,10 +158,9 @@ export default function Wallet() {
           <Balance
             income={income}
             spends={spends}
-            saving={`${balance.toFixed(2)}`} // ahora dinámico basado en balance
+            saving={`${balance.toFixed(2)}`}
             onDateSelected={handleDateSelected}
             onTransactionAdded={() => {
-              // refrescar con el mes actual
               if (selectedMonth) {
                 const [yearStr, monthStr] = selectedMonth.split('-');
                 fetchTransactions(Number(yearStr), Number(monthStr));
@@ -166,14 +169,13 @@ export default function Wallet() {
             month={selectedMonth}
           />
 
-          {/* <TransactionsGrap transactions={transactions} /> */}
           <ChartTransactions transactions={transactions} />
         </div>
 
         <div className="grid grid-cols-2 gap-5 m-5">
           <TransactionsList
             transactions={transactions}
-            token={token}
+            token={user.token || ''}
             refreshTransactions={() => {
               if (selectedMonth) {
                 const [yearStr, monthStr] = selectedMonth.split('-');
