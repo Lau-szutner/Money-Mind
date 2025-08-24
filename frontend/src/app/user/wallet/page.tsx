@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import decodeToken from '@/app/utils/decodeToken.js';
 
 // Components
-import { TransactionsGrap } from '@/app/components/TransactionsGrap';
 import ChartTransactions from '@/app/components/ChartTransactions';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
@@ -154,7 +153,7 @@ export default function Wallet() {
   return (
     <div className="grid place-items-center">
       <div className="w-10/12">
-        <div className="grid grid-cols-2 gap-5 m-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
           <Balance
             income={income}
             spends={spends}
