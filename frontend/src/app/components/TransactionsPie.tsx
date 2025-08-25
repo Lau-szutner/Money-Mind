@@ -17,9 +17,7 @@ type TransactionProps = {
   transactions: Transaction[];
 };
 
-export const TransactionsGrap: React.FC<TransactionProps> = ({
-  transactions,
-}) => {
+const TransactionsPie: React.FC<TransactionProps> = ({ transactions }) => {
   // Convertimos los datos: parseamos amount a número
   const data = transactions.map((t) => ({
     title: t.title,
@@ -62,3 +60,5 @@ export const TransactionsGrap: React.FC<TransactionProps> = ({
     </div>
   );
 };
+
+export default TransactionsPie;

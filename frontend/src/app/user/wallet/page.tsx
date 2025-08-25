@@ -6,23 +6,17 @@ import { useRouter } from 'next/navigation';
 import decodeToken from '@/app/utils/decodeToken.js';
 
 // Components
-import ChartTransactions from '@/app/components/ChartTransactions';
+import TransactionsPie from '@/app/components/TransactionsPie';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 
 type Transaction = {
-  id: number;
-  title: string;
-  type: string;
+  id: string;
+  type: 'income' | 'expense';
   amount: string;
-  description: string;
-  category: string;
-  photo: string | null;
-  createdAt: string;
-  date: string;
-  fk_user_id: number;
-  updatedAt: string;
+  title: string;
+  [key: string]: any; // Extra props permitidas
 };
 
 export default function Wallet() {
@@ -168,7 +162,7 @@ export default function Wallet() {
             month={selectedMonth}
           />
 
-          <ChartTransactions transactions={transactions} />
+          <TransactionsPie transactions={transactions} />
         </div>
 
         <div className="grid grid-cols-2 gap-5 m-5">
