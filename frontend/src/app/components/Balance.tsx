@@ -88,7 +88,6 @@ export const Balance: React.FC<BalanceProps> = ({
               : 'Please select a month'}
           </p>
 
-          {/* 📅 con input transparente encima */}
           <div className="relative w-6 h-6">
             <label
               htmlFor="monthPicker"

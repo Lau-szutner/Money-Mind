@@ -27,8 +27,8 @@ const TransactionsPie: React.FC<TransactionProps> = ({ transactions }) => {
   const total = data.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
-    <div className="bg-bgComponents p-5 rounded-lg m-5 text-2xl flex flex-col gap-4  items-center w-full">
-      <h1 className="font-bold text-3xl border-b-2 w-full top-0">Analytic</h1>
+    <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4  items-center w-full ">
+      <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
       <h2 className="font-semibold text-xl">Total: ${total.toFixed(2)}</h2>
       <PieChart width={400} height={200}>
         <Pie
