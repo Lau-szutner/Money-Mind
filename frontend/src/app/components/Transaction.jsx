@@ -99,7 +99,7 @@ export const Transaction = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full justify-center items-center bg-black/10 p-5 rounded-lg">
+    <div className="flex flex-col gap-2 w-full justify-center items-center bg-stone-100 p-5 rounded-lg">
       {isDeleting ? (
         <div className="w-full flex flex-col gap-2">
           <p className="text-red-500">
@@ -153,17 +153,17 @@ export const Transaction = ({
         </form>
       ) : (
         <>
-          <div className="flex justify-between w-full">
-            <div>
-              <p
-                className={`font-bold text-2xl ${
-                  type === 'expense' ? 'text-redSpend' : 'text-greenIn'
-                }`}
-              >
-                {type}
-              </p>
-              <p className="font-bold">{title}</p>
-              <p className="font-light">{description}</p>
+          <div className="flex justify-between w-full cursor-pointer text-black">
+            <div className="flex">
+              <img
+                src={`/transactionIcons/${category}.svg`}
+                alt=""
+                className="w-10 mr-5"
+              />
+              <div>
+                <p className="font-bold text-2xl">{title}</p>
+                <p className="flex items-center gap-2">{category}</p>
+              </div>
             </div>
             <div className={`flex flex-col items-end`}>
               <p
@@ -171,15 +171,13 @@ export const Transaction = ({
                   type === 'expense' ? 'text-redSpend' : 'text-greenIn'
                 }`}
               >
+                {type === 'income' ? '+ ' : '- '}
                 {amount}
               </p>
-              <p className="flex items-center gap-2">
-                <img src="/coffeCup.svg" alt="" />
-                {category}
-              </p>
+              <p className="font-light">{description}</p>
             </div>
           </div>
-          <div className="flex justify-between w-full gap-2 flex-col md:flex-row">
+          {/* <div className="flex justify-between w-full gap-2 flex-col md:flex-row">
             <button
               className="bg-yellow-500 rounded-md py-1 w-full"
               onClick={() => setIsEditing(true)}
@@ -192,7 +190,7 @@ export const Transaction = ({
             >
               Eliminar
             </button>
-          </div>
+          </div> */}
         </>
       )}
     </div>
