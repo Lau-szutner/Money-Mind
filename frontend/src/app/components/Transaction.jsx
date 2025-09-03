@@ -12,8 +12,7 @@ export const Transaction = ({
   id,
   onUpdate,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [transactionData, setTransactionData] = useState({
     title,
     description,
@@ -24,9 +23,9 @@ export const Transaction = ({
     amount,
   });
 
-  // 🛠️ Cuando isEditing se activa, restablece los valores con los actuales
+  // 🛠️ Cuando edit se activa, restablece los valores con los actuales
   useEffect(() => {
-    if (isEditing) {
+    if (edit) {
       setTransactionData({
         title,
         description,
@@ -37,7 +36,7 @@ export const Transaction = ({
         amount,
       });
     }
-  }, [isEditing, title, description, category, photo, date, type, amount]);
+  }, [edit, title, description, category, photo, date, type, amount]);
 
   const handleChange = (e) => {
     setTransactionData({
@@ -54,7 +53,6 @@ export const Transaction = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Usar el token desde el estado
         },
-        body: JSON.stringify(transactionData),
       });
 
       if (!response.ok) {
@@ -99,27 +97,46 @@ export const Transaction = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full justify-center items-center bg-black/10 p-5 rounded-lg">
-      {isDeleting ? (
-        <div className="w-full flex flex-col gap-2">
-          <p className="text-red-500">
-            ¿Estás seguro de que quieres eliminar este gasto?
-          </p>
-          <button
-            className="bg-red-500 rounded-md py-1 w-full"
-            onClick={() => handleDelete()}
-          >
-            Confirmar eliminación
-          </button>
-          <button
-            className="bg-gray-500 rounded-md py-1 w-full"
-            onClick={() => setIsDeleting(false)}
-          >
-            Cancelar
-          </button>
+    <div>
+      <div
+        className={`flex flex-col gap-2 w-full justify-center items-center bg-[#D9D9D9] p-5  ${
+          edit ? 'rounded-t-lg' : 'rounded-lg'
+        }`}
+        onClick={() => {
+          setEdit(!edit);
+        }}
+      >
+        <div className="flex justify-between w-full cursor-pointer text-black">
+          <div className="flex">
+            <img
+              src={`/transactionIcons/${category}.svg`}
+              alt=""
+              className="w-10 mr-5"
+            />
+            <div>
+              <p className="font-bold text-2xl">{title}</p>
+              <p className="flex items-center gap-2">{category}</p>
+            </div>
+          </div>
+          <div className={`flex flex-col items-end`}>
+            <p
+              className={`font-bold text-2xl ${
+                type === 'expense' ? 'text-redSpend' : 'text-greenIn'
+              }`}
+            >
+              {type === 'income' ? '+ ' : '- '}
+              {amount}
+            </p>
+            <p className="font-light">{description}</p>
+          </div>
         </div>
-      ) : isEditing ? (
-        <form className="w-full flex flex-col gap-2" onSubmit={handleUpdate}>
+      </div>
+
+      {edit ? (
+        <form
+          className="w-full flex flex-col gap-2 h-full p-5 bg-[#323232] rounded-b-lg"
+          onSubmit={handleUpdate}
+        >
           <input
             type="text"
             name="title"
@@ -143,57 +160,17 @@ export const Transaction = ({
           <button type="submit" className="bg-green-500 rounded-md py-1 w-full">
             Guardar
           </button>
+
           <button
             type="button"
             className="bg-redSpend rounded-md py-1 w-full"
-            onClick={() => setIsEditing(false)}
+            onClick={handleDelete}
           >
-            No guardar
+            Eliminar gasto
           </button>
         </form>
       ) : (
-        <>
-          <div className="flex justify-between w-full">
-            <div>
-              <p
-                className={`font-bold text-2xl ${
-                  type === 'expense' ? 'text-redSpend' : 'text-greenIn'
-                }`}
-              >
-                {type}
-              </p>
-              <p className="font-bold">{title}</p>
-              <p className="font-light">{description}</p>
-            </div>
-            <div className={`flex flex-col items-end`}>
-              <p
-                className={`font-bold text-2xl ${
-                  type === 'expense' ? 'text-redSpend' : 'text-greenIn'
-                }`}
-              >
-                {amount}
-              </p>
-              <p className="flex items-center gap-2">
-                <img src="/coffeCup.svg" alt="" />
-                {category}
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between w-full gap-2 flex-col md:flex-row">
-            <button
-              className="bg-yellow-500 rounded-md py-1 w-full"
-              onClick={() => setIsEditing(true)}
-            >
-              Editar
-            </button>
-            <button
-              className="bg-red-500 rounded-md py-1 w-full"
-              onClick={() => setIsDeleting(true)}
-            >
-              Eliminar
-            </button>
-          </div>
-        </>
+        ''
       )}
     </div>
   );

@@ -47,6 +47,7 @@ export const Balance: React.FC<BalanceProps> = ({
     onDateSelected(Number(year), Number(month));
   };
 
+  // Iconos para calendario
   const LightIcon = (
     <svg
       width="32"
@@ -78,9 +79,9 @@ export const Balance: React.FC<BalanceProps> = ({
   );
 
   return (
-    <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5">
+    <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
       <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
-      <div className="grid w-full h-full gap-5 ">
+      <div className="grid w-full gap-5 ">
         <div className="w-full flex justify-between bg-black rounded-md items-center h-fit p-5 mt-5">
           <p className="">
             {balanceMonth
@@ -88,7 +89,6 @@ export const Balance: React.FC<BalanceProps> = ({
               : 'Please select a month'}
           </p>
 
-          {/* 📅 con input transparente encima */}
           <div className="relative w-6 h-6">
             <label
               htmlFor="monthPicker"
@@ -102,7 +102,8 @@ export const Balance: React.FC<BalanceProps> = ({
               onChange={handleDateChange}
               className="absolute inset-0 opacity-0 cursor-pointer z-20"
               value={month || ''}
-              onClick={() => setMonthOpen((prev) => !prev)}
+              onFocus={() => setMonthOpen(true)}
+              onBlur={() => setMonthOpen(false)}
             />
           </div>
         </div>
@@ -117,10 +118,10 @@ export const Balance: React.FC<BalanceProps> = ({
           <p className="text-redSpend font-medium">{spends}</p>
         </div>
 
-        <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
+        {/* <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
           <p>Saving:</p>
           <p className="text-redSpend font-medium">{saving}</p>
-        </div>
+        </div> */}
 
         <div className="flex justify-between flex-col lg:flex-row gap-5">
           <button

@@ -6,23 +6,17 @@ import { useRouter } from 'next/navigation';
 import decodeToken from '@/app/utils/decodeToken.js';
 
 // Components
-import ChartTransactions from '@/app/components/ChartTransactions';
+import TransactionsPie from '@/app/components/TransactionsPie';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 
 type Transaction = {
-  id: number;
-  title: string;
-  type: string;
+  id: string;
+  type: 'income' | 'expense';
   amount: string;
-  description: string;
-  category: string;
-  photo: string | null;
-  createdAt: string;
-  date: string;
-  fk_user_id: number;
-  updatedAt: string;
+  title: string;
+  [key: string]: any; // Extra props permitidas
 };
 
 export default function Wallet() {
@@ -153,25 +147,24 @@ export default function Wallet() {
   return (
     <div className="grid place-items-center">
       <div className="w-10/12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
-          <Balance
-            income={income}
-            spends={spends}
-            saving={`${balance.toFixed(2)}`}
-            onDateSelected={handleDateSelected}
-            onTransactionAdded={() => {
-              if (selectedMonth) {
-                const [yearStr, monthStr] = selectedMonth.split('-');
-                fetchTransactions(Number(yearStr), Number(monthStr));
-              }
-            }}
-            month={selectedMonth}
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5 ">
+          <div>
+            <Balance
+              income={income}
+              spends={spends}
+              saving={`${balance.toFixed(2)}`}
+              onDateSelected={handleDateSelected}
+              onTransactionAdded={() => {
+                if (selectedMonth) {
+                  const [yearStr, monthStr] = selectedMonth.split('-');
+                  fetchTransactions(Number(yearStr), Number(monthStr));
+                }
+              }}
+              month={selectedMonth}
+            />
+            <TransactionsPie transactions={transactions} />
+          </div>
 
-          <ChartTransactions transactions={transactions} />
-        </div>
-
-        <div className="grid grid-cols-2 gap-5 m-5">
           <TransactionsList
             transactions={transactions}
             token={user.token || ''}
@@ -182,8 +175,9 @@ export default function Wallet() {
               }
             }}
           />
-          <Tracker title="tiITIT" />
         </div>
+
+        {/* <Tracker title="tiITIT" /> */}
       </div>
     </div>
   );

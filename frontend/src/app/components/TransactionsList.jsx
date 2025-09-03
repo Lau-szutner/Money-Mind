@@ -9,7 +9,7 @@ export const TransactionsList = ({
   return (
     <div className="w-full">
       <div className="bg-bgComponents  p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
-        <h2 className="text-2xl font-bold">Transactions List</h2>
+        <h2 className="font-bold text-3xl border-b-2 w-full top-0">Activity</h2>
         {transactions.length === 0 ? (
           <p>No transaction avalible, do the first one!</p>
         ) : (
