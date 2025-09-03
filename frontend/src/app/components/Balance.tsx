@@ -102,7 +102,7 @@ export const Balance: React.FC<BalanceProps> = ({
               onChange={handleDateChange}
               className="absolute inset-0 opacity-0 cursor-pointer z-20"
               value={month || ''}
-              onClick={() => setMonthOpen(!monthOpen)}
+              onClick={() => setMonthOpen((prev) => !prev)}
             />
           </div>
         </div>
