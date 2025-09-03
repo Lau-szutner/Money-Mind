@@ -106,14 +106,14 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
             value={transactionData.category}
             onChange={handleChangeData}
           />
-          <input
+          {/* <input
             type="text"
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="photo"
             name="photo"
             value={transactionData.photo}
             onChange={handleChangeData}
-          />
+          /> */}
           <input
             type="date"
             className="p-1 rounded w-full text-gray-500 text-center"

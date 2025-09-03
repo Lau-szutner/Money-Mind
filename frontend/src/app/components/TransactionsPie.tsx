@@ -16,6 +16,7 @@ type Transaction = {
   type: 'income' | 'expense';
   amount: string;
   title: string;
+
   [key: string]: any;
 };
 
@@ -74,7 +75,7 @@ const renderActiveShape = ({
   return (
     <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
+        {payload.category}
       </text>
       <Sector
         cx={cx}
@@ -106,7 +107,7 @@ const renderActiveShape = ({
         textAnchor={textAnchor}
         fill="#333"
       >
-        {payload.name}
+        {/* {payload.name} */}
       </text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
@@ -123,13 +124,15 @@ const renderActiveShape = ({
 
 const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
   // group transactons by name and value, used to data for the pieChart
-  const data = transactions.reduce<{ name: string; value: number }[]>(
+  // this code takes all the transactions and reduce it to get the total of each one
+
+  const data = transactions.reduce<{ category: string; value: number }[]>(
     (acc, t) => {
-      const idx = acc.findIndex((item) => item.name === t.title);
+      const idx = acc.findIndex((item) => item.category === t.category);
       if (idx !== -1) {
         acc[idx].value += parseFloat(t.amount);
       } else {
-        acc.push({ name: t.title, value: parseFloat(t.amount) });
+        acc.push({ category: t.category, value: parseFloat(t.amount) });
       }
       return acc;
     },
@@ -151,8 +154,8 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
     <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full mt-5">
       <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
       <h2 className="font-semibold text-xl">Total: ${total.toFixed(2)}</h2>
-      // main pie component
-      <ResponsiveContainer width="100%" height={300}>
+
+      <ResponsiveContainer width="100%" height={500}>
         <PieChart>
           <Pie
             activeIndex={activeIndex}
@@ -160,8 +163,8 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={60}
-            outerRadius={80}
+            innerRadius={90}
+            outerRadius={120}
             fill="#8884d8"
             dataKey="value"
             onMouseEnter={onPieEnter}
@@ -173,16 +176,15 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
               />
             ))}
           </Pie>
-          <Tooltip />
         </PieChart>
       </ResponsiveContainer>
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
         {data.map((entry, index) => (
           <li
             key={index}
-            className="flex justify-between items-center black-buttons"
+            className="flex justify-between items-center black-buttons cursor-pointer"
           >
-            <p>{entry.name}</p>
+            <p>{entry.category}</p>
             <p>{((entry.value / total) * 100).toFixed(2)}%</p>
           </li>
         ))}

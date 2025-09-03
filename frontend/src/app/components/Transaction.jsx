@@ -23,6 +23,19 @@ export const Transaction = ({
     amount,
   });
 
+  const categorys = [
+    'salary',
+    'entertainment',
+    'freelance',
+    'health',
+    'Books',
+    'Sports',
+    'tech',
+    'salary',
+    'taxes',
+    'food',
+    'bonus',
+  ];
   // 🛠️ Cuando edit se activa, restablece los valores con los actuales
   useEffect(() => {
     if (edit) {
@@ -31,7 +44,7 @@ export const Transaction = ({
         description,
         category,
         photo,
-        date,
+        date: date ? new Date(date).toISOString().slice(0, 10) : '', // <-- aquí
         type,
         amount,
       });
@@ -137,19 +150,53 @@ export const Transaction = ({
           className="w-full flex flex-col gap-2 h-full p-5 bg-[#323232] rounded-b-lg"
           onSubmit={handleUpdate}
         >
-          <input
-            type="text"
-            name="title"
-            value={transactionData.title}
-            onChange={handleChange}
-            className="p-2 border rounded text-black"
-          />
-          <textarea
-            name="description"
-            value={transactionData.description}
-            onChange={handleChange}
-            className="p-2 border rounded text-black"
-          />
+          <label htmlFor="title">
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={transactionData.title}
+              onChange={handleChange}
+              className="p-2 border rounded text-black w-full"
+            />
+          </label>
+
+          <label htmlFor="category" className="w-full">
+            <select
+              id="category"
+              name="category"
+              value={transactionData.category}
+              onChange={handleChange}
+              className="w-full h-10 text-black"
+            >
+              {categorys.map((cat, i) => (
+                <option key={i} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label htmlFor="descripton w-full">
+            <textarea
+              name="description"
+              value={transactionData.description}
+              onChange={handleChange}
+              className="p-2 border rounded text-black w-full"
+            />
+          </label>
+
+          <label htmlFor="date">
+            <input
+              type="date"
+              className="p-2 border rounded text-black w-full"
+              placeholder="date"
+              name="date"
+              value={transactionData.date}
+              onChange={handleChange}
+            />
+          </label>
+
           <input
             type="number"
             name="amount"
