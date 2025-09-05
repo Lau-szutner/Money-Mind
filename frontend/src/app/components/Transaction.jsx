@@ -160,6 +160,16 @@ export const Transaction = ({
               className="p-2 border rounded text-black w-full"
             />
           </label>
+          <textarea
+            name="description"
+            value={transactionData.description}
+            onChange={(e) => {
+              handleChange(e);
+              e.target.style.height = 'auto'; // reset
+              e.target.style.height = `${e.target.scrollHeight}px`; // ajusta al contenido
+            }}
+            className="p-2 border rounded text-black w-full min-h-[80px] overflow-hidden"
+          />
 
           <label htmlFor="category" className="w-full">
             <select
@@ -175,15 +185,6 @@ export const Transaction = ({
                 </option>
               ))}
             </select>
-          </label>
-
-          <label htmlFor="descripton w-full">
-            <textarea
-              name="description"
-              value={transactionData.description}
-              onChange={handleChange}
-              className="p-2 border rounded text-black w-full"
-            />
           </label>
 
           <label htmlFor="date">
