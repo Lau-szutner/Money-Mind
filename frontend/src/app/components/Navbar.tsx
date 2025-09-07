@@ -62,6 +62,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
         <li className="pt-2 border-t border-gray-700">
           <DisplayName id={id} />
         </li>
+        <li className="pt-2 border-t border-gray-700">My categories</li>
       </ul>
     </div>
   );

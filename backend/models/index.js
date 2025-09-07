@@ -7,6 +7,7 @@ import Transaction from './Transaction.js';
 import PostVote from './PostVote.js';
 import Community from './Community.js';
 import Course from './Course.js';
+import Category from './Category.js';
 // Relaciones
 
 // Usuario - Transacciones
@@ -63,4 +64,13 @@ Community.belongsToMany(User, { through: 'UserCommunities' });
 */
 
 // Exportar modelos y sequelize para usar en app
-export { sequelize, User, Post, Transaction, PostVote, Community, Course };
+export {
+  sequelize,
+  User,
+  Post,
+  Transaction,
+  PostVote,
+  Community,
+  Course,
+  Category,
+};
