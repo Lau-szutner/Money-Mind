@@ -32,6 +32,10 @@ PostVote.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 PostVote.belongsTo(Post, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 
+//Category - User
+User.hasMany(Category, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Category.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+
 // Relación N:M → Muchos usuarios pueden pertenecer a muchas comunidades.
 // belongsToMany define una relación muchos-a-muchos entre los modelos User y Community.
 // Sequelize crea automáticamente una tabla intermedia (pivot) llamada 'UserCommunities'.

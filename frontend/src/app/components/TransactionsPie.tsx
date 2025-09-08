@@ -140,7 +140,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
   );
 
   // add all the values to get the total and percentajes
-  console.log(data);
+  // console.log(data);
   const total = data.reduce((acc, curr) => acc + curr.value, 0);
 
   // state por active selector

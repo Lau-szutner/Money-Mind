@@ -10,7 +10,7 @@ import TransactionsPie from '@/app/components/TransactionsPie';
 import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
-
+import Categories from '@/app/components/Categories';
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
@@ -18,6 +18,8 @@ type Transaction = {
   title: string;
   [key: string]: any; // Extra props permitidas
 };
+
+const categoriesList = ['Salary', 'Entertainment'];
 
 export default function Wallet() {
   const [user, setUser] = useState({
@@ -128,6 +130,14 @@ export default function Wallet() {
     }
   }, [user.authReady, selectedMonth, fetchTransactions]);
 
+  // useEffect(() => {
+  //   try {
+  //     const res = await fetch(
+  //       'http://localhost:4000/transactions/filter/by-month'
+  //     );
+  //   } catch (error) {}
+  // });
+
   // Cambio de mes por Balance
   const handleDateSelected = (year: number, month: number) => {
     const monthStr = `${year.toString().padStart(4, '0')}-${month
@@ -178,6 +188,12 @@ export default function Wallet() {
         </div>
 
         {/* <Tracker title="tiITIT" /> */}
+      </div>
+
+      <div>
+        {categoriesList.map((title, index) => (
+          <Categories title={title} key={index} />
+        ))}
       </div>
     </div>
   );

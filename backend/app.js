@@ -8,6 +8,7 @@ import courseRoutes from './routes/course.routes.js';
 // import createUserRoute from './routes/createUserRoute.js';
 import cors from 'cors'; // Importar el módulo CORS
 // Cargar variables de entorno
+import categoryRoutes from './routes/categories.routes.js';
 import jwt from 'jsonwebtoken';
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use('/login', doLoginRoute); // Rutas para login
 // // app.use('/create-user', createUserRoute); // Ruta para crear usuario
 app.use('/posts', postRoutes); // ✅ Nueva ruta agregada
 app.use('/courses', courseRoutes);
+app.use('/categories', categoryRoutes);
 // Iniciar servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
