@@ -28,35 +28,35 @@ const getAllCategories = async (req, res) => {
   }
 };
 
-const createCategory = async (req, res) => {
-  const userId = req.userId;
+// const createCategory = async (req, res) => {
+//   const userId = req.userId;
 
-  const { title } = req.body;
+//   const { title } = req.body;
 
-  if (!userId) {
-    return res.status(400).json({ error: 'no hay id' });
-  }
+//   if (!userId) {
+//     return res.status(400).json({ error: 'no hay id' });
+//   }
 
-  if (!title) {
-    return res.status(400).json({ error: 'Faltan campos requeridos' });
-  }
+//   if (!title) {
+//     return res.status(400).json({ error: 'Faltan campos requeridos' });
+//   }
 
-  try {
-    const newCategory = await Category.create({
-      title: title,
-      fk_user_id: userId,
-    });
+//   try {
+//     const newCategory = await Category.create({
+//       title: title,
+//       fk_user_id: userId,
+//     });
 
-    if (newCategory.length === 0) {
-      return res.status(404).json({
-        error: `Falta title ${userId}`,
-      });
-    }
+//     if (newCategory.length === 0) {
+//       return res.status(404).json({
+//         error: `Falta title ${userId}`,
+//       });
+//     }
 
-    res.status(200).json(newCategory);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener las categorias' });
-  }
-};
-export { getAllCategories, createCategory };
+//     res.status(200).json(newCategory);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Error al obtener las categorias' });
+//   }
+// };
+export { getAllCategories };
