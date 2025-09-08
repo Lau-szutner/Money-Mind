@@ -1,10 +1,15 @@
 import express from 'express';
-import { getAllCategories } from '../controllers/categories.controller.js';
+import {
+  getAllCategories,
+  createCategory,
+} from '../controllers/categories.controller.js';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
 
 const router = express.Router();
 
-// Ruta protegida: crear un gasto (requiere autenticación)
-router.get('/', getAllCategories);
+// Get all categories Route
+router.get('/', authenticateToken, getAllCategories);
+
+router.post('/create-category', authenticateToken, createCategory);
 
 export default router;
