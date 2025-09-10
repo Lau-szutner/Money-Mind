@@ -43,6 +43,8 @@ Category.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 User.belongsToMany(Community, { through: 'UserCommunities' });
 Community.belongsToMany(User, { through: 'UserCommunities' });
 
+Transaction.belongsToMany(Category, { through: 'Transaction_categories' });
+Category.belongsToMany(Transaction, { through: 'Transaction_categories' });
 /*
   Métodos generados por Sequelize para las relaciones:
 
