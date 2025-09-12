@@ -25,7 +25,9 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
 
   const token = Cookies.get('authToken');
 
-  const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeData = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     setTransactionData((prevData) => ({
       ...prevData,
@@ -98,22 +100,35 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
             value={transactionData.description}
             onChange={handleChangeData}
           />
-          <input
+          {/* <input
             type="text"
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Category"
             name="category"
             value={transactionData.category}
             onChange={handleChangeData}
-          />
-          {/* <input
-            type="text"
-            className="p-1 rounded w-full text-gray-500 text-center"
-            placeholder="photo"
-            name="photo"
-            value={transactionData.photo}
-            onChange={handleChangeData}
           /> */}
+
+          <select
+            name="category"
+            className="p-1 rounded w-full text-gray-500 text-center"
+            value={transactionData.category}
+            onChange={handleChangeData}
+          >
+            <option value="">Select Category</option>
+            <option value="Salary">Salary</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Freelance">Freelance</option>
+            <option value="Health">Health</option>
+            <option value="Books">Books</option>
+            <option value="Sports">Sports</option>
+            <option value="Tech">Tech</option>
+            <option value="Taxes">Taxes</option>
+            <option value="Food">Food</option>
+            <option value="Bonus">Bonus</option>
+          </select>
+
           <input
             type="date"
             className="p-1 rounded w-full text-gray-500 text-center"
