@@ -120,7 +120,7 @@ const DoLogin = ({ hasAccount }) => {
       </button>
 
       <div className="flex gap-3 justify-center">
-        <p>Already have and account?</p>
+        <p>Don't you have account?</p>
         <button className="font-bold" onClick={hasAccount}>
           Login
         </button>

@@ -151,7 +151,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
   };
 
   return (
-    <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full mt-5">
+    <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full ">
       <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
       <h2 className="font-semibold text-xl">Total: ${total.toFixed(2)}</h2>
 

@@ -11,6 +11,7 @@ import { Balance } from '@/app/components/Balance';
 import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 import Categories from '@/app/components/Categories';
+import Goals from '@/app/user/wallet/components/Goals';
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
@@ -18,8 +19,6 @@ type Transaction = {
   title: string;
   [key: string]: any; // Extra props permitidas
 };
-
-const categoriesList = ['Salary', 'Entertainment'];
 
 export default function Wallet() {
   const [user, setUser] = useState({
@@ -157,8 +156,8 @@ export default function Wallet() {
   return (
     <div className="grid place-items-center">
       <div className="w-10/12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5 ">
-          <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
+          <div className="grid gap-5 h-fit">
             <Balance
               income={income}
               spends={spends}
@@ -173,6 +172,7 @@ export default function Wallet() {
               month={selectedMonth}
             />
             <TransactionsPie transactions={transactions} />
+            <Goals />
           </div>
 
           <TransactionsList
@@ -186,14 +186,7 @@ export default function Wallet() {
             }}
           />
         </div>
-
         {/* <Tracker title="tiITIT" /> */}
-      </div>
-
-      <div>
-        {categoriesList.map((title, index) => (
-          <Categories title={title} key={index} />
-        ))}
       </div>
     </div>
   );

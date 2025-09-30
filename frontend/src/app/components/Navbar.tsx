@@ -19,7 +19,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/wallet"
-          className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md"
+          className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
         >
           Wallet
         </Link>
@@ -27,7 +27,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/community"
-          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
+          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
         >
           Community
         </Link>
@@ -35,7 +35,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/education"
-          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md"
+          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
         >
           Education
         </Link>
