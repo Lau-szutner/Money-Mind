@@ -1,4 +1,4 @@
-# Money Mind API
+# Money Mind
 
 Money Mind es una aplicación para la gestión financiera que permite a los usuarios administrar sus ingresos, gastos, presupuestos, logros de ahorro (gastos estimados mensuales) y gastos compartidos con otros usuarios. Además, ofrece la posibilidad de gestionar un portafolio de acciones y CEDEARs.
 
