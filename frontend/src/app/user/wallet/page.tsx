@@ -12,6 +12,7 @@ import { TransactionsList } from '@/app/components/TransactionsList';
 import Tracker from '@/app/components/Tracker';
 import Categories from '@/app/components/Categories';
 import Goals from '@/app/user/wallet/components/Goals';
+
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
@@ -58,7 +59,6 @@ export default function Wallet() {
     setLoading(false);
   }, [router]);
 
-  // fetchTransactions memoizado
   const fetchTransactions = useCallback(
     async (year?: number, month?: number) => {
       if (!user.token) return;
@@ -102,11 +102,11 @@ export default function Wallet() {
 
         const totalIncome = incomes.reduce(
           (acc, item) => acc + parseFloat(item.amount),
-          0
+          0,
         );
         const totalSpends = expenses.reduce(
           (acc, item) => acc + parseFloat(item.amount),
-          0
+          0,
         );
 
         setIncome(totalIncome);
@@ -118,7 +118,7 @@ export default function Wallet() {
         setLoading(false);
       }
     },
-    [user.token]
+    [user.token],
   );
 
   // Cuando auth está listo y hay mes seleccionado, llamo fetch

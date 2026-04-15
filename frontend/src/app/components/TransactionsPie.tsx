@@ -136,12 +136,14 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
       }
       return acc;
     },
-    []
+    [],
   );
 
   // add all the values to get the total and percentajes
   // console.log(data);
   const total = data.reduce((acc, curr) => acc + curr.value, 0);
+  const incomeValue =
+    data.find((item) => item.category === 'Salary')?.value ?? 0;
 
   // state por active selector
   const [activeIndex, setActiveIndex] = useState(0);
@@ -153,7 +155,9 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
   return (
     <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full ">
       <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
-      <h2 className="font-semibold text-xl">Total: ${total.toFixed(2)}</h2>
+      <h2 className="font-semibold text-xl">
+        Total: ${(total - incomeValue).toFixed(2)}
+      </h2>
 
       <ResponsiveContainer width="100%" height={500}>
         <PieChart>
