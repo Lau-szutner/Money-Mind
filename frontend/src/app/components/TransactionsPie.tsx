@@ -126,6 +126,8 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
   // group transactons by name and value, used to data for the pieChart
   // this code takes all the transactions and reduce it to get the total of each one
 
+  console.log(transactions);
+
   const data = transactions.reduce<{ category: string; value: number }[]>(
     (acc, t) => {
       const idx = acc.findIndex((item) => item.category === t.category);
@@ -152,6 +154,10 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
     setActiveIndex(index);
   };
 
+  const totalSpendByMonth = data.filter(
+    (transaction) => transaction.category !== 'Salary',
+  );
+
   return (
     <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full ">
       <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
@@ -164,7 +170,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
-            data={data}
+            data={totalSpendByMonth}
             cx="50%"
             cy="50%"
             innerRadius={90}
@@ -183,15 +189,17 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
         </PieChart>
       </ResponsiveContainer>
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
-        {data.map((entry, index) => (
-          <li
-            key={index}
-            className="flex justify-between items-center black-buttons cursor-pointer"
-          >
-            <p>{entry.category}</p>
-            <p>{((entry.value / total) * 100).toFixed(2)}%</p>
-          </li>
-        ))}
+        {data
+          .filter((transaction) => transaction.category !== 'Salary')
+          .map((entry, index) => (
+            <li
+              key={index}
+              className="flex justify-between items-center black-buttons cursor-pointer"
+            >
+              <p>{entry.category}</p>
+              <p>{((entry.value / total) * 100).toFixed(2)}%</p>
+            </li>
+          ))}
       </ul>
     </div>
   );
