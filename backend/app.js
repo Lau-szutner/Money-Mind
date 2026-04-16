@@ -1,3 +1,5 @@
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.js';
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js';
@@ -25,7 +27,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Middleware para procesar JSON
 app.use(express.json());
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Usar las rutas con prefijos más específicos
 app.use('/users', userRoutes); // Rutas para los usuarios
 app.use('/transactions', transactionRoutes); // Rutas para gastos
