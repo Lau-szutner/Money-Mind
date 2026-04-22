@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST, // La dirección del servidor (por defecto localhost)
     dialect: 'mysql', // Usamos MySQL como base de datos
     logging: false, // Desactiva los logs de SQL para no verlos en la consola
-  }
+  },
 );
 
 // Verificación de la conexión
@@ -33,7 +33,7 @@ const verifyConnection = async () => {
 const syncDatabase = async () => {
   try {
     // Sincroniza los modelos con la base de datos
-    await sequelize.sync({ alter: true }); // Cambia a `force: true` si quieres reiniciar la base de datos
+    await sequelize.sync({ alter: true, force: true }); // Cambia a `force: true` si quieres reiniciar la base de datos
     console.log('Base de datos sincronizada');
   } catch (error) {
     console.error('Error al sincronizar la base de datos:', error);

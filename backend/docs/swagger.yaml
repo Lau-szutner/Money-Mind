@@ -1,0 +1,160 @@
+openapi: 3.0.0
+info:
+  title: API Backend - MoneyMind
+  description: Documentación centralizada de la API de MoneyMind.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4000
+    description: Servidor Local de Desarrollo
+
+tags:
+  - name: Auth
+    description: Operaciones de autenticación y acceso
+  - name: Users
+    description: Gestión de usuarios del sistema
+
+# Definimos los moldes reutilizables
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        id:
+          type: string
+          description: ID único generado automáticamente
+          example: '65f8d2b1e4b0a1a2b3c4d5e6'
+        name:
+          type: string
+          example: 'Juan Pérez'
+        email:
+          type: string
+          example: 'juan@email.com'
+        password:
+          type: string
+          example: '123456'
+
+    # Esquema genérico para errores
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'Mensaje de error descriptivo'
+
+# Definición de las rutas
+paths:
+  /login:
+    post:
+      summary: Iniciar sesión de usuario
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: 'juan@email.com'
+                password:
+                  type: string
+                  format: password
+                  example: '123456'
+      responses:
+        200:
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Login successful'
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1Ni...'
+        400:
+          description: Faltan campos obligatorios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        401:
+          description: Credenciales inválidas (Usuario no encontrado o clave incorrecta)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Users
+      responses:
+        200:
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        500:
+          description: Error interno del servidor
+
+    post:
+      summary: Crear un usuario
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Usuario creado con éxito
+        400:
+          description: Los datos enviados son inválidos
+
+  /users/{id}:
+    get:
+      summary: Obtener un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID único del usuario a buscar
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuario encontrado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: El usuario solicitado no existe

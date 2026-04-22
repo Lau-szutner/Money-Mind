@@ -8,6 +8,10 @@
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
     "install": "concurrently \"cd backend && npm i\" \"cd frontend && npm i\""
   },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lau-szutner/Cash-Flow.git"
@@ -20,7 +24,7 @@
   },
   "homepage": "https://github.com/Lau-szutner/Cash-Flow#readme",
   "devDependencies": {
-    "@types/js-cookie": "^3.0.6",
     "concurrently": "^9.1.2"
-  }
+  },
+  "dependencies": {}
 }

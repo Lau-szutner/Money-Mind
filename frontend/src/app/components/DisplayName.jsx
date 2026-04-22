@@ -24,7 +24,7 @@ export default function DisplayName({ id }) {
       const fetchData = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:4000/users/${userId}`);
+          const response = await fetch(`http://localhost:4000/auth/${userId}`);
           if (!response.ok) {
             throw new Error('Error al obtener los datos del usuario');
           }

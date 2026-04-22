@@ -1,22 +1,13 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+import YAML from 'yamljs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'API Backend',
-      version: '1.0.0',
-      description: 'Documentación de tu backend',
-    },
-    servers: [
-      {
-        url: 'http://localhost:4000',
-      },
-    ],
-  },
-  apis: ['./routes/*.js'], // 🔥 coincide con tu estructura actual
-};
+// Configuración para obtener la ruta absoluta en módulos ES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const swaggerSpec = swaggerJSDoc(options);
+// Cargamos el archivo YAML que creamos en la carpeta docs
+// Asegúrate de que la ruta apunte correctamente a donde guardaste el swagger.yaml
+const swaggerSpec = YAML.load(path.join(__dirname, '../docs/swagger.yaml'));
 
 export default swaggerSpec;

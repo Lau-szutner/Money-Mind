@@ -4,7 +4,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js';
 import transactionRoutes from './routes/transaction.routes.js';
-import doLoginRoute from './routes/doLogin.routes.js';
 import postRoutes from './routes/post.routes.js'; // ✅ Nueva ruta importada
 import courseRoutes from './routes/course.routes.js';
 // import createUserRoute from './routes/createUserRoute.js';
@@ -12,6 +11,7 @@ import cors from 'cors'; // Importar el módulo CORS
 // Cargar variables de entorno
 import categoryRoutes from './routes/categories.routes.js';
 import jwt from 'jsonwebtoken';
+import YAML from 'yamljs';
 
 dotenv.config();
 
@@ -27,11 +27,17 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Middleware para procesar JSON
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// En lugar de pasarlo una vez, lo cargamos dinámicamente:
+app.use('/api-docs', swaggerUi.serve, (req, res) => {
+  // Esto hace que CADA VEZ que entres a /api-docs, lea el archivo del disco
+  const swaggerDocument = YAML.load('./docs/swagger.yaml');
+  swaggerUi.setup(swaggerDocument)(req, res);
+});
 // Usar las rutas con prefijos más específicos
-app.use('/users', userRoutes); // Rutas para los usuarios
+app.use('/auth', userRoutes);
+
 app.use('/transactions', transactionRoutes); // Rutas para gastos
-app.use('/login', doLoginRoute); // Rutas para login
 // // app.use('/create-user', createUserRoute); // Ruta para crear usuario
 app.use('/posts', postRoutes); // ✅ Nueva ruta agregada
 app.use('/courses', courseRoutes);

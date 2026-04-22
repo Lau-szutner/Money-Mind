@@ -9,6 +9,7 @@ const DoLogin = ({ hasAccount }) => {
   const [userNotFound, setUserNotFound] = useState(false);
   const [passwordIncorrect, setPasswordIncorrect] = useState(false);
   const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,7 +26,7 @@ const DoLogin = ({ hasAccount }) => {
     // console.log('Password:', formData.password);
 
     try {
-      const response = await fetch('http://localhost:4000/login/', {
+      const response = await fetch('http://localhost:4000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

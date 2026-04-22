@@ -19,6 +19,7 @@
     "recharts": "^2.15.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@eslint/eslintrc": "^3",
     "@types/node": "22.15.3",
     "@types/react": "19.1.2",
