@@ -28,21 +28,17 @@ app.use(cors(corsOptions));
 // Middleware para procesar JSON
 app.use(express.json());
 
-// En lugar de pasarlo una vez, lo cargamos dinámicamente:
 app.use('/api-docs', swaggerUi.serve, (req, res) => {
-  // Esto hace que CADA VEZ que entres a /api-docs, lea el archivo del disco
   const swaggerDocument = YAML.load('./docs/swagger.yaml');
   swaggerUi.setup(swaggerDocument)(req, res);
 });
-// Usar las rutas con prefijos más específicos
-app.use('/auth', userRoutes);
 
-app.use('/transactions', transactionRoutes); // Rutas para gastos
-// // app.use('/create-user', createUserRoute); // Ruta para crear usuario
-app.use('/posts', postRoutes); // ✅ Nueva ruta agregada
+app.use('/auth', userRoutes);
+app.use('/transactions', transactionRoutes);
+app.use('/posts', postRoutes);
 app.use('/courses', courseRoutes);
 app.use('/categories', categoryRoutes);
-// Iniciar servidor
+
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
