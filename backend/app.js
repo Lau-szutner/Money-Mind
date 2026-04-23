@@ -6,9 +6,7 @@ import userRoutes from './routes/user.routes.js';
 import transactionRoutes from './routes/transaction.routes.js';
 import postRoutes from './routes/post.routes.js'; // ✅ Nueva ruta importada
 import courseRoutes from './routes/course.routes.js';
-// import createUserRoute from './routes/createUserRoute.js';
-import cors from 'cors'; // Importar el módulo CORS
-// Cargar variables de entorno
+import cors from 'cors';
 import categoryRoutes from './routes/categories.routes.js';
 import jwt from 'jsonwebtoken';
 import YAML from 'yamljs';
@@ -41,4 +39,5 @@ app.use('/categories', categoryRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`Documentacion corriendo en http://localhost:${port}/api-docs/`);
 });

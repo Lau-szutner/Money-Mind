@@ -49,7 +49,7 @@ const getTransactions = async (req, res) => {
 };
 
 const getTransactionsByUser = async (req, res) => {
-  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+  const userId = req.userId;
 
   try {
     const transactions = await Transaction.findAll({
@@ -70,8 +70,8 @@ const getTransactionsByUser = async (req, res) => {
 };
 
 const getTransactionById = async (req, res) => {
-  const { id } = req.params; // id del gasto por parámetro
-  const userId = req.userId; // id del usuario autenticado (debe estar en req.user después de la autenticación)
+  const { id } = req.params;
+  const userId = req.userId;
 
   if (!id || isNaN(Number(id))) {
     return res.status(400).json({ error: 'ID inválido' });
@@ -241,11 +241,3 @@ export {
   updateTransactionById,
   getTransactionsByMonth,
 };
-
-/*TODO:
-CATEGORIES
-ACCOUNTS
-GOALS
-PLANS
-BUDGETS
-*/
