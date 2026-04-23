@@ -90,6 +90,116 @@ components:
           type: string
           format: date-time
           readOnly: true
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 10
+        title:
+          type: string
+          maxLength: 255
+          example: 'Cómo ahorrar en el supermercado'
+        body:
+          type: string
+          example: 'Consejos para reducir gastos semanales en comida.'
+        fk_user_id:
+          type: integer
+          readOnly: true
+          example: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
+        User:
+          $ref: '#/components/schemas/User'
+    PostCreate:
+      type: object
+      required:
+        - title
+        - body
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          example: 'Nuevo post sobre finanzas'
+        body:
+          type: string
+          example: 'Contenido del post con consejos y experiencias.'
+    PostUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 255
+          example: 'Titulo actualizado'
+        body:
+          type: string
+          example: 'Contenido actualizado del post.'
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 5
+        title:
+          type: string
+          maxLength: 100
+          example: 'Gestión del presupuesto personal'
+        author:
+          type: string
+          maxLength: 100
+          example: 'María López'
+        description:
+          type: string
+          example: 'Curso práctico de administración de dinero para principiantes.'
+        price:
+          type: number
+          format: double
+          example: 49.99
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 2
+        title:
+          type: string
+          maxLength: 100
+          example: 'Alimentos'
+        fk_user_id:
+          type: integer
+          readOnly: true
+          example: 3
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-04-23T12:00:00Z'
 paths:
   /auth/:
     post:
@@ -343,3 +453,181 @@ paths:
                   $ref: '#/components/schemas/Transaction'
         400:
           description: Faltan parámetros de consulta.
+
+  /posts:
+    get:
+      summary: Obtener todos los posts
+      tags: [Posts]
+      responses:
+        200:
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        500:
+          description: Error interno del servidor
+    post:
+      summary: Crear un post
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostCreate'
+      responses:
+        201:
+          description: Post creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  postId:
+                    type: integer
+        400:
+          description: Faltan campos requeridos
+        401:
+          description: No autorizado
+        500:
+          description: Error interno del servidor
+
+  /posts/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID del post
+    get:
+      summary: Obtener un post por ID
+      tags: [Posts]
+      responses:
+        200:
+          description: Post encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        404:
+          description: Post no encontrado
+        500:
+          description: Error interno del servidor
+    put:
+      summary: Actualizar un post
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostUpdate'
+      responses:
+        200:
+          description: Post actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        400:
+          description: Faltan campos válidos
+        401:
+          description: No autorizado
+        404:
+          description: Post no encontrado
+        500:
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar un post
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Post eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        401:
+          description: No autorizado
+        404:
+          description: Post no encontrado
+        500:
+          description: Error interno del servidor
+
+  /courses:
+    get:
+      summary: Obtener todos los cursos
+      tags: [Courses]
+      responses:
+        200:
+          description: Lista de cursos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        500:
+          description: Error interno del servidor
+
+  /courses/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID del curso
+    get:
+      summary: Obtener un curso por ID
+      tags: [Courses]
+      responses:
+        200:
+          description: Curso encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        404:
+          description: Curso no encontrado
+        500:
+          description: Error interno del servidor
+
+  /categories:
+    get:
+      summary: Obtener todas las categorías del usuario autenticado
+      tags: [Categories]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Lista de categorías
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        400:
+          description: No se proporcionó el usuario autenticado
+        401:
+          description: No autorizado
+        404:
+          description: No se encontraron categorías para este usuario
+        500:
+          description: Error interno del servidor
