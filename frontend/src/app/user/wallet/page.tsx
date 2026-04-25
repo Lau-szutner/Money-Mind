@@ -73,7 +73,8 @@ export default function Wallet() {
       try {
         setLoading(true);
 
-        let url = 'http://localhost:4000/transactions/filter/by-month';
+        let url = 'http://localhost:4000/transactions/filter-by-month';
+
         if (year && month) {
           url += `?year=${year}&month=${month}`;
         }
@@ -95,15 +96,17 @@ export default function Wallet() {
 
         const data: Transaction[] = await response.json();
 
+        console.log(data);
+
         setTransactions(data);
 
         const incomes = data.filter((item) => item.type === 'income');
-        const expenses = data.filter((item) => item.type === 'expense');
-
         const totalIncome = incomes.reduce(
           (acc, item) => acc + parseFloat(item.amount),
           0,
         );
+
+        const expenses = data.filter((item) => item.type === 'expense');
         const totalSpends = expenses.reduce(
           (acc, item) => acc + parseFloat(item.amount),
           0,
@@ -171,7 +174,9 @@ export default function Wallet() {
               }}
               month={selectedMonth}
             />
-            <TransactionsPie transactions={transactions} />
+
+            <TransactionsPie transactions={transactions} totalIncome={income} />
+
             <Goals />
           </div>
 

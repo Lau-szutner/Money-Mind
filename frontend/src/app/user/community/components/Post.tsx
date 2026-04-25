@@ -7,10 +7,12 @@ interface post {
 
 const Post = (post: post) => {
   return (
-    <div className="p-5 border-t-2 border-white">
+    <div className="p-5 border-t-[0.5px] border-white hover:bg-slate-950">
       <div className="flex flex-col">
         <div className="flex gap-5">
-          <p className="text-xl text-greenIn font-bold">/PersonalBudgeting</p>
+          <p className="text-xl text-greenIn font-bold">
+            /FALTA HACER COMUNIDADES
+          </p>
           <p>-</p>
           <p className="text-xl font-light">{post.createdAt}</p>
         </div>

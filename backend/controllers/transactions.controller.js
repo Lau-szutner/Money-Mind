@@ -209,7 +209,6 @@ const getTransactionsByMonth = async (req, res) => {
       .replace('T', ' ');
     const formattedEnd = endDate.toISOString().slice(0, 19).replace('T', ' ');
 
-    console.log('🔍 Consulta de transacciones mensuales:');
     console.log({
       userId,
       startDate: formattedStart,
@@ -224,6 +223,8 @@ const getTransactionsByMonth = async (req, res) => {
         },
       },
     });
+
+    console.log(gastos);
 
     res.status(200).json(gastos);
   } catch (error) {

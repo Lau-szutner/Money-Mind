@@ -61,13 +61,34 @@ export default function Community() {
         if (!res.ok) throw new Error('Error al cargar los posts');
         const data = await res.json();
 
-        const postsFormatted = data.map((post: any) => ({
-          id: post.id,
-          user: post.User.name,
-          title: post.title,
-          body: post.body,
-          createdAt: post.created_at || post.createdAt || '',
-        }));
+        // const postsFormatted = data.map((post: any) => ({
+        //   id: post.id,
+        //   user: post.User.name,
+        //   title: post.title,
+        //   body: post.body,
+        //   createdAt: post.created_at || post.createdAt || '',
+        // }));
+
+        const postsFormatted = data.map((post: any) => {
+          const rawDate = post.createdAt;
+          const dateObj = rawDate ? new Date(rawDate) : null;
+
+          const cleanDate = dateObj
+            ? dateObj.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+              })
+            : 'Fecha no disponible';
+
+          return {
+            id: post.id,
+            user: post.User.name,
+            title: post.title,
+            body: post.body,
+            createdAt: cleanDate,
+          };
+        });
 
         setPosts(postsFormatted);
       } catch (error) {
@@ -112,7 +133,7 @@ export default function Community() {
         user: userName || 'Usuario',
         title: data.title,
         body: data.body,
-        createdAt: new Date().toISOString().split('T')[0], // solo fecha, igual que backend
+        createdAt: new Date().toISOString().split('T')[0],
       };
       setPosts([newPost, ...posts]);
     } catch (error: any) {

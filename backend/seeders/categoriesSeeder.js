@@ -4,37 +4,37 @@ async function categoriesSeeder() {
   try {
     await Category.bulkCreate([
       {
-        title: 'Salary',
+        title: 'Salario',
       },
       {
-        title: 'Grocery',
+        title: 'Alimentación',
       },
       {
-        title: 'Entertainment',
+        title: 'Entretenimiento',
       },
       {
-        title: 'Freelance',
+        title: 'Trabajo Freelance',
       },
       {
-        title: 'Health',
+        title: 'Salud',
       },
       {
-        title: 'Books',
+        title: 'Libros',
       },
       {
-        title: 'Sports',
+        title: 'Deportes',
       },
       {
-        title: 'Tech',
+        title: 'Tecnología',
       },
       {
-        title: 'Taxes',
+        title: 'Impuestos',
       },
       {
-        title: 'Food',
+        title: 'Comida',
       },
       {
-        title: 'Bonus',
+        title: 'Bono',
       },
     ]);
     console.log('Categories inserted');

@@ -423,7 +423,7 @@ paths:
         404:
           description: No encontrada.
 
-  /transactions/filter/by-month:
+  /transactions/filter-by-month:
     get:
       summary: Filtrar transacciones por mes y año
       tags: [Transactions]

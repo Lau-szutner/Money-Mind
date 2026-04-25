@@ -14,7 +14,7 @@ const NewPostModal = ({ onClose, onSubmit }: NewPostModalProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({ title, body });
-    onClose(); // cerrar modal después de enviar
+    onClose();
   };
 
   return (

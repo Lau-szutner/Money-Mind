@@ -80,12 +80,12 @@ export const Balance: React.FC<BalanceProps> = ({
 
   return (
     <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
-      <h2 className="font-bold text-3xl border-b-2">Wallet</h2>
+      <h2 className="font-bold text-3xl border-b-2">Billetera</h2>
       <div className="grid w-full gap-5 ">
         <div className="w-full flex justify-between bg-black rounded-md items-center h-fit p-5 mt-5">
           <p className="">
             {balanceMonth
-              ? `Balance of ${balanceMonth}`
+              ? `Gastos de ${balanceMonth}`
               : 'Please select a month'}
           </p>
 
@@ -109,12 +109,12 @@ export const Balance: React.FC<BalanceProps> = ({
         </div>
 
         <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
-          <p>Income:</p>
+          <p>Entradas:</p>
           <p className="text-greenIn font-medium">{income}</p>
         </div>
 
         <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
-          <p>Spends:</p>
+          <p>Salidas:</p>
           <p className="text-redSpend font-medium">{spends}</p>
         </div>
 

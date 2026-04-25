@@ -35,7 +35,7 @@ const User = sequelize.define(
     tableName: 'users',
     freezeTableName: true,
     underscored: true,
-  }
+  },
 );
 
 export default User;

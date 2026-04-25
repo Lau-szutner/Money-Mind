@@ -16,13 +16,13 @@ type Transaction = {
   type: 'income' | 'expense';
   amount: string;
   title: string;
-
   [key: string]: any;
 };
 
 // type main componente, receiving transaction array as prop
 type TransactionsPieProps = {
   transactions: Transaction[];
+  totalIncome: number;
 };
 
 type Coordinate = {
@@ -122,30 +122,28 @@ const renderActiveShape = ({
   );
 };
 
-const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
-  // group transactons by name and value, used to data for the pieChart
+const TransactionsPie: React.FC<TransactionsPieProps> = ({
+  transactions,
+  totalIncome,
+}) => {
+  // group transactons by name and value, used to transactionsData for the pieChart
   // this code takes all the transactions and reduce it to get the total of each one
 
-  console.log(transactions);
-
-  const data = transactions.reduce<{ category: string; value: number }[]>(
-    (acc, t) => {
-      const idx = acc.findIndex((item) => item.category === t.category);
-      if (idx !== -1) {
-        acc[idx].value += parseFloat(t.amount);
-      } else {
-        acc.push({ category: t.category, value: parseFloat(t.amount) });
-      }
-      return acc;
-    },
-    [],
-  );
+  const transactionsData = transactions.reduce<
+    { category: string; value: number }[]
+  >((acc, t) => {
+    const idx = acc.findIndex((item) => item.category === t.category);
+    if (idx !== -1) {
+      acc[idx].value += parseFloat(t.amount);
+    } else {
+      acc.push({ category: t.category, value: parseFloat(t.amount) });
+    }
+    return acc;
+  }, []);
 
   // add all the values to get the total and percentajes
-  // console.log(data);
-  const total = data.reduce((acc, curr) => acc + curr.value, 0);
-  const incomeValue =
-    data.find((item) => item.category === 'Salary')?.value ?? 0;
+  // console.log(transactionsData);
+  const total = transactionsData.reduce((acc, curr) => acc + curr.value, 0);
 
   // state por active selector
   const [activeIndex, setActiveIndex] = useState(0);
@@ -154,15 +152,17 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
     setActiveIndex(index);
   };
 
-  const totalSpendByMonth = data.filter(
-    (transaction) => transaction.category !== 'Salary',
+  const totalSpendByMonth = transactionsData.filter(
+    (transaction) => transaction.category !== 'incomes',
   );
 
   return (
     <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full ">
-      <h1 className="font-bold text-3xl border-b-2 w-full top-0">Pie Chart</h1>
+      <h1 className="font-bold text-3xl border-b-2 w-full top-0">
+        Gastos por categoria
+      </h1>
       <h2 className="font-semibold text-xl">
-        Total: ${(total - incomeValue).toFixed(2)}
+        Total: ${(total - totalIncome).toFixed(2)}
       </h2>
 
       <ResponsiveContainer width="100%" height={500}>
@@ -179,7 +179,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
             dataKey="value"
             onMouseEnter={onPieEnter}
           >
-            {data.map((entry, index) => (
+            {transactionsData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
@@ -189,7 +189,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({ transactions }) => {
         </PieChart>
       </ResponsiveContainer>
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
-        {data
+        {transactionsData
           .filter((transaction) => transaction.category !== 'Salary')
           .map((entry, index) => (
             <li
