@@ -21,9 +21,9 @@ const GoalCard: React.FC<goalCardProps> = () => {
         </svg>
       </div>
       <div>
-        <h4 className="font-bold text-lg">Title</h4>
+        <h4 className="font-bold text-lg">Titulo</h4>
         <div className="flex justify-between">
-          <p className="font-light">52% of goal</p>
+          <p className="font-light">52% completo</p>
           <p className="font-semibold">$12.000</p>
         </div>
         <div className="w-full h-2 bg-gray-300 rounded-full mt-2 relative overflow-hidden">

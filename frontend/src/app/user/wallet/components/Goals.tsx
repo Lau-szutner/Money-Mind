@@ -6,7 +6,7 @@ const Goals: React.FC<goalsProps> = () => {
   return (
     <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
       <div className="border-b flex justify-between">
-        <h3>Goals</h3>
+        <h3>Metas:</h3>
         <p className="text-5xl">+</p>
       </div>
       <div className="py-5">
