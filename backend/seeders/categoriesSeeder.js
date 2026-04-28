@@ -7,13 +7,13 @@ async function categoriesSeeder() {
         title: 'Salario',
       },
       {
-        title: 'Alimentación',
+        title: 'Supermercado',
       },
       {
         title: 'Entretenimiento',
       },
       {
-        title: 'Trabajo Freelance',
+        title: 'Freelance',
       },
       {
         title: 'Salud',

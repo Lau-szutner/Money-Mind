@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 
+import { categoryIncomeData, categorySpendData } from '@/app/utils/categories';
+
 type NewTransactionProps = {
   type: string;
   title: string;
@@ -26,7 +28,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
   const token = Cookies.get('authToken');
 
   const handleChangeData = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
     setTransactionData((prevData) => ({
@@ -82,12 +84,12 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
   return (
     <div className="font-regular">
       <div className="bg-bgComponents p-5 rounded-lg m-5">
-        <h1 className="font-bold text-center">{title}</h1>
+        <h1 className="font-bold text-center my-2">{title}</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <input
             type="text"
             className="p-1 rounded w-full text-gray-500 text-center"
-            placeholder="Title"
+            placeholder="Titulo"
             name="title"
             value={transactionData.title}
             onChange={handleChangeData}
@@ -95,19 +97,11 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
           <input
             type="text"
             className="p-1 rounded w-full text-gray-500 text-center"
-            placeholder="Description"
+            placeholder="Descripción"
             name="description"
             value={transactionData.description}
             onChange={handleChangeData}
           />
-          {/* <input
-            type="text"
-            className="p-1 rounded w-full text-gray-500 text-center"
-            placeholder="Category"
-            name="category"
-            value={transactionData.category}
-            onChange={handleChangeData}
-          /> */}
 
           <select
             name="category"
@@ -115,18 +109,18 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
             value={transactionData.category}
             onChange={handleChangeData}
           >
-            <option value="">Select Category</option>
-            <option value="Salary">Salary</option>
-            <option value="Grocery">Grocery</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Freelance">Freelance</option>
-            <option value="Health">Health</option>
-            <option value="Books">Books</option>
-            <option value="Sports">Sports</option>
-            <option value="Tech">Tech</option>
-            <option value="Taxes">Taxes</option>
-            <option value="Food">Food</option>
-            <option value="Bonus">Bonus</option>
+            <option value="">Seleccionar categoría</option>
+            {type === 'income'
+              ? categoryIncomeData.map((category, index) => (
+                  <option value={category} key={index}>
+                    {category}
+                  </option>
+                ))
+              : categorySpendData.map((category, index) => (
+                  <option value={category} key={index}>
+                    {category}
+                  </option>
+                ))}
           </select>
 
           <input
@@ -140,7 +134,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
           <input
             type="number"
             className="p-1 rounded w-full text-gray-500 text-center"
-            placeholder="Amount"
+            placeholder="Monto"
             name="amount"
             value={transactionData.amount}
             onChange={handleChangeData}
@@ -151,7 +145,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
               type === 'income' ? 'bg-greenIn' : 'bg-redSpend'
             }`}
           >
-            Add
+            Agregar
           </button>
         </form>
       </div>

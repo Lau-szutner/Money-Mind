@@ -142,14 +142,14 @@ export const Balance: React.FC<BalanceProps> = ({
       {newIncome && (
         <NewTransaction
           type="income"
-          title="New income"
+          title="Ingreso"
           onTransactionAdded={onTransactionAdded}
         />
       )}
       {newSpend && (
         <NewTransaction
           type="expense"
-          title="New spend"
+          title="Gasto"
           onTransactionAdded={onTransactionAdded}
         />
       )}
