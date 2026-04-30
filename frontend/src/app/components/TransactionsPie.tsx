@@ -130,13 +130,22 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
   // this code takes all the transactions and reduce it to get the total of each one
 
   const transactionsData = transactions.reduce<
-    { category: string; value: number }[]
+    { category: string; value: number; type: string }[]
   >((acc, t) => {
-    const idx = acc.findIndex((item) => item.category === t.category);
+    // Ahora buscamos que coincidan tanto la categoría como el tipo
+    const idx = acc.findIndex(
+      (item) => item.category === t.category && item.type === t.type,
+    );
+
     if (idx !== -1) {
       acc[idx].value += parseFloat(t.amount);
     } else {
-      acc.push({ category: t.category, value: parseFloat(t.amount) });
+      // Si no existe el par categoría-tipo, creamos el nuevo objeto
+      acc.push({
+        category: t.category,
+        value: parseFloat(t.amount),
+        type: t.type,
+      });
     }
     return acc;
   }, []);
@@ -153,7 +162,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
   };
 
   const totalSpendByMonth = transactionsData.filter(
-    (transaction) => transaction.category !== 'incomes',
+    (transaction) => transaction.type !== 'income',
   );
 
   return (
@@ -190,7 +199,7 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
       </ResponsiveContainer>
       <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
         {transactionsData
-          .filter((transaction) => transaction.category !== 'Salary')
+          .filter((transaction) => transaction.category !== 'Salario')
           .map((entry, index) => (
             <li
               key={index}

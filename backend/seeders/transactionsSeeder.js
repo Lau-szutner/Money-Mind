@@ -26,7 +26,7 @@ async function seedTransactions() {
       {
         title: 'Frutas',
         description: 'plátano, manzana',
-        category: 'Alimentación',
+        category: 'Supermercado',
         photo: null,
         date: formatDate('2025-12-12'),
         type: 'expense',

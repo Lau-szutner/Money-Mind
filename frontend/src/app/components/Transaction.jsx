@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { categorySpendData, categoryIncomeData } from '@/app/utils/categories';
 export const Transaction = ({
   title,
   description,
@@ -23,19 +23,6 @@ export const Transaction = ({
     amount,
   });
 
-  const categorys = [
-    'salary',
-    'entertainment',
-    'freelance',
-    'health',
-    'Books',
-    'Sports',
-    'tech',
-    'salary',
-    'taxes',
-    'food',
-    'bonus',
-  ];
   // 🛠️ Cuando edit se activa, restablece los valores con los actuales
   useEffect(() => {
     if (edit) {
@@ -179,11 +166,17 @@ export const Transaction = ({
               onChange={handleChange}
               className="w-full h-10 text-black"
             >
-              {categorys.map((cat, i) => (
-                <option key={i} value={cat}>
-                  {cat}
-                </option>
-              ))}
+              {type === 'income'
+                ? categoryIncomeData.map((category, index) => (
+                    <option value={category} key={index}>
+                      {category}
+                    </option>
+                  ))
+                : categorySpendData.map((category, index) => (
+                    <option value={category} key={index}>
+                      {category}
+                    </option>
+                  ))}
             </select>
           </label>
 
