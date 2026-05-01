@@ -25,5 +25,11 @@
   "devDependencies": {
     "concurrently": "^9.1.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "overrides": {
+    "@mapbox/node-pre-gyp": "2.0.3",
+    "tar": "7.5.11",
+    "postcss": "8.5.10",
+    "uuid": "14.0.0"
+  }
 }
