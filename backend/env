@@ -1,6 +1,0 @@
-DB_HOST=localhost
-DB_PORT=4000
-DB_USER=root
-DB_PASSWORD=parkcity
-DB_NAME=money_mind_db
-JWT_SECRET_KEY=root
