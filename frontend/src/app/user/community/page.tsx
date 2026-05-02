@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Post from './components/Post';
-import NewPostModal from './components/NewPostModal';
+import { FaCalendarCheck } from 'react-icons/fa';
 import Cookies from 'js-cookie';
+
+import Post from '@/app/user/community/components/Post';
+import NewPostModal from './components/NewPostModal';
 import FilterByCommunity from '@/app/components/FilterByCommunity';
 import SearchBy from '@/app/components/SearchBy';
-import { FaCalendarCheck } from 'react-icons/fa';
 
 interface PostType {
   id: number;
@@ -15,40 +16,40 @@ interface PostType {
   body: string;
   createdAt: string;
 }
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Community() {
+  const [loading, setLoading] = useState(true);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
+
   const [userName, setUserName] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const formatDate = (date: string | Date) => {
+    const d = new Date(date);
+    // Usamos 'es-ES' para asegurar el orden día/mes/año
+    return d.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch('http://localhost:4000/posts/');
+        const res = await fetch(`${apiUrl}/posts/`);
         if (!res.ok) throw new Error('Error al cargar los posts');
         const data = await res.json();
 
-        const postsFormatted = data.map((post: any) => {
-          const rawDate = post.createdAt;
-          const dateObj = rawDate ? new Date(rawDate) : null;
-
-          const cleanDate = dateObj
-            ? dateObj.toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-              })
-            : 'Fecha no disponible';
-
-          return {
-            id: post.id,
-            user: post.User.name,
-            title: post.title,
-            body: post.body,
-            createdAt: cleanDate,
-          };
-        });
+        const postsFormatted = data.map((post: any) => ({
+          id: post.id,
+          user: post.User.name,
+          title: post.title,
+          body: post.body,
+          // Usamos la función aquí
+          createdAt: post.createdAt ? formatDate(post.createdAt) : '00/00/0000',
+        }));
 
         setPosts(postsFormatted);
       } catch (error) {
@@ -70,7 +71,7 @@ export default function Community() {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/posts', {
+      const response = await fetch(`${apiUrl}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,17 +85,16 @@ export default function Community() {
         alert(`Error: ${errorData.error || 'No se pudo crear el post'}`);
         return;
       }
-
       const result = await response.json();
-      alert('Post creado con éxito! ID: ' + result.postId);
 
       const newPost = {
         id: result.postId,
         user: userName || 'Usuario',
         title: data.title,
         body: data.body,
-        createdAt: new Date().toISOString().split('T')[0],
+        createdAt: formatDate(new Date()),
       };
+
       setPosts([newPost, ...posts]);
     } catch (error: any) {
       alert('Error en la conexión: ' + error.message);
@@ -125,9 +125,9 @@ export default function Community() {
           )}
 
           {loading ? (
-            <p>Cargando posts...</p>
+            <p>Cargando posteos...</p>
           ) : posts.length === 0 ? (
-            <p>No hay posts aún.</p>
+            <p>No hay ningun posteo aún.</p>
           ) : (
             posts.map((post) => <Post key={post.id} {...post} />)
           )}
