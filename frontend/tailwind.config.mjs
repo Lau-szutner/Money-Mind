@@ -22,7 +22,6 @@ export default {
         redSpend: '#D54C4C',
         greenIn: '#39B54A',
       },
-
     },
   },
   plugins: [],
