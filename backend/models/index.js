@@ -8,6 +8,7 @@ import PostVote from './PostVote.js';
 import Community from './Community.js';
 import Course from './Course.js';
 import Category from './Category.js';
+import UserCommunity from './UserCommunity.js';
 // Relaciones
 
 // Usuario - Transacciones
@@ -40,8 +41,24 @@ Category.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
 // belongsToMany define una relación muchos-a-muchos entre los modelos User y Community.
 // Sequelize crea automáticamente una tabla intermedia (pivot) llamada 'UserCommunities'.
 // En esta tabla se definen las claves foráneas que referencian a ambos modelos.
-User.belongsToMany(Community, { through: 'UserCommunities' });
-Community.belongsToMany(User, { through: 'UserCommunities' });
+User.belongsToMany(Community, {
+  through: UserCommunity,
+  foreignKey: 'user_id',
+  otherKey: 'community_id',
+});
+Community.belongsToMany(User, {
+  through: UserCommunity,
+  foreignKey: 'community_id',
+  otherKey: 'user_id',
+});
+
+Community.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
+User.hasMany(Community, { foreignKey: 'owner_id' });
+
+UserCommunity.belongsTo(User, { foreignKey: 'user_id' });
+UserCommunity.belongsTo(Community, { foreignKey: 'community_id' });
+User.hasMany(UserCommunity, { foreignKey: 'user_id' });
+Community.hasMany(UserCommunity, { foreignKey: 'community_id' });
 
 Transaction.belongsToMany(Category, { through: 'Transaction_categories' });
 Category.belongsToMany(Transaction, { through: 'Transaction_categories' });
@@ -79,4 +96,5 @@ export {
   Community,
   Course,
   Category,
+  UserCommunity,
 };

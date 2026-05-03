@@ -32,7 +32,7 @@ async function coursesSeeder() {
         price: 25.5,
       },
     ]);
-    console.log('✅ Cursos insertados correctamente');
+    console.log('✔ Cursos insertados correctamente');
   } catch (error) {
     console.error('❌ Error insertando cursos:', error);
   }

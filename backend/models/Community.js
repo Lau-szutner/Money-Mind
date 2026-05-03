@@ -16,15 +16,37 @@ const Community = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    description: {
-      type: DataTypes.TEXT, // Para descripciones largas
+    slug: {
+      type: DataTypes.STRING(255),
       allowNull: true,
+      unique: true,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    image_url: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
+    owner_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+    is_private: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   {
     tableName: 'communities',
     timestamps: true,
-  }
+  },
 );
 
 export default Community;

@@ -37,9 +37,9 @@ async function categoriesSeeder() {
         title: 'Bono',
       },
     ]);
-    console.log('Categories inserted');
+    console.log('✔ Categorias insertadas correctamente');
   } catch (error) {
-    console.log('❌ Error inserting categories:', error);
+    console.log('❌ Error insertando categories:', error);
   }
 }
 categoriesSeeder();

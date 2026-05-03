@@ -37,7 +37,22 @@ app.use('/posts', postRoutes);
 app.use('/courses', courseRoutes);
 app.use('/categories', categoryRoutes);
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(`Documentacion corriendo en http://localhost:${port}/api-docs/`);
-});
+const startServer = (port) => {
+  const server = app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+    console.log(
+      `Documentacion corriendo en http://localhost:${port}/api-docs/`,
+    );
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`Puerto ${port} en uso, intentando puerto ${port + 1}...`);
+      startServer(port + 1);
+    } else {
+      console.error('Error al iniciar el servidor:', err);
+    }
+  });
+};
+
+startServer(port);

@@ -32,9 +32,14 @@ const verifyConnection = async () => {
 // Sincronización de los modelos con la base de datovs
 const syncDatabase = async () => {
   try {
-    // Sincroniza los modelos con la base de datos
-    await sequelize.sync({ force: false }); // Cambia a `force: true` si quieres reiniciar la base de datos
-    console.log('Base de datos sincronizada');
+    // 1. Desactivar revisiones de llaves foráneas
+    // await sequelize.queryInterface.dropAllTables();
+    // Opcionalmente: await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
+    // 2. Sincronizar (esto creará las tablas de nuevo)
+    await sequelize.sync({ force: false });
+
+    // console.log('Tablas sincronizadas con éxito.');
   } catch (error) {
     console.error('Error al sincronizar la base de datos:', error);
   }
