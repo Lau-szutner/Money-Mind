@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { FaCalendarCheck } from 'react-icons/fa';
 import Cookies from 'js-cookie';
-
+import { formatDate } from '@/app/utils/formatters';
+import { getPosts, createPost } from '@/app/services/postsService';
+import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
 import FilterByCommunity from '@/app/components/FilterByCommunity';
@@ -25,22 +27,10 @@ export default function Community() {
 
   const [userName, setUserName] = useState<string | null>(null);
 
-  const formatDate = (date: string | Date) => {
-    const d = new Date(date);
-    // Usamos 'es-ES' para asegurar el orden día/mes/año
-    return d.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`${apiUrl}/posts/`);
-        if (!res.ok) throw new Error('Error al cargar los posts');
-        const data = await res.json();
+        const data = await getPosts();
 
         const postsFormatted = data.map((post: any) => ({
           id: post.id,
@@ -62,30 +52,13 @@ export default function Community() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    fetchCommunities();
+  }, []);
+
   const handleCreatePost = async (data: { title: string; body: string }) => {
-    const token = Cookies.get('authToken');
-
-    if (!token) {
-      alert('No estás autenticado');
-      return;
-    }
-
     try {
-      const response = await fetch(`${apiUrl}/posts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.error || 'No se pudo crear el post'}`);
-        return;
-      }
-      const result = await response.json();
+      const result = await createPost(data);
 
       const newPost = {
         id: result.postId,

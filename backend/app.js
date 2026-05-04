@@ -6,6 +6,7 @@ import userRoutes from './routes/user.routes.js';
 import transactionRoutes from './routes/transaction.routes.js';
 import postRoutes from './routes/post.routes.js'; // ✅ Nueva ruta importada
 import courseRoutes from './routes/course.routes.js';
+import communityRoutes from './routes/communities.routes.js';
 import cors from 'cors';
 import categoryRoutes from './routes/categories.routes.js';
 import jwt from 'jsonwebtoken';
@@ -36,6 +37,7 @@ app.use('/transactions', transactionRoutes);
 app.use('/posts', postRoutes);
 app.use('/courses', courseRoutes);
 app.use('/categories', categoryRoutes);
+app.use('/communities', communityRoutes);
 
 const startServer = (port) => {
   const server = app.listen(port, () => {
