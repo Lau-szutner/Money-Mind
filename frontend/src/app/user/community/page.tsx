@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FaCalendarCheck } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import { formatDate } from '@/app/utils/formatters';
 import { getPosts, createPost } from '@/app/services/postsService';
 import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
-import FilterByCommunity from '@/app/components/FilterByCommunity';
+
 import SearchBy from '@/app/components/SearchBy';
+
+import FilterByCommunity from '@/app/components/FilterByCommunity';
+import type { Community } from '@/app/components/FilterByCommunity';
 
 interface PostType {
   id: number;
@@ -18,28 +20,49 @@ interface PostType {
   body: string;
   createdAt: string;
 }
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Community() {
   const [loading, setLoading] = useState(true);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
-
+  const [communitiesData, setCommunitiesData] = useState<CommunityType[]>([]);
   const [userName, setUserName] = useState<string | null>(null);
+
+  interface CommunityType {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    image_url: string | null;
+  }
+
+  useEffect(() => {
+    const name = Cookies.get('userName') ?? null;
+    setUserName(name);
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const data = await getPosts();
 
-        const postsFormatted = data.map((post: any) => ({
-          id: post.id,
-          user: post.User.name,
-          title: post.title,
-          body: post.body,
-          // Usamos la función aquí
-          createdAt: post.createdAt ? formatDate(post.createdAt) : '00/00/0000',
-        }));
+        const postsFormatted = data.map(
+          (post: {
+            id: number;
+            User: { name: string };
+            title: string;
+            body: string;
+            createdAt: string;
+          }) => ({
+            id: post.id,
+            user: post.User.name,
+            title: post.title,
+            body: post.body,
+            createdAt: post.createdAt
+              ? formatDate(post.createdAt)
+              : '00/00/0000',
+          }),
+        );
 
         setPosts(postsFormatted);
       } catch (error) {
@@ -53,14 +76,23 @@ export default function Community() {
   }, []);
 
   useEffect(() => {
-    fetchCommunities();
+    const loadCommunities = async () => {
+      try {
+        const comunidades = await fetchCommunities();
+        setCommunitiesData(comunidades);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadCommunities();
   }, []);
 
   const handleCreatePost = async (data: { title: string; body: string }) => {
     try {
       const result = await createPost(data);
 
-      const newPost = {
+      const newPost: PostType = {
         id: result.postId,
         user: userName || 'Usuario',
         title: data.title,
@@ -79,7 +111,7 @@ export default function Community() {
       <div className="flex items-center mt-5 h-full">
         <SearchBy />
         <button
-          className="rounded-md p-5 w-64  text-2xl font-light bg-bgComponents transition hover:bg-green-600  focus:ring-2 focus:ring-greenIn"
+          className="rounded-md p-5 w-64 text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
           onClick={() => setNewPostOpen((prev) => !prev)}
           aria-label="New post"
         >
@@ -87,7 +119,7 @@ export default function Community() {
         </button>
       </div>
       <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
-        <FilterByCommunity></FilterByCommunity>
+        <FilterByCommunity communities={communitiesData} />
 
         <div className="p-10 bg-bgComponents rounded-xl">
           {newPostOpen && (

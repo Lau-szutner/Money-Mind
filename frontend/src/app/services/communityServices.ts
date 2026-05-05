@@ -4,7 +4,7 @@ export const fetchCommunities = async () => {
   try {
     const res = await fetch(`${apiUrl}/communities`);
     const data = await res.json();
-    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }
