@@ -16,11 +16,11 @@ export const getAllCommunities = async (req, response) => {
 
 export const getCommunitiesByUser = async (req, response) => {
   const userId = req.userId;
-  console.log(userId);
 
   try {
     const communities = await UserCommunity.findAll({
       where: { user_id: userId },
+      include: [Community],
     });
 
     if (communities.length === 0) {

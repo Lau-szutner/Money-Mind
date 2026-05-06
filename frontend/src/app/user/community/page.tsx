@@ -11,7 +11,6 @@ import NewPostModal from './components/NewPostModal';
 import SearchBy from '@/app/components/SearchBy';
 
 import FilterByCommunity from '@/app/components/FilterByCommunity';
-import type { Community } from '@/app/components/FilterByCommunity';
 
 interface PostType {
   id: number;
@@ -35,11 +34,6 @@ export default function Community() {
     description: string;
     image_url: string | null;
   }
-
-  useEffect(() => {
-    const name = Cookies.get('userName') ?? null;
-    setUserName(name);
-  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -78,7 +72,12 @@ export default function Community() {
   useEffect(() => {
     const loadCommunities = async () => {
       try {
-        const comunidades = await fetchCommunities();
+        let comunidades = await fetchCommunities();
+
+        // for (const comunidad of comunidades) {
+        //   console.log(comunidad); // ← acá ya es el objeto
+        // }
+
         setCommunitiesData(comunidades);
       } catch (error) {
         console.error(error);
