@@ -1,14 +1,12 @@
 import { PostType } from '@/app/types/types';
 import Image from 'next/image';
 
-const Post = ({ user, title, body, createdAt }: PostType) => {
+const Post = ({ user, title, body, createdAt, community }: PostType) => {
   return (
     <div className="p-5 border-t-[0.5px] border-white  hover:bg-background hover:cursor-pointer">
       <div className="flex flex-col">
         <div className="flex gap-5">
-          <p className="text-xl text-greenIn font-bold">
-            /FALTA HACER COMUNIDADES
-          </p>
+          <p className="text-xl text-greenIn font-bold">{community}</p>
           <p>-</p>
           <p className="text-xl font-light">{createdAt}</p>
         </div>

@@ -55,10 +55,30 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </button>
       </div>
       <ul className="flex flex-col gap-6 text-sm font-medium px-4">
-        <li className="hover:text-green-500 cursor-pointer">Home</li>
-        <li className="hover:text-green-500 cursor-pointer">Education</li>
-        <li className="hover:text-green-500 cursor-pointer">Wallet</li>
-        <li className="hover:text-green-500 cursor-pointer">Contact</li>
+        <li>
+          <Link
+            href="/user/wallet"
+            className="cursor-pointer hover:text-green-500"
+          >
+            Billetera
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/user/community"
+            className="cursor-pointer hover:text-green-500"
+          >
+            Comunidad
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/user/education"
+            className="cursor-pointer hover:text-green-500"
+          >
+            Educación
+          </Link>
+        </li>
         <li className="pt-2 border-t border-gray-700">
           <DisplayName id={id} />
         </li>

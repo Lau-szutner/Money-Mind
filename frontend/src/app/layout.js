@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body className="font-sans h-full grid grid-rows-[auto_1fr_auto] gap-10">
         <Navbar />
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

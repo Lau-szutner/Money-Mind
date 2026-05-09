@@ -58,6 +58,8 @@ export default function Community() {
           }),
         );
 
+        console.log(data);
+
         setPosts(postsFormatted);
       } catch (error) {
         console.error(error);
@@ -106,19 +108,19 @@ export default function Community() {
   };
 
   return (
-    <main className="">
-      <div className="flex items-center mt-5 h-full">
+    <main className="grid place-items-center w-full p-5 gap-5">
+      <div className="w-full gap-5 grid grid-cols-[3fr_1fr]">
         <SearchBy />
         <button
-          className="rounded-md p-5 w-64 text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
+          className="rounded-md p-5 w-fit text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
           onClick={() => setNewPostOpen((prev) => !prev)}
           aria-label="New post"
         >
           New post
         </button>
       </div>
-      <section className="p-8 text-white w-full grid grid-cols-[0.3fr_1fr] gap-8">
-        <FilterByCommunity communities={communitiesData} />
+      <section className="text-white w-full grid  gap-8">
+        {/* <FilterByCommunity communities={communitiesData} /> */}
 
         <div className="p-10 bg-bgComponents rounded-xl">
           {newPostOpen && (

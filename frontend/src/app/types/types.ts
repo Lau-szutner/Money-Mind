@@ -5,4 +5,5 @@ export interface PostType {
   title: string;
   body: string;
   createdAt: string;
+  community: string;
 }
