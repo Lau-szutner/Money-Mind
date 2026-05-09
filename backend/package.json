@@ -7,13 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "dev": "nodemon app.js",
-    "seed": "node seeders/usersSeeder.js && node seeders/transactionsSeeder.js && node seeders/postsSeeder.js && node seeders/coursesSeeder.js && node seeders/categoriesSeeder.js && node seeders/communitiesSeeder.js && node seeders/userCommunitiesSeeder.js"
+    "seed": "node seeders/usersSeeder.js && node seeders/communitiesSeeder.js && node seeders/categoriesSeeder.js && node seeders/userCommunitiesSeeder.js && node seeders/postsSeeder.js && node seeders/transactionsSeeder.js && node seeders/coursesSeeder.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "yamljs": "^0.3.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -23,8 +22,10 @@
     "mysql2": "^3.12.0",
     "nodemon": "^3.1.9",
     "sequelize": "^6.37.6",
+    "slugify": "^1.6.9",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "overrides": {
     "uuid": "14.0.0"

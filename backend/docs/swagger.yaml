@@ -99,50 +99,79 @@ components:
           example: 10
         title:
           type: string
-          maxLength: 255
-          example: 'Cómo ahorrar en el supermercado'
+          maxLength: 300
+          example: 'Estrategias de inversión en CEDEARs'
+        slug:
+          type: string
+          readOnly: true
+          example: 'estrategias-de-inversion-en-cedears-1714723200'
         body:
           type: string
-          example: 'Consejos para reducir gastos semanales en comida.'
+          nullable: true
+          example: 'Un resumen de los mejores activos para este mes.'
+        post_type:
+          type: string
+          enum: [text, link, image, video]
+          default: text
+        url:
+          type: string
+          format: uri
+          nullable: true
+          example: 'https://youtube.com/watch?v=ejemplo'
+        vote_score:
+          type: integer
+          readOnly: true
+          example: 42
+        comment_count:
+          type: integer
+          readOnly: true
+          example: 5
         fk_user_id:
           type: integer
           readOnly: true
           example: 3
+        fk_community_id:
+          type: integer
+          example: 1
         created_at:
           type: string
           format: date-time
           readOnly: true
-          example: '2026-04-23T12:00:00Z'
         updated_at:
           type: string
           format: date-time
           readOnly: true
-          example: '2026-04-23T12:00:00Z'
         User:
           $ref: '#/components/schemas/User'
+        Community:
+          $ref: '#/components/schemas/Community'
+
     PostCreate:
       type: object
       required:
         - title
-        - body
+        - fk_community_id
       properties:
         title:
           type: string
-          maxLength: 255
-          example: 'Nuevo post sobre finanzas'
+          maxLength: 300
         body:
           type: string
-          example: 'Contenido del post con consejos y experiencias.'
+        post_type:
+          type: string
+          enum: [text, link, image, video]
+        url:
+          type: string
+        fk_community_id:
+          type: integer
+
     PostUpdate:
       type: object
       properties:
         title:
           type: string
-          maxLength: 255
-          example: 'Titulo actualizado'
         body:
           type: string
-          example: 'Contenido actualizado del post.'
     Course:
       type: object
       properties:
@@ -512,21 +541,19 @@ paths:
 
   /posts:
     get:
-      summary: Obtener todos los posts
+      summary: Obtener todos los posts (Global)
       tags: [Posts]
       responses:
         200:
-          description: Lista de posts
+          description: Lista de todos los posts
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
-        500:
-          description: Error interno del servidor
     post:
-      summary: Crear un post
+      summary: Crear un post en una comunidad
       tags: [Posts]
       security:
         - bearerAuth: []
@@ -539,21 +566,47 @@ paths:
       responses:
         201:
           description: Post creado correctamente
+        400:
+          description: Faltan campos (Título o Community ID)
+
+  /posts/feed:
+    get:
+      summary: Obtener feed personalizado (Comunidades seguidas)
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Lista de posts de tus comunidades
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  postId:
-                    type: integer
-        400:
-          description: Faltan campos requeridos
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
         401:
           description: No autorizado
-        500:
-          description: Error interno del servidor
+
+  /posts/{slug}:
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Slug amigable del post
+    get:
+      summary: Obtener un post por su Slug
+      tags: [Posts]
+      responses:
+        200:
+          description: Detalle del post
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        404:
+          description: Post no encontrado
 
   /posts/{id}:
     parameters:
@@ -562,23 +615,9 @@ paths:
         required: true
         schema:
           type: integer
-        description: ID del post
-    get:
-      summary: Obtener un post por ID
-      tags: [Posts]
-      responses:
-        200:
-          description: Post encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-        404:
-          description: Post no encontrado
-        500:
-          description: Error interno del servidor
+        description: ID numérico para acciones de edición/borrado
     put:
-      summary: Actualizar un post
+      summary: Actualizar un post (Solo autor)
       tags: [Posts]
       security:
         - bearerAuth: []
@@ -590,19 +629,7 @@ paths:
               $ref: '#/components/schemas/PostUpdate'
       responses:
         200:
-          description: Post actualizado correctamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-        400:
-          description: Faltan campos válidos
-        401:
-          description: No autorizado
-        404:
-          description: Post no encontrado
-        500:
-          description: Error interno del servidor
+          description: Post actualizado
     delete:
       summary: Eliminar un post
       tags: [Posts]
@@ -610,20 +637,7 @@ paths:
         - bearerAuth: []
       responses:
         200:
-          description: Post eliminado correctamente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-        401:
-          description: No autorizado
-        404:
-          description: Post no encontrado
-        500:
-          description: Error interno del servidor
+          description: Post eliminado (soft delete)
 
   /courses:
     get:

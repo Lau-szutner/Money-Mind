@@ -1,5 +1,4 @@
 // models/UserCommunity.js
-
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
@@ -35,7 +34,7 @@ const UserCommunity = sequelize.define(
     status: {
       type: DataTypes.ENUM('active', 'pending', 'banned'),
       allowNull: false,
-      defaultValue: 'pending',
+      defaultValue: 'active', // Lo cambié a active para que tus seeds funcionen directo
     },
     joined_at: {
       type: DataTypes.DATE,
@@ -46,6 +45,9 @@ const UserCommunity = sequelize.define(
   {
     tableName: 'user_communities',
     timestamps: true,
+    underscored: true,
+    createdAt: 'created_at', // Forzamos el nombre exacto de las columnas
+    updatedAt: 'updated_at',
   },
 );
 

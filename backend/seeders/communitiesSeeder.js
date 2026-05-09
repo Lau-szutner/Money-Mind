@@ -11,49 +11,53 @@ async function seedCommunitiesAndRelations() {
     });
 
     if (!rootUser || !lautaroUser || !adminUser) {
-      console.error('No se encontraron todos los usuarios requeridos.');
+      console.error('❌ No se encontraron todos los usuarios requeridos.');
       return;
     }
 
-    // Crear comunidades si no existen
-    const [community1] = await Community.findOrCreate({
-      where: { name: 'Comunidad 1' },
+    // Crear comunidades temáticas
+    const [finanzas] = await Community.findOrCreate({
+      where: { name: 'Inversiones y Bolsa' },
       defaults: {
-        slug: 'comunidad-1',
-        description: 'Descripción Comunidad 1',
+        slug: 'inversiones-bolsa',
+        description:
+          'Discusión sobre el mercado de valores, dividendos y estrategias a largo plazo.',
         owner_id: rootUser.id,
         is_private: false,
       },
     });
-    const [community2] = await Community.findOrCreate({
-      where: { name: 'Comunidad 2' },
+
+    const [ahorro] = await Community.findOrCreate({
+      where: { name: 'Ahorro Inteligente' },
       defaults: {
-        slug: 'comunidad-2',
-        description: 'Descripción Comunidad 2',
+        slug: 'ahorro-inteligente',
+        description:
+          'Trucos y métodos para optimizar gastos y vivir mejor con menos.',
         owner_id: lautaroUser.id,
-        is_private: true,
+        is_private: false,
       },
     });
-    const [community3] = await Community.findOrCreate({
-      where: { name: 'Comunidad 3' },
+
+    const [cripto] = await Community.findOrCreate({
+      where: { name: 'Cripto & Web3' },
       defaults: {
-        slug: 'comunidad-3',
-        description: 'Descripción Comunidad 3',
+        slug: 'cripto-web3',
+        description:
+          'Bitcoin, Ethereum y el futuro de las finanzas descentralizadas.',
         owner_id: adminUser.id,
         is_private: false,
       },
     });
 
-    // Asociar usuarios a comunidades
-    await rootUser.addCommunities([community1, community2]);
-    await lautaroUser.addCommunities([community1, community3]);
-    await adminUser.addCommunities([community2, community3]);
+    // Asociar usuarios a comunidades (Membresías)
+    await rootUser.addCommunities([finanzas, ahorro]);
+    await lautaroUser.addCommunities([finanzas, cripto]);
+    await adminUser.addCommunities([ahorro, cripto]);
 
-    console.log(
-      '✔ Comunidades creadas y relaciones usuario-comunidad insertadas correctamente.',
-    );
+    console.log('✔ Comunidades financieras creadas correctamente.');
+    return { finanzas, ahorro, cripto }; // Retornamos para usarlas si es necesario
   } catch (error) {
-    console.error('❌ Error creando comunidades o relaciones:', error);
+    console.error('❌ Error creando comunidades:', error);
   }
 }
 

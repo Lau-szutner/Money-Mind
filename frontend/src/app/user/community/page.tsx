@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { formatDate } from '@/app/utils/formatters';
-import { getPosts, createPost } from '@/app/services/postsService';
+import { getFeedPosts, createPost } from '@/app/services/postsService';
 import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
@@ -38,7 +38,7 @@ export default function Community() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const data = await getPosts();
+        const data = await getFeedPosts();
 
         const postsFormatted = data.map(
           (post: {

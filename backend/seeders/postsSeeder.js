@@ -1,4 +1,4 @@
-import { Post, User } from '../models/index.js';
+import { Post, User, Community } from '../models/index.js';
 
 async function seedPosts() {
   try {
@@ -7,46 +7,79 @@ async function seedPosts() {
       where: { email: 'lautaroszutner@gmail.com' },
     });
 
-    if (!rootUser || !lautaroUser) {
-      console.error('❌ No se encontraron todos los usuarios requeridos.');
+    // Buscamos las comunidades por su slug para repartir los posts
+    const cInversiones = await Community.findOne({
+      where: { slug: 'inversiones-bolsa' },
+    });
+    const cAhorro = await Community.findOne({
+      where: { slug: 'ahorro-inteligente' },
+    });
+
+    if (!rootUser || !lautaroUser || !cInversiones || !cAhorro) {
+      console.error('❌ Faltan datos (Usuarios o Comunidades) para los posts.');
       return;
     }
 
+    const generateSlug = (text) =>
+      text
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[^\w-]+/g, '') +
+      '-' +
+      Math.floor(Math.random() * 1000);
+
     const posts = [
+      // Posts para la comunidad de INVERSIONES
       {
         title: '¿Por dónde empezar con la educación financiera?',
-        body: 'Estoy iniciando en el mundo de las finanzas personales. ¿Qué libros, cursos o videos recomiendan para entender los conceptos básicos de ahorro, presupuesto e inversión?',
+        body: 'Estoy iniciando en el mundo de las finanzas. ¿Qué recomiendan?',
         fk_user_id: rootUser.id,
-      },
-      {
-        title: 'Errores que cometí al ahorrar dinero',
-        body: 'Durante mucho tiempo intenté ahorrar sin un plan claro. Compartí mis errores para que otros puedan evitarlos y empezar con el pie derecho.',
-        fk_user_id: rootUser.id,
-      },
-      {
-        title: 'Método 50/30/20: ¿Funciona realmente?',
-        body: 'Estoy probando el método 50/30/20 para dividir mis ingresos. ¿Alguien más lo usa? Me gustaría conocer experiencias reales.',
-        fk_user_id: rootUser.id,
+        fk_community_id: cInversiones.id,
       },
       {
         title: 'Cómo empecé a invertir con poco dinero',
-        body: 'Quiero contar cómo comencé a invertir en fondos comunes de inversión desde cero. Ideal para quienes creen que se necesita mucho dinero para empezar.',
+        body: 'Relato de mi experiencia con fondos comunes de inversión.',
         fk_user_id: lautaroUser.id,
+        fk_community_id: cInversiones.id,
+      },
+      // Posts para la comunidad de AHORRO
+      {
+        title: 'Errores que cometí al ahorrar dinero',
+        body: 'Comparto mis fallos para que no los repitan.',
+        fk_user_id: rootUser.id,
+        fk_community_id: cAhorro.id,
+      },
+      {
+        title: 'Método 50/30/20: ¿Funciona realmente?',
+        body: '¿Alguien usa esta regla de presupuesto?',
+        fk_user_id: rootUser.id,
+        fk_community_id: cAhorro.id,
       },
       {
         title: 'Aplicaciones útiles para controlar gastos',
-        body: '¿Qué apps usan para registrar gastos diarios y mantenerse organizados financieramente? Estoy buscando una opción fácil de usar.',
+        body: '¿Qué apps usan para registrar gastos diarios?',
         fk_user_id: lautaroUser.id,
+        fk_community_id: cAhorro.id,
       },
       {
         title: 'Educación financiera en escuelas: ¿Sí o no?',
-        body: 'Creo que deberíamos aprender sobre finanzas desde jóvenes. ¿Qué opinan ustedes? ¿Les enseñaron algo en la escuela o aprendieron por su cuenta?',
+        body: 'Debatamos sobre la importancia de las finanzas en la educación temprana.',
         fk_user_id: lautaroUser.id,
+        fk_community_id: cAhorro.id,
       },
     ];
 
-    await Post.bulkCreate(posts, { validate: true });
-    console.log('✔ Posts sobre educación financiera insertados correctamente.');
+    // Mapeamos para agregar el slug a cada uno
+    const postsWithSlugs = posts.map((p) => ({
+      ...p,
+      slug: generateSlug(p.title),
+      post_type: 'text',
+    }));
+
+    await Post.bulkCreate(postsWithSlugs, { validate: true });
+    console.log(
+      '✔ Posts distribuidos por comunidades insertados correctamente.',
+    );
   } catch (error) {
     console.error('❌ Error al insertar posts:', error);
   }

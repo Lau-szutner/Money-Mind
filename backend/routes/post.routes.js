@@ -1,9 +1,9 @@
-// routes/postRoutes.js
 import express from 'express';
 import { authenticateToken } from '../middlewares/authenticateToken.js';
 import {
   getAllPosts,
-  getPostById,
+  getFeedPosts,
+  getPostBySlug,
   createPost,
   updatePost,
   deletePost,
@@ -11,19 +11,31 @@ import {
 
 const router = express.Router();
 
-// Ruta pública: obtener todos los posts
+/**
+ * RUTAS DE OBTENCIÓN (GET)
+ */
+
+// 1. Obtener todos los posts (Global/All)
 router.get('/', getAllPosts);
 
-// Ruta pública: obtener un post por ID
-router.get('/:id', getPostById);
+// 2. Obtener el feed personalizado (Posts de comunidades seguidas)
+// IMPORTANTE: Debe ir antes que /:slug para que no confunda "feed" con un slug
+router.get('/feed', authenticateToken, getFeedPosts);
 
-// Ruta protegida: crear un post (requiere autenticación)
+// 3. Obtener un post específico por su Slug (estilo Reddit)
+router.get('/:slug', getPostBySlug);
+
+/**
+ * RUTAS DE ACCIÓN (POST, PUT, DELETE)
+ */
+
+// 4. Crear un nuevo post (Protegida)
 router.post('/', authenticateToken, createPost);
 
-// Ruta protegida: actualizar un post por ID (requiere autenticación)
+// 5. Actualizar un post por ID (Protegida)
 router.put('/:id', authenticateToken, updatePost);
 
-// Ruta protegida: eliminar un post por ID (requiere autenticación)
+// 6. Eliminar un post por ID (Protegida)
 router.delete('/:id', authenticateToken, deletePost);
 
 export default router;

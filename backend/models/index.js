@@ -9,38 +9,36 @@ import Community from './Community.js';
 import Course from './Course.js';
 import Category from './Category.js';
 import UserCommunity from './UserCommunity.js';
-// Relaciones
 
-// Usuario - Transacciones
-// Usuario - Transacciones
+/**
+ * RELACIONES DE USUARIO
+ */
 
-// Crea una relación de 1:N. hasMany indica que un User tiene muchas Transactions.
-// La foreign key 'fk_user_id' se define en el modelo Transaction (target model).
+// Usuario - Transacciones (1:N)
 User.hasMany(Transaction, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
-// Crea una relación inversa de N:1. Cada Transaction pertenece a un User.
-// También usa 'fk_user_id' como foreign key en Transaction.
-Transaction.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Transaction.belongsTo(User, { foreignKey: 'fk_user_id' });
 
-// Usuario - Posts
+// Usuario - Posts (1:N)
 User.hasMany(Post, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
-Post.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Post.belongsTo(User, { foreignKey: 'fk_user_id' });
 
-// Usuario - PostVotes
+// Usuario - PostVotes (1:N)
 User.hasMany(PostVote, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
-PostVote.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+PostVote.belongsTo(User, { foreignKey: 'fk_user_id' });
 
-// Post - PostVotes
-Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
-PostVote.belongsTo(Post, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
-
-//Category - User
+// Usuario - Categorías (1:N) - Para categorías personalizadas de finanzas
 User.hasMany(Category, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
-Category.belongsTo(User, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+Category.belongsTo(User, { foreignKey: 'fk_user_id' });
 
-// Relación N:M → Muchos usuarios pueden pertenecer a muchas comunidades.
-// belongsToMany define una relación muchos-a-muchos entre los modelos User y Community.
-// Sequelize crea automáticamente una tabla intermedia (pivot) llamada 'UserCommunities'.
-// En esta tabla se definen las claves foráneas que referencian a ambos modelos.
+/**
+ * RELACIONES DE COMUNIDAD
+ */
+
+// Dueño de la comunidad (1:N)
+User.hasMany(Community, { foreignKey: 'owner_id', as: 'ownedCommunities' });
+Community.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
+
+// Relación N:M Usuario - Comunidad (Miembros)
 User.belongsToMany(Community, {
   through: UserCommunity,
   foreignKey: 'user_id',
@@ -52,41 +50,39 @@ Community.belongsToMany(User, {
   otherKey: 'user_id',
 });
 
-Community.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
-User.hasMany(Community, { foreignKey: 'owner_id' });
-
-UserCommunity.belongsTo(User, { foreignKey: 'user_id' });
-UserCommunity.belongsTo(Community, { foreignKey: 'community_id' });
+// Relaciones directas con el modelo Pivot (Para consultas de roles/status)
 User.hasMany(UserCommunity, { foreignKey: 'user_id' });
+UserCommunity.belongsTo(User, { foreignKey: 'user_id' });
 Community.hasMany(UserCommunity, { foreignKey: 'community_id' });
+UserCommunity.belongsTo(Community, { foreignKey: 'community_id' });
 
+/**
+ * RELACIONES DE POSTS
+ */
+
+// Post - Community (N:1) - Todo post pertenece a una comunidad
+Community.hasMany(Post, { foreignKey: 'fk_community_id', onDelete: 'CASCADE' });
+Post.belongsTo(Community, { foreignKey: 'fk_community_id' });
+
+// Post - PostVotes (1:N)
+Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
+PostVote.belongsTo(Post, { foreignKey: 'fk_post_id' });
+
+/**
+ * RELACIONES DE TRANSACCIONES Y CURSOS
+ */
+
+// Transacción - Categoría (N:M)
 Transaction.belongsToMany(Category, { through: 'Transaction_categories' });
 Category.belongsToMany(Transaction, { through: 'Transaction_categories' });
-/*
-  Métodos generados por Sequelize para las relaciones:
 
-  // Para un usuario:
-  const user = await User.findByPk(1);
-  const transactions = await user.getTransactions();
-  const posts = await user.getPosts();
-  const votes = await user.getPostVotes();
+// Usuario - Cursos (1:N) - Asumiendo que un usuario crea cursos o es instructor
+User.hasMany(Course, { foreignKey: 'fk_instructor_id', onDelete: 'SET NULL' });
+Course.belongsTo(User, { foreignKey: 'fk_instructor_id', as: 'instructor' });
 
-  // Para una transacción:
-  const transaction = await Transaction.findByPk(10);
-  const ownerUser = await transaction.getUser();
-
-  // Para un post:
-  const post = await Post.findByPk(5);
-  const ownerUserPost = await post.getUser();
-  const votes = await post.getPostVotes();
-
-  // Para un voto:
-  const vote = await PostVote.findByPk(2);
-  const user = await vote.getUser();
-  const post = await vote.getPost();
-*/
-
-// Exportar modelos y sequelize para usar en app
+/**
+ * EXPORTACIÓN DE MODELOS
+ */
 export {
   sequelize,
   User,
