@@ -59,6 +59,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           <Link
             href="/user/wallet"
             className="cursor-pointer hover:text-green-500"
+            onClick={() => setIsOpen(false)}
           >
             Billetera
           </Link>
@@ -67,6 +68,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           <Link
             href="/user/community"
             className="cursor-pointer hover:text-green-500"
+            onClick={() => setIsOpen(false)}
           >
             Comunidad
           </Link>
@@ -75,12 +77,28 @@ const Navbar: React.FC<Props> = ({ id }) => {
           <Link
             href="/user/education"
             className="cursor-pointer hover:text-green-500"
+            onClick={() => setIsOpen(false)}
           >
             Educación
           </Link>
         </li>
-        <li className="pt-2 border-t border-gray-700">
-          <DisplayName id={id} />
+        <li className="border-t border-gray-700">
+          <Link
+            href="/logout"
+            className="cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          >
+            <DisplayName id={id} />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/logout"
+            className="cursor-pointer hover:text-red-500"
+            onClick={() => setIsOpen(false)}
+          >
+            Cerrar sesión
+          </Link>
         </li>
       </ul>
     </div>

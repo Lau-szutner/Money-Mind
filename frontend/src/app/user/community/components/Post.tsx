@@ -6,7 +6,7 @@ const Post = ({ user, title, body, createdAt, community }: PostType) => {
     <div className="p-5 border-t-[0.5px] border-white  hover:bg-background hover:cursor-pointer">
       <div className="flex flex-col">
         <div className="flex gap-5">
-          <p className="text-xl text-greenIn font-bold">{community}</p>
+          <p className="text-xl text-greenIn font-bold">{community.name}</p>
           <p>-</p>
           <p className="text-xl font-light">{createdAt}</p>
         </div>

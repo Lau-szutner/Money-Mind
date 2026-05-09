@@ -49,7 +49,7 @@ export default function DisplayName({ id }) {
   if (!user) return <div>No hay datos disponibles</div>; // Evita el error de `null.name`
 
   return (
-    <div className="p-2 flex gap-5">
+    <div className="flex gap-5 mt-5">
       {/* <p>{user.name}</p> */}
       <p>{user.email}</p>
       {/* <p>{id}</p> */}

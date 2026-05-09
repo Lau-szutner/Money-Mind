@@ -7,24 +7,17 @@ import { getFeedPosts, createPost } from '@/app/services/postsService';
 import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
+import { PostType, CommunityBasic } from '@/app/types/types';
 
 import SearchBy from '@/app/components/SearchBy';
 
 import FilterByCommunity from '@/app/components/FilterByCommunity';
 
-interface PostType {
-  id: number;
-  user: string;
-  title: string;
-  body: string;
-  createdAt: string;
-}
-
 export default function Community() {
   const [loading, setLoading] = useState(true);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
-  const [communitiesData, setCommunitiesData] = useState<CommunityType[]>([]);
+  const [communitiesData, setCommunitiesData] = useState<CommunityBasic[]>([]);
   const [userName, setUserName] = useState<string | null>(null);
 
   interface CommunityType {
@@ -44,12 +37,14 @@ export default function Community() {
           (post: {
             id: number;
             User: { name: string };
+            Community: { id: number; name: string; slug: string };
             title: string;
             body: string;
             createdAt: string;
           }) => ({
             id: post.id,
             user: post.User.name,
+            community: post.Community,
             title: post.title,
             body: post.body,
             createdAt: post.createdAt
@@ -89,13 +84,28 @@ export default function Community() {
     loadCommunities();
   }, []);
 
-  const handleCreatePost = async (data: { title: string; body: string }) => {
+  const handleCreatePost = async (data: {
+    title: string;
+    body: string;
+    fk_community_id: number;
+    post_type: 'text' | 'link' | 'image' | 'video';
+    url?: string;
+  }) => {
     try {
       const result = await createPost(data);
 
+      const selectedCommunity = communitiesData.find(
+        (c) => c.id === data.fk_community_id,
+      );
+
       const newPost: PostType = {
-        id: result.postId,
+        id: result.post.id,
         user: userName || 'Usuario',
+        community: selectedCommunity || {
+          id: data.fk_community_id,
+          name: 'Comunidad',
+          slug: '',
+        },
         title: data.title,
         body: data.body,
         createdAt: formatDate(new Date()),
@@ -127,6 +137,7 @@ export default function Community() {
             <NewPostModal
               onClose={() => setNewPostOpen(false)}
               onSubmit={handleCreatePost}
+              communities={communitiesData}
             />
           )}
 

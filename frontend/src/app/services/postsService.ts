@@ -26,7 +26,13 @@ export const getFeedPosts = async () => {
   return res.json();
 };
 
-export const createPost = async (data: { title: string; body: string }) => {
+export const createPost = async (data: {
+  title: string;
+  body: string;
+  fk_community_id: number;
+  post_type?: 'text' | 'link' | 'image' | 'video';
+  url?: string;
+}) => {
   const token = Cookies.get('authToken');
   if (!token) throw new Error('No estás autenticado');
 
