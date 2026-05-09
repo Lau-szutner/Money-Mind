@@ -5,6 +5,8 @@ import {
   type Props,
 } from '@/app/types/communities'; // ajustá la ruta
 
+const Chats = ['MoneyGOl123', 'nickBlack1', 'CoffeBlow'];
+
 const FilterByCommunity = ({ communities }: Props) => {
   for (const comunidad of communities) {
     console.log(comunidad); // ← acá ya es el objeto
@@ -33,17 +35,14 @@ const FilterByCommunity = ({ communities }: Props) => {
       <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
         <p className="text-3xl font-bold pb-5">Chats</p>
         <div className="font-light">
-          <p className="text-2xl hover:text-greenIn  cursor-pointer">
-            MoneyGOl123
-          </p>
-          <p className="text-2xl hover:text-greenIn  cursor-pointer">
-            nickBlack1
-          </p>
-          <p className="text-2xl hover:text-greenIn  cursor-pointer">Szet13</p>
-          <p className="text-2xl hover:text-greenIn  cursor-pointer">
-            CoffeBlow
-          </p>
-          <p className="text-2xl hover:text-greenIn  cursor-pointer">LoeMi</p>
+          {Chats.map((chat, key) => (
+            <p
+              className="text-2xl hover:text-greenIn  cursor-pointer"
+              key={key}
+            >
+              {chat}
+            </p>
+          ))}
         </div>
       </div>
     </div>
