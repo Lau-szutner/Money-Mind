@@ -1,47 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchCommunities } from '../services/communityServices';
+import { CommunityBasic } from '../types/types';
+
 interface Props {
-  data: CommunityData;
+  onSelectCommunity?: (community: CommunityBasic) => void;
 }
 
-const CommunitySelector: React.FC<Props> = ({ data }: Props) => {
+const CommunitySelector: React.FC<Props> = ({ onSelectCommunity }) => {
+  const [communities, setCommunities] = useState<CommunityBasic[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCommunities = async () => {
+      try {
+        const data = await fetchCommunities();
+        setCommunities(data);
+      } catch (error) {
+        console.error('Error loading communities:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCommunities();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="w-3/12 bg-bgComponents p-5 text-3xl">
+        <h2>Communities</h2>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-3/12 bg-bgComponents p-5 text-3xl">
       <h2>Communities</h2>
-      <h2>{data.title}</h2>
       <ul className="text-xl">
-        <li>Hola</li>
-        <li>Hola</li>
-        <li>Hola</li>
-        <li>Hola</li>
-        <li>Hola</li>
+        {communities.map((community) => (
+          <li
+            key={community.id}
+            className="cursor-pointer hover:bg-gray-200 p-2"
+            onClick={() => onSelectCommunity?.(community)}
+          >
+            {community.name}
+          </li>
+        ))}
       </ul>
     </div>
   );
 };
 
-interface CommunityData {
-  title: string;
-  author: string;
-  description: string;
-  topics: string;
-  price: number;
-}
-
-const data1: CommunityData[] = [
-  {
-    title: 'Credit Cards',
-    author: 'Michelle K. Reeves',
-    description:
-      'Discover how to use credit cards responsibly, avoid common traps, and increase your credit score. This course explains how interest, limits, and credit history work',
-    topics: 'Credit, Debt Management',
-    price: 12,
-  },
-  {
-    title: 'Credit Cards',
-    author: 'Michelle K. Reeves',
-    description:
-      'Discover how to use credit cards responsibly, avoid common traps, and increase your credit score. This course explains how interest, limits, and credit history work',
-    topics: 'Credit, Debt Management',
-    price: 12,
-  },
-];
+export default CommunitySelector;

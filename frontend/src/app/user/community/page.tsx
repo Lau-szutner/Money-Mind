@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+
 import { formatDate } from '@/app/utils/formatters';
 import { getFeedPosts, createPost } from '@/app/services/postsService';
 import { fetchCommunities } from '@/app/services/communityServices';
@@ -119,7 +119,7 @@ export default function Community() {
 
   return (
     <main className="grid place-items-center w-full p-5 gap-5">
-      <div className="w-full gap-5 grid grid-cols-[3fr_1fr]">
+      <div className="w-full gap-5 grid grid-cols-[1fr_1fr]">
         <SearchBy />
         <button
           className="rounded-md p-5 w-fit text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
@@ -130,7 +130,7 @@ export default function Community() {
         </button>
       </div>
       <section className="text-white w-full grid  gap-8">
-        {/* <FilterByCommunity communities={communitiesData} /> */}
+        <FilterByCommunity communities={communitiesData} />
 
         <div className="p-10 bg-bgComponents rounded-xl">
           {newPostOpen && (

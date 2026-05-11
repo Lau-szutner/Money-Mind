@@ -1,5 +1,6 @@
 import { PostType } from '@/app/types/types';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 
 const Post = ({ user, title, body, createdAt, community }: PostType) => {
   return (
@@ -15,7 +16,7 @@ const Post = ({ user, title, body, createdAt, community }: PostType) => {
 
       <div className="gap-5 flex flex-col  py-5">
         <p className="text-2xl font-bold">{title}</p>
-        <p>{body}</p>
+        <ReactMarkdown>{body}</ReactMarkdown>
       </div>
 
       <div className="flex w-full justify-between">

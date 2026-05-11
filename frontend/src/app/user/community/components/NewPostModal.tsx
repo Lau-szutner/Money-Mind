@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CommunityBasic } from '@/app/types/types';
 
 interface NewPostModalProps {
@@ -31,6 +31,14 @@ const NewPostModal = ({
   );
   const [url, setUrl] = useState('');
   const [errors, setErrors] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (communities.length > 0) {
+      setCommunityId((currentId) =>
+        currentId !== 0 ? currentId : communities[0].id,
+      );
+    }
+  }, [communities]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +84,7 @@ const NewPostModal = ({
         {/* Comunidad */}
         <div>
           <label className="text-sm font-semibold text-gray-300 block mb-1">
-            Comunidad *
+            Comunidad
           </label>
           <select
             value={communityId}
