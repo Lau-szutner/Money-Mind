@@ -4,11 +4,16 @@ import React, { useState } from 'react';
 import InputField from './InputField';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import { useAuthContext } from '@/context/AuthProvider';
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const DoLogin = ({ hasAccount }) => {
   const [userNotFound, setUserNotFound] = useState(false);
   const [passwordIncorrect, setPasswordIncorrect] = useState(false);
   const router = useRouter();
+
+  const { loginWithEmailPassword } = useAuthContext();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -22,11 +27,8 @@ const DoLogin = ({ hasAccount }) => {
   const handleDoLogin = async (e) => {
     e.preventDefault();
 
-    // console.log('Email:', formData.email);
-    // console.log('Password:', formData.password);
-
     try {
-      const response = await fetch('http://localhost:4000/auth/login', {
+      const response = await fetch(`${apiUrl}auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,6 +45,9 @@ const DoLogin = ({ hasAccount }) => {
           secure: true,
           sameSite: 'Strict',
         });
+
+        loginWithEmailPassword(formData.email, data.token, data.user);
+
         router.push('/user/wallet');
         console.log('Login successful', data);
       } else {

@@ -1,4 +1,7 @@
 // app/layout.js
+
+import { AuthProvider } from '@/context/AuthProvider';
+
 import { Montserrat } from 'next/font/google';
 import './normalize.css';
 import './globals.css';
@@ -22,11 +25,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} h-full`}>
+    <html lang="es" className={`${montserrat.variable} h-full`}>
       <body className="font-sans h-full grid grid-rows-[auto_1fr_auto] gap-10">
-        <Navbar />
-        {children}
-        {/* <Footer /> */}
+        <AuthProvider>
+          <Navbar />
+          {children}
+          {/* <Footer /> */}
+        </AuthProvider>
       </body>
     </html>
   );

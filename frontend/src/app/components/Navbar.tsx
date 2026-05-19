@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import DisplayName from './DisplayName';
 import Link from 'next/link';
 import Image from 'next/image';
+
+import DisplayName from './DisplayName';
 
 interface Props {
   id: string;
@@ -13,7 +14,10 @@ interface Props {
 const Navbar: React.FC<Props> = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
+  // import { useContext } from 'react';
+  // import { AuthProvider, useAuthContext } from '@/context/AuthProvider';
+  // const { user } = useAuthContext();
+  // <h1>{user.email}</h1>;
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li>
@@ -88,7 +92,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
             className="cursor-pointer"
             onClick={() => setIsOpen(false)}
           >
-            <DisplayName id={id} />
+            <DisplayName />
           </Link>
         </li>
         <li>
@@ -103,6 +107,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </ul>
     </div>
   );
+
   const title = (
     <div
       className={`bg-bgComponents Header flex justify-center ${
@@ -126,10 +131,11 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </div>
     </div>
   );
+
   const User = (
     <div className="hidden lg:block relative group ">
       <button className="flex items-center gap-2">
-        <DisplayName id={id} />
+        <DisplayName />
         <img
           src="/perfil-image.png"
           alt="Profile"
