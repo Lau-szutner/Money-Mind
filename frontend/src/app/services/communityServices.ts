@@ -188,11 +188,11 @@ export const leaveCommunity = async (id: number) => {
   }
 };
 
-export const getCommunityMembers = async (id: number) => {
+export const getCommunityBySlug = async (slug: string) => {
   try {
     const token = Cookies.get('authToken');
 
-    const res = await fetch(`${apiUrl}/communities/${id}/members`, {
+    const res = await fetch(`${apiUrl}/communities/bySlug/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -203,7 +203,7 @@ export const getCommunityMembers = async (id: number) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error || 'Error al obtener miembros');
+      throw new Error(data.error || 'Error al obtener comunidad');
     }
 
     return data;

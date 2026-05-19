@@ -223,6 +223,44 @@ export const leaveCommunity = async (req, response) => {
   }
 };
 
+export const getCommunityBySlug = async (req, response) => {
+  const { slug } = req.params;
+  const userId = req.userId;
+
+  try {
+    const community = await Community.findOne({
+      where: { slug },
+      include: [
+        {
+          model: UserCommunity,
+          include: [User],
+        },
+      ],
+    });
+
+    if (!community) {
+      return response.status(404).json({ error: 'Comunidad no encontrada' });
+    }
+
+    // Si es privada y el usuario no es miembro, no mostrar detalles
+    if (community.is_private) {
+      const membership = await UserCommunity.findOne({
+        where: { user_id: userId, community_id: community.id },
+      });
+      if (!membership) {
+        return response
+          .status(403)
+          .json({ error: 'Acceso denegado a comunidad privada' });
+      }
+    }
+
+    response.status(200).json(community);
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ error: 'Error al obtener la comunidad' });
+  }
+};
+
 export const getCommunityMembers = async (req, response) => {
   const { id } = req.params;
   const userId = req.userId;

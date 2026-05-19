@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
-  getCommunityById,
+  getCommunityBySlug,
   joinCommunity,
   leaveCommunity,
 } from '@/app/services/communityServices';
@@ -13,7 +13,7 @@ import { formatDate } from '@/app/utils/formatters';
 import Post from '../components/Post';
 
 export default function CommunityDetailPage() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [community, setCommunity] = useState<Community | null>(null);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,21 +22,7 @@ export default function CommunityDetailPage() {
   useEffect(() => {
     const loadCommunity = async () => {
       try {
-        // Primero obtener todas las comunidades para mapear slug a id
-        // O mejor, asumir que slug es único y buscar por id si es numérico, pero slug es string.
-        // Para simplicidad, buscar comunidad por slug, pero el endpoint es por id.
-        // Necesito un endpoint por slug o ajustar.
-
-        // Por ahora, hardcode o asumir que slug es id. Mejor agregar endpoint GET /communities/bySlug/:slug
-
-        // Para este ejemplo, usar getCommunityById asumiendo slug es id (temporal)
-        const communityId = Number(id);
-        if (isNaN(communityId)) {
-          alert('ID inválido');
-          return;
-        }
-
-        const communityData = await getCommunityById(communityId);
+        const communityData = await getCommunityBySlug(slug as string);
         setCommunity(communityData);
 
         // Verificar si el usuario es miembro
@@ -49,7 +35,7 @@ export default function CommunityDetailPage() {
         // Obtener posts del feed y filtrar por community_id
         const allPosts = await getFeedPosts();
         const communityPosts = allPosts
-          .filter((post: any) => post.Community.id === communityId)
+          .filter((post: any) => post.Community.id === communityData.id)
           .map((post: any) => ({
             id: post.id,
             user: post.User.name,
@@ -70,7 +56,7 @@ export default function CommunityDetailPage() {
     };
 
     loadCommunity();
-  }, [id]);
+  }, [slug]);
 
   const handleJoin = async () => {
     if (!community) return;

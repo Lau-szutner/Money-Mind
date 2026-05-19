@@ -11,6 +11,7 @@ import {
   joinCommunity,
   leaveCommunity,
   getCommunityMembers,
+  getCommunityBySlug,
 } from '../controllers/communities.controller.js';
 
 const router = express.Router();
@@ -22,7 +23,7 @@ router.get('/byUser', authenticateToken, getCommunitiesByUser);
 
 router.post('/', authenticateToken, createCommunity);
 
-router.get('/:id', authenticateToken, getCommunityById);
+router.get('/bySlug/:slug', authenticateToken, getCommunityBySlug);
 
 router.put('/:id', authenticateToken, updateCommunity);
 

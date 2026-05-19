@@ -5,7 +5,15 @@ import { useRouter } from 'next/navigation';
 import { createCommunity } from '@/app/services/communityServices';
 import { CommunityCreate } from '@/app/types/types';
 
-export default function NewCommunity() {
+interface NewCommunityProps {
+  onClose?: () => void;
+  onCreated?: () => void;
+}
+
+export default function NewCommunity({
+  onClose,
+  onCreated,
+}: NewCommunityProps) {
   const [formData, setFormData] = useState<CommunityCreate>({
     name: '',
     slug: '',
@@ -32,7 +40,12 @@ export default function NewCommunity() {
     setLoading(true);
     try {
       await createCommunity(formData);
-      router.push('/user/community');
+      if (onCreated) {
+        onCreated();
+      } else {
+        router.push('/user/community');
+      }
+      onClose?.();
     } catch (error: any) {
       alert('Error al crear comunidad: ' + error.message);
     } finally {
@@ -53,7 +66,7 @@ export default function NewCommunity() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded text-black"
             />
           </div>
           <div>
@@ -63,7 +76,7 @@ export default function NewCommunity() {
               name="slug"
               value={formData.slug}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded text-black"
             />
           </div>
           <div>
@@ -72,7 +85,7 @@ export default function NewCommunity() {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded text-black"
             />
           </div>
           <div>
@@ -82,7 +95,7 @@ export default function NewCommunity() {
               name="image_url"
               value={formData.image_url}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded text-black"
             />
           </div>
           <div>

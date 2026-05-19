@@ -1,7 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 import { CommunityBasic } from '@/app/types/types';
+import NewCommunity from '@/app/user/community/components/NewCommunity';
 
 const Chats = ['MoneyGOl123', 'nickBlack1', 'CoffeBlow'];
 
@@ -11,9 +12,10 @@ interface FilterByCommunityProps {
 
 const FilterByCommunity = ({ communities }: FilterByCommunityProps) => {
   const router = useRouter();
+  const [showNewCommunity, setShowNewCommunity] = useState(false);
 
-  const handleCommunityClick = (id: number) => {
-    router.push(`/user/community/${id}`);
+  const handleCommunityClick = (slug: string) => {
+    router.push(`/user/community/${slug}`);
   };
 
   return (
@@ -26,7 +28,7 @@ const FilterByCommunity = ({ communities }: FilterByCommunityProps) => {
               <li key={item.id} className="flex justify-between">
                 <span
                   className="text-2xl hover:text-greenIn cursor-pointer"
-                  onClick={() => handleCommunityClick(item.id)}
+                  onClick={() => handleCommunityClick(item.slug)}
                 >
                   /{item.slug}
                 </span>
@@ -36,11 +38,19 @@ const FilterByCommunity = ({ communities }: FilterByCommunityProps) => {
         </div>
       </div>
 
-      <Link href="/user/community/new">
-        <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold hover:text-greenIn cursor-pointer">
-          New Community +
+      <button
+        type="button"
+        onClick={() => setShowNewCommunity((prev) => !prev)}
+        className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold hover:text-greenIn cursor-pointer"
+      >
+        {showNewCommunity ? 'Cerrar formulario' : 'New Community +'}
+      </button>
+
+      {showNewCommunity && (
+        <div className="bg-bgComponents p-7 rounded-xl">
+          <NewCommunity onClose={() => setShowNewCommunity(false)} />
         </div>
-      </Link>
+      )}
 
       {/* <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
         <p className="text-3xl font-bold pb-5">Chats</p>
