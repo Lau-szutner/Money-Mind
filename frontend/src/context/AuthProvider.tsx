@@ -1,6 +1,14 @@
 'use client';
-import { Jersey_10 } from 'next/font/google';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useState,
+  useEffect,
+} from 'react';
+
+import Cookies from 'js-cookie';
 
 export enum AuthStatus {
   Checking = 'checking',
@@ -57,7 +65,37 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setStatus(AuthStatus.Unauthenticated);
   };
 
-  const number = 10;
+  useEffect(() => {
+    const verificarSesionAnterior = async () => {
+      const token = Cookies.get('authToken');
+
+      if (!token) {
+        setStatus(AuthStatus.Unauthenticated);
+        return;
+      }
+
+      try {
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const userId = decodedToken.id;
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}auth/${userId}`,
+        );
+
+        if (!response.ok) throw new Error();
+
+        const data = await response.json();
+
+        setToken(token);
+        setUser(data);
+        setStatus(AuthStatus.Authenticated);
+      } catch (error) {
+        logout();
+      }
+    };
+
+    verificarSesionAnterior();
+  }, []);
 
   return (
     <AuthContext.Provider

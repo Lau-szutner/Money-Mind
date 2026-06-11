@@ -1,23 +1,66 @@
 'use client';
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import DisplayName from './DisplayName';
+import { useAuthContext } from '@/context/AuthProvider';
 
 interface Props {
   id: string;
 }
 
 const Navbar: React.FC<Props> = ({ id }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
-  // import { useContext } from 'react';
-  // import { AuthProvider, useAuthContext } from '@/context/AuthProvider';
-  // const { user } = useAuthContext();
-  // <h1>{user.email}</h1>;
+
+  // Extraemos logout para corregir la función de salida
+  const { user, status, logout } = useAuthContext();
+
+  // SOLUCIÓN: Cambiado a false para que el menú inicie cerrado en móviles
+  const [isOpen, setIsOpen] = useState(false);
+
+  // SOLUCIÓN: Ahora sí ejecuta la limpieza global del estado
+  const doLogout = () => {
+    logout();
+    router.push(`/`);
+    setIsOpen(false);
+  };
+
+  // SOLUCIÓN: Modificado para que retorne JSX directamente de forma condicional y limpia
+  const renderDisplayName = () => {
+    if (status === 'checking') {
+      return (
+        <span className="text-gray-400 italic text-sm">
+          Cargando usuario...
+        </span>
+      );
+    }
+
+    if (status === 'authenticated' && user) {
+      return (
+        <p className="text-sm font-semibold">
+          Hola, <span className="text-green-400">{user.name}</span> 👋
+        </p>
+      );
+    }
+
+    if (status === 'unauthenticated') {
+      return (
+        <Link
+          href="/login"
+          className="inline-block bg-green-500 text-black px-4 py-2 rounded-md text-sm font-bold hover:bg-green-600 transition"
+          onClick={() => setIsOpen(false)}
+        >
+          Iniciar Sesión
+        </Link>
+      );
+    }
+
+    return null;
+  };
+
   const menuDesktop = (
     <ul className="hidden lg:flex gap-6 text-sm lg:text-base font-medium">
       <li>
@@ -53,12 +96,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } transition-transform duration-300 ease-in-out z-50`}
     >
-      <div className="flex justify-between items-center px-4 py-3">
+      <div className="flex justify-end px-4 py-3">
         <button onClick={() => setIsOpen(false)}>
           <FaTimes size={24} />
         </button>
       </div>
-      <ul className="flex flex-col gap-6 text-sm font-medium px-4">
+      <ul className="flex flex-col gap-6 text-sm font-medium px-4 items-end text-right">
         <li>
           <Link
             href="/user/wallet"
@@ -86,33 +129,27 @@ const Navbar: React.FC<Props> = ({ id }) => {
             Educación
           </Link>
         </li>
-        <li className="border-t border-gray-700">
-          <Link
-            href="/logout"
-            className="cursor-pointer"
-            onClick={() => setIsOpen(false)}
-          >
-            <DisplayName />
-          </Link>
+
+        {/* SOLUCIÓN: Se ejecuta como función y hereda una celda independiente con borde */}
+        <li className="border-t border-gray-700 w-full text-right pt-4">
+          {renderDisplayName()}
         </li>
-        <li>
-          <Link
-            href="/logout"
-            className="cursor-pointer hover:text-red-500"
-            onClick={() => setIsOpen(false)}
-          >
-            Cerrar sesión
-          </Link>
-        </li>
+
+        {/* El botón de cerrar sesión solo debería verse si está autenticado */}
+        {status === 'authenticated' && (
+          <li>
+            <p className="cursor-pointer hover:text-red-500" onClick={doLogout}>
+              Cerrar sesión
+            </p>
+          </li>
+        )}
       </ul>
     </div>
   );
 
   const title = (
     <div
-      className={`bg-bgComponents Header flex justify-center ${
-        pathname === '/login' || pathname === '/' ? 'w-full' : ''
-      }`}
+      className={`bg-bgComponents Header flex justify-center ${pathname === '/login' || pathname === '/' ? 'w-full' : ''}`}
     >
       <div className="text-3xl font-bold text-center">
         <Link href="/" className="hover:text-cyan-400 cursor-pointer">
@@ -124,8 +161,6 @@ const Navbar: React.FC<Props> = ({ id }) => {
               height={250}
               priority
             />
-
-            {/* <span className="text-green-500">Money</span>Mind */}
           </div>
         </Link>
       </div>
@@ -133,9 +168,8 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   const User = (
-    <div className="hidden lg:block relative group ">
+    <div className="hidden lg:block relative group">
       <button className="flex items-center gap-2">
-        <DisplayName />
         <img
           src="/perfil-image.png"
           alt="Profile"
@@ -143,8 +177,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
         />
       </button>
 
-      {/* Submenú visible al hacer hover */}
-      <div className="absolute right-0 w-full bg-foreground text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-500 z-20">
+      <div className="absolute right-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 z-20">
         <ul className="py-2 text-sm w-full">
           <li>
             <Link
@@ -163,9 +196,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
             </Link>
           </li>
           <li>
-            <Link href="/logout" className="block px-4 py-2 hover:bg-gray-100">
+            <button
+              onClick={doLogout}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 font-semibold"
+            >
               Cerrar sesión
-            </Link>
+            </button>
           </li>
         </ul>
       </div>
@@ -173,9 +209,9 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   return (
-    <nav className="bg-bgComponents text-white w-full h-fit px-10">
+    <nav className="bg-bgComponents text-white w-full h-fit px-10 py-3">
       <div className="w-full flex items-center justify-between">
-        {pathname == '/login' || pathname === '/' ? (
+        {pathname === '/login' || pathname === '/' ? (
           title
         ) : (
           <>

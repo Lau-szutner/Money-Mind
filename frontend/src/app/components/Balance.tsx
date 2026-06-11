@@ -86,7 +86,7 @@ export const Balance: React.FC<BalanceProps> = ({
           <p className="">
             {balanceMonth
               ? `Gastos de ${balanceMonth}`
-              : 'Please select a month'}
+              : 'Por favor, seleccione un mes'}
           </p>
 
           <div className="relative w-6 h-6">

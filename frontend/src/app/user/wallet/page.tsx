@@ -13,6 +13,8 @@ import Tracker from '@/app/components/Tracker';
 import Categories from '@/app/components/Categories';
 import Goals from '@/app/user/wallet/components/Goals';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 type Transaction = {
   id: string;
   type: 'income' | 'expense';
@@ -73,7 +75,7 @@ export default function Wallet() {
       try {
         setLoading(true);
 
-        let url = 'http://localhost:4000/transactions/filter-by-month';
+        let url = `${apiUrl}transactions/filter-by-month`;
 
         if (year && month) {
           url += `?year=${year}&month=${month}`;
@@ -95,8 +97,6 @@ export default function Wallet() {
         }
 
         const data: Transaction[] = await response.json();
-
-        console.log(data);
 
         setTransactions(data);
 
@@ -131,14 +131,6 @@ export default function Wallet() {
       fetchTransactions(Number(yearStr), Number(monthStr));
     }
   }, [user.authReady, selectedMonth, fetchTransactions]);
-
-  // useEffect(() => {
-  //   try {
-  //     const res = await fetch(
-  //       'http://localhost:4000/transactions/filter/by-month'
-  //     );
-  //   } catch (error) {}
-  // });
 
   // Cambio de mes por Balance
   const handleDateSelected = (year: number, month: number) => {

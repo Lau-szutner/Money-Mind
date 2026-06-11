@@ -56,7 +56,7 @@ async function seedTransactions() {
       {
         title: 'Proyecto Freelance',
         description: 'Diseño de sitio web para cliente',
-        category: 'Trabajo Freelance',
+        category: 'Freelance',
         photo: null,
         date: formatDate('2025-12-12'),
         type: 'income',

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 
 import { categoryIncomeData, categorySpendData } from '@/app/utils/categories';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type NewTransactionProps = {
   type: string;
@@ -46,7 +47,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
     }
 
     try {
-      const response = await fetch('http://localhost:4000/transactions/', {
+      const response = await fetch(`${apiUrl}transactions/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

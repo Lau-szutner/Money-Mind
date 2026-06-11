@@ -53,8 +53,6 @@ export default function Community() {
           }),
         );
 
-        console.log(data);
-
         setPosts(postsFormatted);
       } catch (error) {
         console.error(error);
