@@ -7,7 +7,7 @@ export const getFeedPosts = async () => {
   // Extraemos el token de las cookies
   const token = Cookies.get('authToken');
 
-  const res = await fetch(`${apiUrl}/posts/feed`, {
+  const res = await fetch(`${apiUrl}posts/feed`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const createPost = async (data: {
   const token = Cookies.get('authToken');
   if (!token) throw new Error('No estás autenticado');
 
-  const response = await fetch(`${apiUrl}/posts`, {
+  const response = await fetch(`${apiUrl}posts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

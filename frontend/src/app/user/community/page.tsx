@@ -8,10 +8,16 @@ import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
 import { PostType, CommunityBasic } from '@/app/types/types';
-
 import SearchBy from '@/app/components/SearchBy';
-
 import FilterByCommunity from '@/app/components/FilterByCommunity';
+
+interface CommunityType {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  image_url: string | null;
+}
 
 export default function Community() {
   const [loading, setLoading] = useState(true);
@@ -20,18 +26,14 @@ export default function Community() {
   const [communitiesData, setCommunitiesData] = useState<CommunityBasic[]>([]);
   const [userName, setUserName] = useState<string | null>(null);
 
-  interface CommunityType {
-    id: number;
-    name: string;
-    slug: string;
-    description: string;
-    image_url: string | null;
-  }
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const data = await getFeedPosts();
+
+        const userData = data[0].User.name;
+
+        setUserName(userData);
 
         const postsFormatted = data.map(
           (post: {

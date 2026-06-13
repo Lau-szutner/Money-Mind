@@ -81,11 +81,11 @@ const NewPostModal = ({
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {/* Comunidad */}
         <div>
           <label className="text-sm font-semibold text-gray-300 block mb-1">
             Comunidad
           </label>
+
           <select
             value={communityId}
             onChange={(e) => setCommunityId(Number(e.target.value))}
