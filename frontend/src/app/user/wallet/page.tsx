@@ -168,8 +168,6 @@ export default function Wallet() {
             />
 
             <TransactionsPie transactions={transactions} totalIncome={income} />
-
-            <Goals />
           </div>
 
           <TransactionsList
@@ -182,6 +180,7 @@ export default function Wallet() {
               }
             }}
           />
+          <Goals />
         </div>
         {/* <Tracker title="tiITIT" /> */}
       </div>
