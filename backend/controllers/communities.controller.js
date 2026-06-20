@@ -227,6 +227,8 @@ export const getCommunityBySlug = async (req, response) => {
   const { slug } = req.params;
   const userId = req.userId;
 
+  console.log('inicio busqueda de comunidad');
+
   try {
     const community = await Community.findOne({
       where: { slug },
