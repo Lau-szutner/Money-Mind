@@ -192,7 +192,7 @@ export const getCommunityBySlug = async (slug: string) => {
   try {
     const token = Cookies.get('authToken');
 
-    const res = await fetch(`${apiUrl}/communities/bySlug/${slug}`, {
+    const res = await fetch(`${apiUrl}communities/bySlug/${slug}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

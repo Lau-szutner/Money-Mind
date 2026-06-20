@@ -52,7 +52,7 @@ const FilterByCommunity = ({ communities }: FilterByCommunityProps) => {
         </div>
       )}
 
-      {/* <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
+      <div className="bg-bgComponents h-fit p-7 rounded-xl text-3xl font-bold">
         <p className="text-3xl font-bold pb-5">Chats</p>
         <div className="font-light">
           {Chats.map((chat, key) => (
@@ -61,7 +61,7 @@ const FilterByCommunity = ({ communities }: FilterByCommunityProps) => {
             </p>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
