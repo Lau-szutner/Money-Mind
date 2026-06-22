@@ -1,16 +1,18 @@
+import { Instrument_Sans } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface Instructor {
   id: number;
   name: string;
+  email: string;
 }
 
 interface CourseData {
   id: number;
   slug: string;
   title: string;
-  instructor: Instructor;
+  instructor: Instructor | null;
   description: string;
   thumbnailUrl?: string | null;
   topics: string[];
@@ -41,6 +43,8 @@ const CourseCard: React.FC<CourseData> = ({
           src={thumbnailUrl || `/courses/image-${id}.png`}
           alt={title}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
           className="object-cover"
         />
       </div>
@@ -49,7 +53,7 @@ const CourseCard: React.FC<CourseData> = ({
         <h3 className="text-xl font-bold leading-tight">{title}</h3>
 
         <p className="text-sm font-medium text-neutral-300">
-          {instructor?.name ?? 'Instructor no disponible'}
+          {instructor?.email ?? 'Instructor no disponible'}
         </p>
 
         <p className="line-clamp-2 text-sm text-neutral-400">{description}</p>

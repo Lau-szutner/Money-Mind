@@ -2,8 +2,8 @@ import { Course, User } from '../models/index.js';
 
 async function coursesSeeder() {
   try {
-    // Traemos instructores existentes para no hardcodear IDs a ciegas.
-    // Ajustá el criterio de búsqueda según cómo identifiques instructores en tu tabla de users.
+    // Obtenemos instructores existentes para no hardcodear IDs a ciegas.
+    // Ajusta el criterio de búsqueda según cómo identifiques instructores en tu tabla de usuarios.
     const root = await User.findOne({
       where: { email: 'root@gmail.com' },
     });
@@ -16,20 +16,20 @@ async function coursesSeeder() {
 
     if (!root || !lautaro || !admin) {
       throw new Error(
-        'Faltan instructores en la base. Corré el seeder de usuarios primero.',
+        'Faltan instructores en la base de datos. Ejecuta el seeder de usuarios primero.',
       );
     }
 
     await Course.bulkCreate([
       {
-        title: 'Monthly Budget',
-        slug: 'monthly-budget',
+        title: 'Presupuesto Mensual',
+        slug: 'presupuesto-mensual',
         fk_instructor_id: root.id,
         description:
-          'Learn how to take control of your personal finances with practical budgeting techniques. This course provides step-by-step guidance to track your expenses, reduce unnecessary costs.',
+          'Aprende a controlar tus finanzas personales con técnicas prácticas de presupuesto. Este curso proporciona una guía paso a paso para registrar tus gastos y reducir costos innecesarios.',
         shortDescription:
-          'Practical techniques to track expenses and reduce costs.',
-        topics: ['Budgeting', 'Expense Tracking', 'Saving Habits'],
+          'Técnicas prácticas para registrar gastos y reducir costos.',
+        topics: ['Presupuesto', 'Seguimiento de Gastos', 'Hábitos de Ahorro'],
         isFree: true,
         price: 0,
         currency: 'USD',
@@ -37,14 +37,18 @@ async function coursesSeeder() {
         publishedAt: new Date(),
       },
       {
-        title: 'Big Goals Without Stress',
-        slug: 'big-goals-without-stress',
+        title: 'Grandes Objetivos Sin Estrés',
+        slug: 'grandes-objetivos-sin-estres',
         fk_instructor_id: lautaro.id,
         description:
-          "Whether you're saving for a car, vacation, or emergency fund, this course will help you build a personalized saving strategy. Understand short vs long-term goals, automate savings",
+          'Ya sea que estés ahorrando para un auto, vacaciones o un fondo de emergencia, este curso te ayudará a construir una estrategia de ahorro personalizada. Comprende objetivos a corto y largo plazo, automatiza tus ahorros',
         shortDescription:
-          'Build a personalized saving strategy for short and long-term goals.',
-        topics: ['Goal Setting', 'Automated Savings', 'Emergency Fund'],
+          'Construye una estrategia de ahorro personalizada para objetivos a corto y largo plazo.',
+        topics: [
+          'Establecimiento de Objetivos',
+          'Ahorros Automatizados',
+          'Fondo de Emergencia',
+        ],
         isFree: true,
         price: 0,
         currency: 'USD',
@@ -52,14 +56,18 @@ async function coursesSeeder() {
         publishedAt: new Date(),
       },
       {
-        title: 'Credit Cards',
-        slug: 'credit-cards',
+        title: 'Tarjetas de Crédito',
+        slug: 'tarjetas-de-credito',
         fk_instructor_id: admin.id,
         description:
-          'Discover how to use credit cards responsibly, avoid common traps, and increase your credit score. This course explains how interest, limits, and credit history work',
+          'Descubre cómo usar las tarjetas de crédito de manera responsable, evita trampas comunes y aumenta tu puntuación crediticia. Este curso explica cómo funcionan los intereses, los límites y el historial crediticio',
         shortDescription:
-          'Use credit cards responsibly and improve your credit score.',
-        topics: ['Credit Score', 'Interest Rates', 'Responsible Spending'],
+          'Usa las tarjetas de crédito responsablemente y mejora tu puntuación crediticia.',
+        topics: [
+          'Puntuación de Crédito',
+          'Tasas de Interés',
+          'Gasto Responsable',
+        ],
         isFree: true,
         price: 0,
         currency: 'USD',

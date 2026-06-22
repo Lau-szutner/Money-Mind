@@ -68,7 +68,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           href="/user/wallet"
           className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
         >
-          Wallet
+          Billetera
         </Link>
       </li>
       <li>
@@ -76,7 +76,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           href="/user/community"
           className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
         >
-          Community
+          Comunidad
         </Link>
       </li>
       <li>
@@ -84,7 +84,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
           href="/user/education"
           className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
         >
-          Education
+          Educación
         </Link>
       </li>
     </ul>
@@ -160,6 +160,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
               width={250}
               height={250}
               priority
+              className="w-auto h-auto"
             />
           </div>
         </Link>

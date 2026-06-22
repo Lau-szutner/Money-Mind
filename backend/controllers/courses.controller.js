@@ -3,14 +3,21 @@ import { Course } from '../models/index.js';
 //obtener todos los cursos
 export const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.findAll();
+    const courses = await Course.findAll({
+      include: [
+        {
+          association: 'instructor',
+          attributes: ['id', 'name', 'email'],
+        },
+      ],
+    });
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json(
       {
         message: 'error al obtenes los cursos',
       },
-      error
+      error,
     );
   }
 };
@@ -19,7 +26,14 @@ export const getAllCourses = async (req, res) => {
 
 export const getCourseById = async (req, res) => {
   try {
-    const courses = await Course.findByPk(req.params.id);
+    const courses = await Course.findByPk(req.params.id, {
+      include: [
+        {
+          association: 'instructor',
+          attributes: ['id', 'name', 'email'],
+        },
+      ],
+    });
 
     if (courses === null) {
       console.log('Courses not found!');
@@ -30,7 +44,7 @@ export const getCourseById = async (req, res) => {
       {
         message: 'error al obtener el cursos',
       },
-      error
+      error,
     );
   }
 };

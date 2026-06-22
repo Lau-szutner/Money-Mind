@@ -5,13 +5,14 @@ import CourseCard from '@/app/components/CourseCard';
 interface Instructor {
   id: number;
   name: string;
+  email: string;
 }
 
 interface Course {
   id: number;
   slug: string;
   title: string;
-  instructor: Instructor;
+  instructor: Instructor | null;
   description: string;
   thumbnailUrl?: string | null;
   topics: string[];
