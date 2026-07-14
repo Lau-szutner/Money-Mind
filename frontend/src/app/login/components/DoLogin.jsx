@@ -46,7 +46,12 @@ const DoLogin = ({ hasAccount }) => {
           sameSite: 'Strict',
         });
 
-        loginWithEmailPassword(formData.email, data.token, data.user);
+        loginWithEmailPassword(
+          formData.email,
+          formData.password,
+          data.token,
+          data.user,
+        );
 
         router.push('/user/wallet');
         console.log('Login successful', data);

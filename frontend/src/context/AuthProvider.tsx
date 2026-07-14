@@ -27,7 +27,12 @@ interface AuthState {
   user?: User;
   isChecking: boolean;
   isAuthenticated: boolean;
-  loginWithEmailPassword: (email: string, password: string) => void;
+  loginWithEmailPassword: (
+    email: string,
+    password: string,
+    token: string,
+    user: User,
+  ) => void;
   logout: () => void;
 }
 
@@ -48,14 +53,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
 
-  const loginWithEmailPassword = (email: string, password: string) => {
-    console.log('Iniciando sesión para:', email);
-    console.log('Password (solo desarrollo):', password);
-
-    setUser({
-      name: 'Lautaro',
-      email: email,
-    });
+  const loginWithEmailPassword = (
+    email: string,
+    password: string,
+    authToken: string,
+    authUser: User,
+  ) => {
+    setToken(authToken);
+    setUser(authUser);
     setStatus(AuthStatus.Authenticated);
   };
 

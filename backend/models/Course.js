@@ -34,6 +34,10 @@ const Course = sequelize.define(
       type: DataTypes.STRING(500),
       allowNull: true,
     },
+    videoUrl: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    },
     topics: {
       type: DataTypes.JSON,
       allowNull: true,

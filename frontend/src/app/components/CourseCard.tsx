@@ -53,7 +53,7 @@ const CourseCard: React.FC<CourseData> = ({
         <h3 className="text-xl font-bold leading-tight">{title}</h3>
 
         <p className="text-sm font-medium text-neutral-300">
-          {instructor?.email ?? 'Instructor no disponible'}
+          {instructor?.name ?? instructor?.email ?? 'Instructor no disponible'}
         </p>
 
         <p className="line-clamp-2 text-sm text-neutral-400">{description}</p>
