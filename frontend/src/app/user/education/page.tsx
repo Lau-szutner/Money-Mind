@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import CourseCard from '@/app/components/CourseCard';
 
 interface Instructor {
@@ -59,7 +60,18 @@ export default function EducationPage() {
 
   return (
     <main className="flex w-full flex-col">
-      <section className="w-full p-8 text-white">
+      <section className="w-full text-white grid gap-10">
+        <ul className="flex flex-col gap-6 text-sm font-medium px-4 items-end text-right">
+          <li>
+            <Link
+              href="/user/education/creators/studio"
+              className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
+            >
+              Studio
+            </Link>
+          </li>
+        </ul>
+
         {isLoading && (
           <p className="text-center text-neutral-400">Cargando cursos...</p>
         )}

@@ -149,79 +149,87 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   const title = (
     <div
-      className={`bg-bgComponents Header flex justify-center ${pathname === '/login' || pathname === '/' ? 'w-full' : ''}`}
+      className={`bg-bgComponents Header flex items-center ${pathname === '/login' || pathname === '/' ? 'justify-center w-full' : 'justify-start min-w-[140px] lg:min-w-[180px]'}`}
     >
       <div className="text-3xl font-bold text-center">
-        <Link href="/" className="hover:text-cyan-400 cursor-pointer">
-          <div className="flex items-center">
-            <Image
-              src="/isologo.png"
-              alt="logo"
-              width={250}
-              height={250}
-              priority
-              className="w-auto h-auto"
-            />
-          </div>
+        <Link
+          href="/"
+          className="hover:text-cyan-400 cursor-pointer flex items-center justify-center"
+        >
+          <Image
+            src="/isologo.png"
+            alt="logo"
+            width={150}
+            height={150}
+            priority
+            className="w-[130px] h-auto sm:w-[150px]"
+          />
         </Link>
       </div>
     </div>
   );
 
   const User = (
-    <div className="hidden lg:block relative group">
-      <button className="flex items-center gap-2">
-        <img
-          src="/perfil-image.png"
-          alt="Profile"
-          className="w-10 h-10 rounded-full"
-        />
-      </button>
+    <div className="hidden lg:flex items-center justify-end min-w-[140px] lg:min-w-[180px]">
+      <div className="relative group">
+        <button className="flex items-center gap-2 p-1">
+          <img
+            src="/perfil-image.png"
+            alt="Profile"
+            className="w-10 h-10 rounded-full object-cover shrink-0"
+          />
+        </button>
 
-      <div className="absolute right-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 z-20">
-        <ul className="py-2 text-sm w-full">
-          <li>
-            <Link
-              href="/user/profile"
-              className="block px-4 py-2 hover:bg-gray-100"
-            >
-              Perfil
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/user/settings"
-              className="block px-4 py-2 hover:bg-gray-100"
-            >
-              Configuración
-            </Link>
-          </li>
-          <li>
-            <button
-              onClick={doLogout}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 font-semibold"
-            >
-              Cerrar sesión
-            </button>
-          </li>
-        </ul>
+        <div className="absolute right-0 w-48 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 z-20">
+          <ul className="py-2 text-sm w-full">
+            <li>
+              <Link
+                href="/user/profile"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Perfil
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/user/settings"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Configuración
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={doLogout}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 font-semibold"
+              >
+                Cerrar sesión
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
 
   return (
-    <nav className="bg-bgComponents text-white w-full h-fit px-10 py-3">
-      <div className="w-full flex items-center justify-between">
+    <nav className="bg-bgComponents text-white w-full h-fit px-4 sm:px-6 lg:px-10 py-3">
+      <div className="w-full flex items-center">
         {pathname === '/login' || pathname === '/' ? (
-          title
+          <div className="w-full flex justify-center">{title}</div>
         ) : (
           <>
-            {title}
-            {menuDesktop}
-            {User}
+            <div className="flex-1 flex justify-start">{title}</div>
+            <div className="hidden lg:flex flex-1 justify-center">
+              {menuDesktop}
+            </div>
+            <div className="hidden lg:flex flex-1 justify-end">{User}</div>
           </>
         )}
-        <button className="lg:hidden" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          className="lg:hidden ml-auto"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
