@@ -24,7 +24,7 @@ interface Course {
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export default function EducationPage() {
+export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +45,8 @@ export default function EducationPage() {
 
         const result: Course[] = await response.json();
         setCourses(result);
+
+        console.log(result);
       } catch (err) {
         if (err instanceof Error && err.name !== 'AbortError') {
           console.error(err);
@@ -64,7 +66,7 @@ export default function EducationPage() {
         <ul className="flex flex-col gap-6 text-sm font-medium px-4 items-end text-right">
           <li>
             <Link
-              href="/user/education/creators/studio"
+              href="/user/courses/creators/studio"
               className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
             >
               Studio

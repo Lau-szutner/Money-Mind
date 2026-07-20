@@ -1,4 +1,4 @@
-// app/education/page.tsx
+// app/user/page.tsx
 
 export default function Home() {
   return (

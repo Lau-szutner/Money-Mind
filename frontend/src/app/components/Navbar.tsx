@@ -81,10 +81,10 @@ const Navbar: React.FC<Props> = ({ id }) => {
       </li>
       <li>
         <Link
-          href="/user/education"
+          href="/user/courses"
           className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
         >
-          Educación
+          Cursos
         </Link>
       </li>
     </ul>
@@ -122,11 +122,11 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </li>
         <li>
           <Link
-            href="/user/education"
+            href="/user/courses"
             className="cursor-pointer hover:text-green-500"
             onClick={() => setIsOpen(false)}
           >
-            Educación
+            Cursos
           </Link>
         </li>
 

@@ -1,4 +1,4 @@
-// app/education/page.tsx
+// app/user/courses/creators/page.tsx
 
 export default function CreatosHomePage() {
   return (
