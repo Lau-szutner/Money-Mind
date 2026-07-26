@@ -37,19 +37,21 @@ const getCourseBySlug = async (slug: string) => {
   return response.json() as Promise<Course>;
 };
 
-export default async function CourseDetails({
-  params,
-}: {
-  params: { courseSlug: string };
-}) {
+interface CourseDetailsProps {
+  params: {
+    courseSlug: string;
+  };
+}
+
+export default async function CourseDetails({ params }: CourseDetailsProps) {
   const course = await getCourseBySlug(params.courseSlug);
 
   return (
     <main className="p-5">
       <section className="mx-auto max-w-5xl space-y-6">
-        <div className="rounded-3xl bg-bgComponents p-8 shadow-xl shadow-black/10">
+        <div className="rounded-md bg-bgComponents p-8 shadow-xl shadow-black/10">
           <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
-            <div className="relative overflow-hidden rounded-3xl bg-neutral-900">
+            <div className="relative overflow-hidden rounded-md bg-neutral-900">
               <img
                 src={
                   course.thumbnailUrl?.trim()
@@ -57,7 +59,7 @@ export default async function CourseDetails({
                     : `/courses/image-${course.id}.png`
                 }
                 alt={course.title}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </div>
 
@@ -71,7 +73,7 @@ export default async function CourseDetails({
                 </h1>
               </div>
 
-              <div className="space-y-3 rounded-3xl bg-[#111111] p-6">
+              <div className="space-y-3 rounded-md bg-[#111111] p-6">
                 <p className="text-sm text-neutral-400">
                   {course.shortDescription}
                 </p>
@@ -87,7 +89,7 @@ export default async function CourseDetails({
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-neutral-900 p-6 text-sm text-neutral-300">
+              <div className="rounded-md bg-neutral-900 p-6 text-sm text-neutral-300">
                 <p>
                   Instructor:{' '}
                   <strong>
@@ -122,7 +124,7 @@ export default async function CourseDetails({
             </div>
           </div>
 
-          <div className="mt-8 rounded-3xl bg-neutral-900 p-8 text-neutral-100">
+          <div className="mt-8 rounded-md bg-neutral-900 p-8 text-neutral-100">
             <h2 className="mb-4 text-2xl font-semibold">Descripción</h2>
             <p className="whitespace-pre-line text-neutral-300">
               {course.description}
