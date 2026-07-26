@@ -223,3 +223,31 @@ export const deleteCourseById = async (req, res) => {
     });
   }
 };
+
+export const getCourseBySlug = async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const course = await Course.findOne({
+      where: { slug },
+      include: [
+        {
+          association: 'instructor',
+          attributes: ['id', 'name', 'email'],
+        },
+      ],
+    });
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found!' });
+    }
+
+    res.status(200).json(course);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: 'error al obtener el curso por slug',
+      error: error?.message ?? error,
+    });
+  }
+};

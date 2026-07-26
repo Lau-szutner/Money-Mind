@@ -9,12 +9,14 @@ import {
   createCourse,
   updateCourse,
   deleteCourseById,
+  getCourseBySlug,
 } from '../controllers/courses.controller.js';
 
 const router = express.Router();
 
 router.get('/', getAllCourses);
 router.get('/my', authenticateToken, getMyCourses);
+router.get('/bySlug/:slug', getCourseBySlug);
 router.get('/:id', getCourseById);
 router.post('/', authenticateToken, createCourse);
 router.put('/:id', authenticateToken, updateCourse);

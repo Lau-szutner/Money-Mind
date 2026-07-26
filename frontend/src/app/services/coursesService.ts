@@ -96,3 +96,19 @@ export const deleteCourse = async (id: number) => {
 
   return response.json();
 };
+
+export const getCourseBySlug = async (slug: string) => {
+  const response = await fetch(
+    `${apiUrl}courses/bySlug/${encodeURIComponent(slug)}`,
+    {
+      method: 'GET',
+    },
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'No se pudo obtener el curso');
+  }
+
+  return response.json();
+};

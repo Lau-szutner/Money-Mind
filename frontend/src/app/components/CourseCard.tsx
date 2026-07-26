@@ -35,7 +35,7 @@ const CourseCard: React.FC<CourseData> = ({
 }) => {
   return (
     <Link
-      href={`/cursos/${slug}`}
+      href={`/user/courses/${slug}`}
       className="group flex w-full max-w-sm flex-col gap-4 rounded-lg bg-bgComponents p-6 transition-transform duration-200 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none motion-reduce:hover:scale-100"
     >
       <div className="relative h-48 w-full overflow-hidden rounded-md bg-neutral-800">
