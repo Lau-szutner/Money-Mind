@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
+import * as z from 'zod';
 
 import { categoryIncomeData, categorySpendData } from '@/app/utils/categories';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -9,6 +10,14 @@ type NewTransactionProps = {
   title: string;
   onTransactionAdded: () => void;
 };
+
+const newTransactionSchema = z.object({
+  title: z.string().trim().min(1, 'El titulo es obligatorio'),
+  description: z.string().min(1, 'La descripción es obligatoria'),
+  category: z.string().min(1, 'La categoria es obligatoria'),
+  date: z.string().min(1, 'La fecha es obligatoria'),
+  amount: z.string().min(1, 'El monto es obligatorio'),
+});
 
 export const NewTransaction = ({
   type,
@@ -26,6 +35,8 @@ export const NewTransaction = ({
     amount: '',
   });
 
+  const [formError, setFormError] = useState('');
+
   const token = Cookies.get('authToken');
 
   const handleChangeData = (
@@ -36,6 +47,10 @@ export const NewTransaction = ({
       ...prevData,
       [name]: value,
     }));
+
+    if (formError) {
+      setFormError('');
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -46,6 +61,24 @@ export const NewTransaction = ({
       return;
     }
 
+    const result = newTransactionSchema.safeParse(transactionData);
+    if (!result.success) {
+      const firstError = result.error.issues[0]?.message;
+      setFormError(firstError || 'Revisa los campos');
+      return;
+    } else {
+      result.data;
+    }
+
+    const validData = result.data;
+
+    const parsedAmount = Number(transactionData.amount);
+
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      setFormError('El monto debe ser mayor a 0');
+      return;
+    }
+
     try {
       const response = await fetch(`${apiUrl}transactions/`, {
         method: 'POST',
@@ -53,7 +86,7 @@ export const NewTransaction = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(transactionData),
+        body: JSON.stringify(validData),
       });
 
       if (!response.ok) {
@@ -86,10 +119,16 @@ export const NewTransaction = ({
     <div className="font-regular">
       <div className="bg-bgComponents p-5 rounded-lg m-5">
         <h1 className="font-bold text-center my-2">{title}</h1>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          {formError && (
+            <div className="p-1 text-red-600 bg-red-50 border border-red-200 rounded flex gap-2 justify-center">
+              <span>{formError}</span>
+            </div>
+          )}
+
           <input
             type="text"
-            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Titulo"
             name="title"
@@ -98,7 +137,6 @@ export const NewTransaction = ({
           />
           <input
             type="text"
-            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Descripción"
             name="description"
@@ -108,7 +146,6 @@ export const NewTransaction = ({
 
           <select
             name="category"
-            required
             className="p-1 rounded w-full text-gray-500 text-center"
             value={transactionData.category}
             onChange={handleChangeData}
@@ -129,7 +166,6 @@ export const NewTransaction = ({
 
           <input
             type="date"
-            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="date"
             name="date"
@@ -138,8 +174,6 @@ export const NewTransaction = ({
           />
           <input
             type="number"
-            required
-            min="0,01"
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Monto"
             name="amount"
