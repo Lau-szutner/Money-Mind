@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ChangeEvent, useState, useEffect } from 'react';
-import NewTransaction from './NewTransaction';
+import { NewTransaction } from './NewTransaction';
 
 type BalanceProps = {
   income: number;

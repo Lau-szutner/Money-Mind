@@ -133,7 +133,7 @@ const DoLogin = ({ hasAccount }) => {
       <div className="flex gap-3 justify-center">
         <p>Don't you have account?</p>
         <button className="font-bold" onClick={hasAccount}>
-          Login
+          Register
         </button>
       </div>
     </form>

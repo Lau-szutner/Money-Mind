@@ -10,11 +10,11 @@ type NewTransactionProps = {
   onTransactionAdded: () => void;
 };
 
-const NewTransaction: React.FC<NewTransactionProps> = ({
+export const NewTransaction = ({
   type,
   title,
   onTransactionAdded,
-}) => {
+}: NewTransactionProps) => {
   const [transactionData, setTransactionData] = useState({
     user_id: '',
     title: '',
@@ -89,6 +89,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <input
             type="text"
+            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Titulo"
             name="title"
@@ -97,6 +98,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
           />
           <input
             type="text"
+            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Descripción"
             name="description"
@@ -106,6 +108,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
 
           <select
             name="category"
+            required
             className="p-1 rounded w-full text-gray-500 text-center"
             value={transactionData.category}
             onChange={handleChangeData}
@@ -126,6 +129,7 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
 
           <input
             type="date"
+            required
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="date"
             name="date"
@@ -134,6 +138,8 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
           />
           <input
             type="number"
+            required
+            min="0,01"
             className="p-1 rounded w-full text-gray-500 text-center"
             placeholder="Monto"
             name="amount"
@@ -153,5 +159,3 @@ const NewTransaction: React.FC<NewTransactionProps> = ({
     </div>
   );
 };
-
-export default NewTransaction;
