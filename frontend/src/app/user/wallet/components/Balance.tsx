@@ -12,14 +12,14 @@ type BalanceProps = {
   month: string; // recibe el mes en formato "YYYY-MM"
 };
 
-export const Balance: React.FC<BalanceProps> = ({
+export const Balance = ({
   income,
   saving,
   spends,
   onDateSelected,
   onTransactionAdded,
   month,
-}) => {
+}: BalanceProps) => {
   const [newSpend, setNewSpend] = useState<boolean>(false);
   const [newIncome, setNewIncome] = useState<boolean>(false);
   const [balanceMonth, setBalanceMonth] = useState<string>(null);

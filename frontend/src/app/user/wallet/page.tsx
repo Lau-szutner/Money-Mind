@@ -6,13 +6,14 @@ import { useRouter } from 'next/navigation';
 import decodeToken from '@/app/utils/decodeToken.js';
 
 // Components
-import TransactionsPie from '@/app/components/TransactionsPie';
-import { Balance } from '@/app/components/Balance';
-import { TransactionsList } from '@/app/components/TransactionsList';
-import Tracker from '@/app/components/Tracker';
-import Categories from '@/app/components/Categories';
+import { Balance } from '@/app/user/wallet/components/Balance';
+import { TransactionsList } from '@/app/user/wallet/components/TransactionsList';
+
+import TransactionsPie from '@/app/user/wallet/components/TransactionsPie';
 import Goals from '@/app/user/wallet/components/Goals';
 
+import Tracker from '@/app/components/Tracker';
+import Categories from '@/app/user/wallet/components/Categories';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 type Transaction = {
