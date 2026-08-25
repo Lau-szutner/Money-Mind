@@ -24,29 +24,27 @@ export const TransactionsList = ({
   return (
     <div className="w-full">
       <div className="bg-bgComponents p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
-        <div className="font-bold text-3xl border-b-2 w-full top-0 flex justify-between">
-          <h2>Transacciones</h2>
-          <div className="flex gap-5">
-            {/* Botón de Ingresos: Ahora maneja viewIncomes y cambia de color si está activo */}
+        <div className="font-bold border-b-2 w-full grid md:grid-cols-2">
+          <h2 className="text-3xl">Transacciones</h2>
+          <div className="grid md:grid-cols-2 sm:gap-2 gap-1">
             <button
-              className={`text-2xl font-light rounded-md px-3 transition-colors mb-2
+              className={`text-xl font-light rounded-md px-3 transition-colors mb-2
                 ${viewIncomes ? 'bg-green-500 text-white' : 'bg-zinc-700'}`}
               onClick={() => {
                 setViewIncomes(!viewIncomes);
-                setViewSpends(false); // Desactiva el otro para que actúen como pestañas
+                setViewSpends(false);
               }}
             >
               Ingresos
             </button>
 
-            {/* Botón de Gastos: Ahora maneja viewSpends y cambia de color si está activo */}
             <button
-              className={`text-2xl font-light rounded-md px-3 transition-colors mb-2 ${
+              className={`text-xl font-light rounded-md px-3 transition-colors mb-2 ${
                 viewSpends ? 'bg-red-500 text-white' : 'bg-zinc-700'
               }`}
               onClick={() => {
                 setViewSpends(!viewSpends);
-                setViewIncomes(false); // Desactiva el otro para que actúen como pestañas
+                setViewIncomes(false);
               }}
             >
               Gastos

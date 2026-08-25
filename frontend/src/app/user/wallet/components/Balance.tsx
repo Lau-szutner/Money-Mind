@@ -6,7 +6,7 @@ import { NewTransaction } from './NewTransaction';
 type BalanceProps = {
   income: number;
   spends: number;
-  saving: string;
+  balance: string;
   onDateSelected: (year: number, month: number) => void;
   onTransactionAdded: () => void;
   month: string; // recibe el mes en formato "YYYY-MM"
@@ -14,7 +14,7 @@ type BalanceProps = {
 
 export const Balance = ({
   income,
-  saving,
+  balance,
   spends,
   onDateSelected,
   onTransactionAdded,
@@ -109,6 +109,11 @@ export const Balance = ({
         </div>
 
         <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
+          <p>Saldo:</p>
+          <p className="text-white font-medium">{balance}</p>
+        </div>
+
+        {/* <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
           <p>Entradas:</p>
           <p className="text-greenIn font-medium">{income}</p>
         </div>
@@ -116,11 +121,6 @@ export const Balance = ({
         <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
           <p>Salidas:</p>
           <p className="text-redSpend font-medium">{spends}</p>
-        </div>
-
-        {/* <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
-          <p>Saving:</p>
-          <p className="text-redSpend font-medium">{saving}</p>
         </div> */}
 
         <div className="flex justify-between flex-col lg:flex-row gap-5">

@@ -157,7 +157,7 @@ export default function Wallet() {
             <Balance
               income={income}
               spends={spends}
-              saving={`${balance.toFixed(2)}`}
+              balance={`${balance.toFixed(2)}`}
               onDateSelected={handleDateSelected}
               onTransactionAdded={() => {
                 if (selectedMonth) {

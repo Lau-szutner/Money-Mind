@@ -197,16 +197,18 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
           </Pie>
         </PieChart>
       </ResponsiveContainer>
-      <ul className="grid grid-cols-2 gap-2 justify-between items-center w-full">
+      <ul className="flex flex-wrap gap-2 w-full">
         {transactionsData
           .filter((transaction) => transaction.category !== 'Salario')
           .map((entry, index) => (
             <li
               key={index}
-              className="flex justify-between items-center black-buttons cursor-pointer"
+              className="flex min-w-0 w-full items-center justify-between gap-2 rounded-md black-buttons text-xl sm:w-[48%] lg:w-fit"
             >
-              <p>{entry.category}</p>
-              <p>{((entry.value / total) * 100).toFixed(2)}%</p>
+              <p className="truncate">{entry.category}</p>
+              <p className="shrink-0">
+                {((entry.value / total) * 100).toFixed(2)}%
+              </p>
             </li>
           ))}
       </ul>

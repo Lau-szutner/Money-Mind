@@ -13,10 +13,11 @@ type NewTransactionProps = {
 
 const newTransactionSchema = z.object({
   title: z.string().trim().min(1, 'El titulo es obligatorio'),
-  description: z.string().min(1, 'La descripción es obligatoria'),
+  description: z.string().trim().min(1, 'La descripción es obligatoria'),
   category: z.string().min(1, 'La categoria es obligatoria'),
   date: z.string().min(1, 'La fecha es obligatoria'),
   amount: z.string().min(1, 'El monto es obligatorio'),
+  type: z.string(),
 });
 
 export const NewTransaction = ({
@@ -25,7 +26,6 @@ export const NewTransaction = ({
   onTransactionAdded,
 }: NewTransactionProps) => {
   const [transactionData, setTransactionData] = useState({
-    user_id: '',
     title: '',
     description: '',
     category: '',
@@ -101,7 +101,6 @@ export const NewTransaction = ({
       }
 
       setTransactionData({
-        user_id: '',
         title: '',
         description: '',
         category: '',
