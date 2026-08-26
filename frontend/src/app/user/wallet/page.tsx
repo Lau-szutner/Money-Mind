@@ -10,7 +10,7 @@ import { Balance } from '@/app/user/wallet/components/Balance';
 import { TransactionsList } from '@/app/user/wallet/components/TransactionsList';
 
 import TransactionsPie from '@/app/user/wallet/components/TransactionsPie';
-import Goals from '@/app/user/wallet/components/Goals';
+import { Goals } from '@/app/user/wallet/components/Goals';
 
 import Tracker from '@/app/components/Tracker';
 import Categories from '@/app/user/wallet/components/Categories';
@@ -151,7 +151,7 @@ export default function Wallet() {
 
   return (
     <div className="grid place-items-center">
-      <div className="w-10/12">
+      <div className="w-full xl:w-10/12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
           <div className="grid gap-5 h-fit">
             <Balance

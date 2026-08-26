@@ -63,14 +63,12 @@ export default function CoursesPage() {
   return (
     <main className="flex w-full flex-col">
       <section className="w-full text-white grid gap-10">
-        <ul className="flex flex-col gap-6 text-sm font-medium px-4 items-end text-right">
-          <li>
-            <Link
-              href="/user/courses/creators/studio"
-              className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
-            >
-              Studio
-            </Link>
+        <ul className="flex justify-end  gap-6 text-sm font-medium px-4 ">
+          <li className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150 ">
+            <Link href="/user/courses/creators/studio">Studio</Link>
+          </li>
+          <li className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150">
+            <Link href="/user/courses/creators/studio">Favoritos</Link>
           </li>
         </ul>
 

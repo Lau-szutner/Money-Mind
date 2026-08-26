@@ -1,8 +1,9 @@
-import Image from 'next/image';
-type goalCardProps = {};
+import { useState } from 'react';
 
-const GoalCard: React.FC<goalCardProps> = () => {
-  const progress = 52; // porcentaje actual
+export const GoalCard = () => {
+  const [data, setData] = useState('');
+
+  const progress = 40;
 
   return (
     <div className="bg-[#323232] rounded-lg w-full p-5 h-[100] grid grid-cols-[0fr_1fr] items-center gap-5">
@@ -23,7 +24,7 @@ const GoalCard: React.FC<goalCardProps> = () => {
       <div>
         <h4 className="font-bold text-lg">Titulo</h4>
         <div className="flex justify-between">
-          <p className="font-light">52% completo</p>
+          <p className="font-light">{`${progress}% completo`}</p>
           <p className="font-semibold">$12.000</p>
         </div>
         <div className="w-full h-2 bg-gray-300 rounded-full mt-2 relative overflow-hidden">
@@ -36,5 +37,3 @@ const GoalCard: React.FC<goalCardProps> = () => {
     </div>
   );
 };
-
-export default GoalCard;

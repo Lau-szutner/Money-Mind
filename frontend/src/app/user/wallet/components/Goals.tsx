@@ -1,8 +1,6 @@
-import GoalCard from '@/app/user/wallet/components/GoalCard';
+import { GoalCard } from '@/app/user/wallet/components/GoalCard';
 
-type goalsProps = {};
-
-const Goals: React.FC<goalsProps> = () => {
+export const Goals = () => {
   return (
     <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
       <div className="border-b flex justify-between">
@@ -15,5 +13,3 @@ const Goals: React.FC<goalsProps> = () => {
     </div>
   );
 };
-
-export default Goals;
