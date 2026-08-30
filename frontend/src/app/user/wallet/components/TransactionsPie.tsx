@@ -46,7 +46,7 @@ type PieSectorDataItem = React.SVGProps<SVGPathElement> &
   Partial<SectorProps> &
   PieSectorData;
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#9213D4'];
 
 const renderActiveShape = ({
   cx,

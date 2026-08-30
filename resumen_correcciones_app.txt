@@ -1,0 +1,100 @@
+Resumen de los cambios realizados en Money Mind
+
+1) Problema principal: inconsistencia entre frontend y backend
+
+La aplicación no funcionaba porque el frontend estaba llamando a rutas distintas a las que el backend realmente exponía.
+
+- El backend monta la API de usuarios en /auth
+- El frontend de registro intentaba llamar a /users
+- Eso provocaba llamadas a endpoints inexistentes y fallos de autenticación/registro.
+
+Archivo clave:
+- backend/app.js
+- backend/routes/user.routes.js
+- frontend/src/app/login/components/FormRegister.jsx
+
+2) Ajuste de rutas y autenticación
+
+Se corrigió la lógica de registro y login para que use la misma API y responda de forma coherente.
+
+Cambios:
+- Se mantuvo la ruta de auth para login/registro
+- Se corrigió la respuesta del login para devolver el token y datos del usuario
+- Se dejó un valor por defecto para JWT_SECRET_KEY para desarrollo local
+
+Archivos:
+- backend/controllers/users.controller.js
+- backend/config/jwtUtils.js
+- frontend/src/app/login/components/DoLogin.jsx
+- frontend/src/context/AuthProvider.tsx
+
+3) Corrección del problema con Sequelize y uuid
+
+El error real que impedía arrancar el backend era:
+
+Error [ERR_REQUIRE_ESM]: require() of ES Module ... uuid ... not supported.
+
+Esto se debía a un conflicto entre la versión de uuid instalada y la forma en que Sequelize la requiere con Node moderno.
+
+Se corrigió reinstalando dependencias del monorepo y dejando la versión compatible del paquete.
+
+Archivos:
+- package.json
+- backend/package.json
+
+4) Ajuste de la configuración de entorno y base de datos
+
+Se volvió más robusta la configuración del archivo de entorno para que el proyecto pueda arrancar en local sin romper si faltan datos en desarrollo.
+
+También se dejó un fallback para la URL del backend en frontend y una configuración por defecto para la base de datos local.
+
+Archivos:
+- backend/config/database.js
+- frontend/.env.local
+- frontend/src/app/login/components/DoLogin.jsx
+- frontend/src/app/login/components/FormRegister.jsx
+
+5) Corrección del frontend con Next.js 15
+
+Había un problema de compatibilidad con la firma de params en una ruta dinámica de cursos.
+
+Se ajustó la página:
+- frontend/src/app/user/courses/[courseSlug]/page.tsx
+
+Además, se corrigió la configuración de TypeScript para evitar errores de deprecación en compilación.
+
+Archivo:
+- frontend/tsconfig.json
+
+6) Verificación realizada
+
+Se ejecutaron pruebas reales para validar el resultado.
+
+Backend:
+- npm run dev
+- Resultado verificado:
+  - "Servidor corriendo en http://localhost:4000"
+  - "Conexión a MySQL con Sequelize exitosa"
+
+Frontend:
+- npm run build
+- Resultado verificado:
+  - "✓ Compiled successfully"
+
+7) Estado final
+
+La aplicación quedó corregida para funcionar en desarrollo local de forma coherente entre frontend y backend.
+
+Comando para levantar el proyecto:
+
+cd /Users/lautarofs/Desktop/Money-Mind
+npm run dev
+
+Si querés seguir, el próximo paso útil es probar manualmente:
+- registro
+- login
+- wallet
+- cursos
+- comunidad
+
+Y luego revisar si hay funcionalidades específicas que todavía necesiten ajustes funcionales.

@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import InputField from './InputField';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/';
+
 const FormRegister = ({ hasAccount }) => {
   const [formData, setFormData] = useState({
     email: '',
@@ -23,12 +25,16 @@ const FormRegister = ({ hasAccount }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/users/', {
+      const response = await fetch(`${apiUrl}auth/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          email: formData.email,
+          name: formData.name,
+          password: formData.password,
+        }),
       });
 
       if (response.ok) {
@@ -78,9 +84,9 @@ const FormRegister = ({ hasAccount }) => {
 
       <InputField
         label="Repeat Password"
-        name="password"
+        name="Rpassword"
         type="password"
-        placeholder="Enter your password"
+        placeholder="Repeat your password"
         value={formData.Rpassword}
         onChange={handleChange}
       />

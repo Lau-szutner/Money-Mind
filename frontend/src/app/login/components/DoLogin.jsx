@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { useAuthContext } from '@/context/AuthProvider';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/';
 
 const DoLogin = ({ hasAccount }) => {
   const [userNotFound, setUserNotFound] = useState(false);
@@ -39,18 +39,20 @@ const DoLogin = ({ hasAccount }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Save the token in cookies
         Cookies.set('authToken', data.token, {
           expires: 10,
-          secure: true,
-          sameSite: 'Strict',
+          secure: false,
+          sameSite: 'Lax',
         });
 
         loginWithEmailPassword(
           formData.email,
           formData.password,
           data.token,
-          data.user,
+          data.user || {
+            name: formData.email,
+            email: formData.email,
+          },
         );
 
         router.push('/user/wallet');

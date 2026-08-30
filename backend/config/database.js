@@ -7,13 +7,13 @@ dotenv.config();
 
 // Crea una instancia de Sequelize para conectar con la base de datos
 const sequelize = new Sequelize(
-  process.env.DB_NAME, // El nombre de la base de datos
-  process.env.DB_USER, // El usuario de la base de datos
-  process.env.DB_PASSWORD, // La contraseña del usuario
+  process.env.DB_NAME || 'money_mind_db',
+  process.env.DB_USER || 'root',
+  process.env.DB_PASSWORD || '',
   {
-    host: process.env.DB_HOST, // La dirección del servidor (por defecto localhost)
-    dialect: 'mysql', // Usamos MySQL como base de datos
-    logging: false, // Desactiva los logs de SQL para no verlos en la consola
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'mysql',
+    logging: false,
   },
 );
 

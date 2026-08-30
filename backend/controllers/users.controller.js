@@ -85,9 +85,16 @@ const doLogin = async (req, res) => {
 
     const token = generateToken(user);
 
-    return res.status(200).json({ message: 'Login successful', token });
+    return res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   } catch (error) {
-    // Just return the error.message exactly as it is
     if (
       error.message === 'User not found' ||
       error.message === 'Incorrect password'

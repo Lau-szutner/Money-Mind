@@ -48,6 +48,8 @@ export const useAuthContext = () => {
   return context;
 };
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/';
+
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [status, setStatus] = useState<AuthStatus>(AuthStatus.Checking);
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -83,9 +85,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         const decodedToken = JSON.parse(atob(token.split('.')[1]));
         const userId = decodedToken.id;
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}auth/${userId}`,
-        );
+        const response = await fetch(`${apiUrl}auth/${userId}`);
 
         if (!response.ok) throw new Error();
 

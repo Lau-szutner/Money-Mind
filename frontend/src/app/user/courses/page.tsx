@@ -68,7 +68,7 @@ export default function CoursesPage() {
             <Link href="/user/courses/creators/studio">Studio</Link>
           </li>
           <li className="bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150">
-            <Link href="/user/courses/creators/studio">Favoritos</Link>
+            <Link href="/user/courses/favorites">Favoritos</Link>
           </li>
         </ul>
 

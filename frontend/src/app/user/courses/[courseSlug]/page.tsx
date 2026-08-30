@@ -1,4 +1,4 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/';
 
 interface Instructor {
   id: number;
@@ -38,13 +38,14 @@ const getCourseBySlug = async (slug: string) => {
 };
 
 interface CourseDetailsProps {
-  params: {
+  params: Promise<{
     courseSlug: string;
-  };
+  }>;
 }
 
 export default async function CourseDetails({ params }: CourseDetailsProps) {
-  const course = await getCourseBySlug(params.courseSlug);
+  const { courseSlug } = await params;
+  const course = await getCourseBySlug(courseSlug);
 
   return (
     <main className="p-5">
