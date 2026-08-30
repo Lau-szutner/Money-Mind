@@ -46,8 +46,6 @@ type PieSectorDataItem = React.SVGProps<SVGPathElement> &
   Partial<SectorProps> &
   PieSectorData;
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#9213D4'];
-
 const colorByCategory: Record<string, string> = {
   Salario: '#22C55E',
   Supermercado: '#10B981',
@@ -216,10 +214,10 @@ export const TransactionsPie = ({
             dataKey="value"
             onMouseEnter={onPieEnter}
           >
-            {transactionsData.map((entry, index) => (
+            {totalSpendByMonth.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={getCategoryColor(entry.category)}
               />
             ))}
           </Pie>

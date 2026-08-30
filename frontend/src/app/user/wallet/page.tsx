@@ -8,11 +8,10 @@ import decodeToken from '@/app/utils/decodeToken.js';
 // Components
 import { Balance } from '@/app/user/wallet/components/Balance';
 import { TransactionsList } from '@/app/user/wallet/components/TransactionsList';
-
+import { Tracker } from '@/app/user/wallet/components/Tracker';
 import { TransactionsPie } from '@/app/user/wallet/components/TransactionsPie';
 import { Goals } from '@/app/user/wallet/components/Goals';
 
-import Tracker from '@/app/components/Tracker';
 import Categories from '@/app/user/wallet/components/Categories';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -154,6 +153,7 @@ export default function Wallet() {
       <div className="w-full xl:w-10/12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
           <div className="grid gap-5 h-fit">
+            <Tracker transactions={transactions} />
             <Balance
               income={income}
               spends={spends}
@@ -167,23 +167,21 @@ export default function Wallet() {
               }}
               month={selectedMonth}
             />
-
-            <TransactionsPie transactions={transactions} totalIncome={income} />
+            <TransactionsList
+              transactions={transactions}
+              token={user.token || ''}
+              refreshTransactions={() => {
+                if (selectedMonth) {
+                  const [yearStr, monthStr] = selectedMonth.split('-');
+                  fetchTransactions(Number(yearStr), Number(monthStr));
+                }
+              }}
+            />
           </div>
+          <TransactionsPie transactions={transactions} totalIncome={income} />
 
-          <TransactionsList
-            transactions={transactions}
-            token={user.token || ''}
-            refreshTransactions={() => {
-              if (selectedMonth) {
-                const [yearStr, monthStr] = selectedMonth.split('-');
-                fetchTransactions(Number(yearStr), Number(monthStr));
-              }
-            }}
-          />
           <Goals />
         </div>
-        {/* <Tracker title="tiITIT" /> */}
       </div>
     </div>
   );
