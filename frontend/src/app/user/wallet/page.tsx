@@ -9,7 +9,7 @@ import decodeToken from '@/app/utils/decodeToken.js';
 import { Balance } from '@/app/user/wallet/components/Balance';
 import { TransactionsList } from '@/app/user/wallet/components/TransactionsList';
 
-import TransactionsPie from '@/app/user/wallet/components/TransactionsPie';
+import { TransactionsPie } from '@/app/user/wallet/components/TransactionsPie';
 import { Goals } from '@/app/user/wallet/components/Goals';
 
 import Tracker from '@/app/components/Tracker';

@@ -48,6 +48,34 @@ type PieSectorDataItem = React.SVGProps<SVGPathElement> &
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#9213D4'];
 
+const colorByCategory: Record<string, string> = {
+  Salario: '#22C55E',
+  Supermercado: '#10B981',
+  Entretenimiento: '#3B82F6',
+  Freelance: '#8B5CF6',
+  Salud: '#EC4899',
+  Libros: '#F59E0B',
+  Deportes: '#14B8A6',
+  Tecnología: '#06B6D4',
+  Impuestos: '#EF4444',
+  Comida: '#F97316',
+  Bono: '#84CC16',
+};
+
+const getCategoryColor = (category: string) => {
+  const normalizedCategory = category?.trim();
+  if (!normalizedCategory) return '#7C7C7C';
+
+  const exactMatch = colorByCategory[normalizedCategory];
+  if (exactMatch) return exactMatch;
+
+  const normalizedKey = Object.keys(colorByCategory).find(
+    (key) => key.toLowerCase() === normalizedCategory.toLowerCase(),
+  );
+
+  return normalizedKey ? colorByCategory[normalizedKey] : '#7C7C7C';
+};
+
 const renderActiveShape = ({
   cx,
   cy,
@@ -122,10 +150,10 @@ const renderActiveShape = ({
   );
 };
 
-const TransactionsPie: React.FC<TransactionsPieProps> = ({
+export const TransactionsPie = ({
   transactions,
   totalIncome,
-}) => {
+}: TransactionsPieProps) => {
   // group transactons by name and value, used to transactionsData for the pieChart
   // this code takes all the transactions and reduce it to get the total of each one
 
@@ -203,7 +231,10 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
           .map((entry, index) => (
             <li
               key={index}
-              className="flex min-w-0 w-full items-center justify-between gap-2 rounded-md black-buttons text-xl sm:w-[48%] lg:w-fit"
+              className="flex min-w-0 w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-xl text-white sm:w-[48%] lg:w-fit"
+              style={{
+                backgroundColor: getCategoryColor(entry.category),
+              }}
             >
               <p className="truncate">{entry.category}</p>
               <p className="shrink-0">
@@ -216,4 +247,4 @@ const TransactionsPie: React.FC<TransactionsPieProps> = ({
   );
 };
 
-export default TransactionsPie;
+// bg-${entry.category}
