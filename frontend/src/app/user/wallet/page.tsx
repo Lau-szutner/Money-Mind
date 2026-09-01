@@ -153,7 +153,6 @@ export default function Wallet() {
       <div className="w-full xl:w-10/12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 m-5">
           <div className="grid gap-5 h-fit">
-            <Tracker transactions={transactions} />
             <Balance
               income={income}
               spends={spends}
@@ -178,9 +177,11 @@ export default function Wallet() {
               }}
             />
           </div>
-          <TransactionsPie transactions={transactions} totalIncome={income} />
-
-          <Goals />
+          <div className="grid gap-5 h-fit">
+            <TransactionsPie transactions={transactions} totalIncome={income} />
+            <Tracker transactions={transactions} />
+          </div>
+          {/* <Goals /> */}
         </div>
       </div>
     </div>
