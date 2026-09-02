@@ -11,6 +11,7 @@ import { TransactionsList } from '@/app/user/wallet/components/TransactionsList'
 import { Tracker } from '@/app/user/wallet/components/Tracker';
 import { TransactionsPie } from '@/app/user/wallet/components/TransactionsPie';
 import { Goals } from '@/app/user/wallet/components/Goals';
+import { formatNumber } from '@/app/utils/formatters';
 
 import Categories from '@/app/user/wallet/components/Categories';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -156,7 +157,7 @@ export default function Wallet() {
             <Balance
               income={income}
               spends={spends}
-              balance={`${balance.toFixed(2)}`}
+              balance={formatNumber(balance)}
               onDateSelected={handleDateSelected}
               onTransactionAdded={() => {
                 if (selectedMonth) {

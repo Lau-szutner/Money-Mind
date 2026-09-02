@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { formatNumber } from '@/app/utils/formatters';
 
 type Transaction = {
   id: string;
@@ -56,6 +57,25 @@ const normalizeDateKey = (value?: string) => {
 };
 
 const getCategoryName = (value?: string) => value?.trim() || 'Sin categoría';
+
+const TrackerTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null;
+
+  const visibleItems = payload.filter((item: any) => Number(item.value) > 0);
+
+  if (!visibleItems.length) return null;
+
+  return (
+    <div className="rounded-lg border border-gray-300 bg-gray-100 p-2 text-sm text-gray-900 shadow-lg">
+      <p className="mb-1 font-medium">{label}</p>
+      {visibleItems.map((item: any) => (
+        <p key={item.dataKey} style={{ color: item.color }}>
+          {item.name}: ${formatNumber(item.value)}
+        </p>
+      ))}
+    </div>
+  );
+};
 
 export const Tracker = ({ transactions }: TrackerProps) => {
   const chartData = React.useMemo(() => {
@@ -115,7 +135,7 @@ export const Tracker = ({ transactions }: TrackerProps) => {
   }, [chartData]);
 
   return (
-    <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
+    <div className="relative z-10 bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
       <div className="border-b flex justify-between items-center pb-3 mb-4">
         <h3 className="font-bold text-3xl">Tracker</h3>
       </div>
@@ -144,16 +164,8 @@ export const Tracker = ({ transactions }: TrackerProps) => {
                 axisLine={false}
               />
               <Tooltip
-                formatter={(value: number | string, name: string | number) => [
-                  `$${Number(value).toFixed(2)}`,
-                  String(name),
-                ]}
-                labelStyle={{ color: '#111827' }}
-                contentStyle={{
-                  backgroundColor: '#F3F4F6',
-                  border: '1px solid #D1D5DB',
-                  borderRadius: '8px',
-                }}
+                content={<TrackerTooltip />}
+                wrapperStyle={{ zIndex: 50 }}
               />
               <Legend />
               {categories.map((category) => (

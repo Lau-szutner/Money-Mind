@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import { formatNumber } from '@/app/utils/formatters';
 import {
   PieChart,
   Pie,
@@ -197,7 +198,7 @@ export const TransactionsPie = ({
         Gastos por categoria
       </h1>
       <h2 className="font-semibold text-xl">
-        Total: ${(total - totalIncome).toFixed(2)}
+        Total: ${formatNumber(total - totalIncome)}
       </h2>
 
       <ResponsiveContainer width="100%" height={500}>

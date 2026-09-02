@@ -21,6 +21,8 @@ export const TransactionsList = ({
     return true;
   });
 
+
+
   return (
     <>
       <style>{`

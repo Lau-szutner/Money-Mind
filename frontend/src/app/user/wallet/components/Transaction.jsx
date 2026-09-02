@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { categorySpendData, categoryIncomeData } from '@/app/utils/categories';
+import { formatNumber, formatShortDate } from '@/app/utils/formatters';
+
 export const Transaction = ({
   title,
   description,
@@ -125,9 +127,12 @@ export const Transaction = ({
               }`}
             >
               {type === 'income' ? '+ ' : '- '}
-              {amount}
+              {formatNumber(amount)}
             </p>
-            <p className="font-light">{description}</p>
+            {/* <p className="font-light">{description}</p> */}
+            <p className="font-light">
+              {date ? formatShortDate(date) : 'Sin fecha'}
+            </p>
           </div>
         </div>
       </div>

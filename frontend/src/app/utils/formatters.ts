@@ -7,3 +7,23 @@ export const formatDate = (date: string | Date) => {
     year: 'numeric',
   });
 };
+
+export const formatShortDate = (date: string | Date) => {
+  const d = new Date(date);
+
+  return d.toLocaleDateString('es-AR', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  });
+};
+
+export const formatNumber = (value: number | string | null | undefined) => {
+  const numberValue = Number(value);
+
+  if (!Number.isFinite(numberValue)) return '0';
+
+  return new Intl.NumberFormat('es-AR', {
+    maximumFractionDigits: 0,
+  }).format(numberValue);
+};
