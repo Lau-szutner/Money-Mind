@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { formatNumber } from '@/app/utils/formatters';
 import {
   PieChart,
@@ -39,7 +39,7 @@ type PieSectorData = {
   tooltipPosition?: Coordinate;
   value?: number;
   paddingAngle?: number;
-  dataKey?: string;
+  dataKey?: string | number | ((obj: any) => any);
   payload?: any;
 };
 
@@ -181,13 +181,6 @@ export const TransactionsPie = ({
   // console.log(transactionsData);
   const total = transactionsData.reduce((acc, curr) => acc + curr.value, 0);
 
-  // state por active selector
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const onPieEnter = (_: any, index: number) => {
-    setActiveIndex(index);
-  };
-
   const totalSpendByMonth = transactionsData.filter(
     (transaction) => transaction.type !== 'income',
   );
@@ -204,7 +197,6 @@ export const TransactionsPie = ({
       <ResponsiveContainer width="100%" height={500}>
         <PieChart>
           <Pie
-            activeIndex={activeIndex}
             activeShape={renderActiveShape}
             data={totalSpendByMonth}
             cx="50%"
@@ -213,7 +205,6 @@ export const TransactionsPie = ({
             outerRadius={120}
             fill="#8884d8"
             dataKey="value"
-            onMouseEnter={onPieEnter}
           >
             {totalSpendByMonth.map((entry, index) => (
               <Cell

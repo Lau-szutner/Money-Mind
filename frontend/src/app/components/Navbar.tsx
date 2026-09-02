@@ -66,7 +66,11 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/wallet"
-          className="hover:bg-greenIn cursor-pointer px-8 py-3 rounded-md transition duration-150"
+          className={`cursor-pointer rounded-md px-8 py-3 transition duration-150 ${
+            pathname === '/user/wallet' || pathname?.startsWith('/user/wallet/')
+              ? 'bg-greenIn'
+              : 'hover:bg-greenIn'
+          }`}
         >
           Billetera
         </Link>
@@ -74,7 +78,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/community"
-          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
+          className={`cursor-pointer rounded-md px-3 py-3 transition duration-150 ${
+            pathname === '/user/community' ||
+            pathname?.startsWith('/user/community/')
+              ? 'bg-greenIn'
+              : 'hover:bg-greenIn'
+          }`}
         >
           Comunidad
         </Link>
@@ -82,7 +91,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
       <li>
         <Link
           href="/user/courses"
-          className="hover:bg-greenIn cursor-pointer px-3 py-3 rounded-md transition duration-150"
+          className={`cursor-pointer rounded-md px-3 py-3 transition duration-150 ${
+            pathname === '/user/courses' ||
+            pathname?.startsWith('/user/courses/')
+              ? 'bg-greenIn'
+              : 'hover:bg-greenIn'
+          }`}
         >
           Cursos
         </Link>
@@ -105,7 +119,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
         <li>
           <Link
             href="/user/wallet"
-            className="cursor-pointer hover:text-green-500"
+            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+              pathname === '/user/wallet' ||
+              pathname?.startsWith('/user/wallet/')
+                ? 'bg-greenIn'
+                : 'hover:bg-greenIn'
+            }`}
             onClick={() => setIsOpen(false)}
           >
             Billetera
@@ -114,7 +133,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
         <li>
           <Link
             href="/user/community"
-            className="cursor-pointer hover:text-green-500"
+            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+              pathname === '/user/community' ||
+              pathname?.startsWith('/user/community/')
+                ? 'bg-greenIn'
+                : 'hover:bg-greenIn'
+            }`}
             onClick={() => setIsOpen(false)}
           >
             Comunidad
@@ -123,7 +147,12 @@ const Navbar: React.FC<Props> = ({ id }) => {
         <li>
           <Link
             href="/user/courses"
-            className="cursor-pointer hover:text-green-500"
+            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+              pathname === '/user/courses' ||
+              pathname?.startsWith('/user/courses/')
+                ? 'bg-greenIn'
+                : 'hover:bg-greenIn'
+            }`}
             onClick={() => setIsOpen(false)}
           >
             Cursos
