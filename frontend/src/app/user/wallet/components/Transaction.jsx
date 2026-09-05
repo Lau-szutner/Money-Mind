@@ -116,13 +116,13 @@ export const Transaction = ({
               className="w-10 mr-5"
             />
             <div>
-              <p className="font-bold text-2xl">{title}</p>
+              <p className="font-bold text-xl">{title}</p>
               <p className="flex items-center gap-2">{category}</p>
             </div>
           </div>
           <div className={`flex flex-col items-end`}>
             <p
-              className={`font-bold text-2xl ${
+              className={`font-bold text-xl ${
                 type === 'expense' ? 'text-redSpend' : 'text-greenIn'
               }`}
             >
