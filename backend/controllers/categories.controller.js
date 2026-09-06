@@ -1,5 +1,5 @@
 //contollers/categories.controller.js
-import Category from '../models/Category.js';
+import Category from '../models/walletModels/Category.js';
 
 const getAllCategories = async (req, res) => {
   const userId = req.userId;

@@ -1,7 +1,10 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CourseCard from '@/app/components/CourseCard';
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface Instructor {
   id: number;
@@ -21,8 +24,6 @@ interface Course {
   price: number;
   currency: string;
 }
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);

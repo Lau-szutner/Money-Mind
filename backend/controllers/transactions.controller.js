@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import Transaction from '../models/Transaction.js'; // Cambio de Spend a Transaction
+import Transaction from '../models/walletModels/Transaction'; // Cambio de Spend a Transaction
+
 import { where } from 'sequelize';
 import { Op } from 'sequelize';
 
