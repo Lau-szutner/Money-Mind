@@ -2,13 +2,13 @@
 import sequelize from '../config/database.js';
 
 import User from './User.js';
-import Post from './Post.js';
-import Transaction from './Transaction.js';
-import PostVote from './PostVote.js';
-import Community from './Community.js';
-import Course from './Course.js';
-import Category from './Category.js';
-import UserCommunity from './UserCommunity.js';
+import Post from './communityModels/Post.js';
+import Transaction from './walletModels/Transaction.js';
+import PostVote from './communityModels/PostVote.js';
+import Community from './communityModels/Community.js';
+import Course from './coursesModels/Course.js';
+import Category from './walletModels/Category.js';
+import UserCommunity from './communityModels/UserCommunity.js';
 
 /**
  * RELACIONES DE USUARIO

@@ -1,7 +1,7 @@
 //models/PostVote.js
 
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+import sequelize from '../../config/database.js';
 
 const PostVote = sequelize.define(
   'PostVote',
@@ -21,7 +21,7 @@ const PostVote = sequelize.define(
     freezeTableName: true,
     timestamps: true,
     underscored: true,
-  }
+  },
 );
 
 export default PostVote;

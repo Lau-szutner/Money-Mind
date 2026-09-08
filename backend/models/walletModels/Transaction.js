@@ -1,6 +1,6 @@
 // models/Transactions.js
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+import sequelize from '../../config/database.js';
 
 const Transaction = sequelize.define(
   'Transaction',
@@ -43,7 +43,7 @@ const Transaction = sequelize.define(
   {
     tableName: 'transactions', // Mantener coherencia en minúsculas
     underscored: true, // Nombres de columnas en snake_case
-  }
+  },
 );
 
 export default Transaction;

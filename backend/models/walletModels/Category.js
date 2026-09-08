@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
+import sequelize from '../../config/database.js';
 
 const Category = sequelize.define(
   'Category',
@@ -15,7 +15,7 @@ const Category = sequelize.define(
       allowNull: false,
     },
   },
-  { timestamps: true, tableName: 'categories' }
+  { timestamps: true, tableName: 'categories' },
 );
 
 export default Category;
