@@ -21,8 +21,6 @@ export const TransactionsList = ({
     return true;
   });
 
-
-
   return (
     <>
       <style>{`
@@ -50,39 +48,22 @@ export const TransactionsList = ({
       `}</style>
 
       <div className="w-full">
-        <div className="bg-bgComponents p-6 rounded-lg flex flex-col gap-5 justify-center items-center">
-          <div className="font-bold border-b-2 w-full grid md:grid-cols-2">
-            <h2 className="text-3xl">Transacciones</h2>
-            <div className="grid md:grid-cols-2 sm:gap-2 gap-1">
-              <button
-                className={`text-xl font-light rounded-md px-3 transition-colors mb-2
-                  ${viewIncomes ? 'bg-green-500 text-white' : 'bg-zinc-700'}`}
-                onClick={() => {
-                  setViewIncomes(!viewIncomes);
-                  setViewSpends(false);
-                }}
-              >
-                Ingresos
-              </button>
-
-              <button
-                className={`text-xl font-light rounded-md px-3 transition-colors mb-2 ${
-                  viewSpends ? 'bg-red-500 text-white' : 'bg-zinc-700'
-                }`}
-                onClick={() => {
-                  setViewSpends(!viewSpends);
-                  setViewIncomes(false);
-                }}
-              >
-                Gastos
-              </button>
-            </div>
+        <div className="component-container flex flex-col gap-5 justify-center items-center">
+          <div className="border-b-2 w-full grid md:grid-cols-2">
+            <h2 className="text-heading-lg font-bold">Transacciones</h2>
           </div>
+
+          <FilterButton
+            viewIncomes={viewIncomes}
+            setViewIncomes={setViewIncomes}
+            viewSpends={viewSpends}
+            setViewSpends={setViewSpends}
+          />
 
           {filteredTransactions.length === 0 ? (
             <p>No hay transacciones disponibles para este filtro.</p>
           ) : (
-            <div className="transaction-scroll w-full max-h-[840px] overflow-y-auto pr-1">
+            <div className="transaction-scroll w-full max-h-210 overflow-y-auto pr-1">
               <ul className="w-full flex flex-col gap-2">
                 {filteredTransactions.map((transaction) => (
                   <Transaction
@@ -107,3 +88,38 @@ export const TransactionsList = ({
     </>
   );
 };
+
+function FilterButton({
+  viewIncomes,
+  setViewIncomes,
+  viewSpends,
+  setViewSpends,
+}) {
+  return (
+    <>
+      <div className="grid md:grid-cols-2 sm:gap-2 w-full gap-2">
+        <button
+          className={`rounded-md transition-colors w-full h-10 shadow-custom
+          ${viewIncomes ? 'bg-greenIn text-white' : 'bg-zinc-700'}`}
+          onClick={() => {
+            setViewIncomes(!viewIncomes);
+            setViewSpends(false);
+          }}
+        >
+          Ingresos
+        </button>
+
+        <button
+          className={`rounded-md transition-colors w-full h-10 shadow-custom
+            ${viewSpends ? 'bg-redSpend text-white' : 'bg-zinc-700'}`}
+          onClick={() => {
+            setViewSpends(!viewSpends);
+            setViewIncomes(false);
+          }}
+        >
+          Gastos
+        </button>
+      </div>
+    </>
+  );
+}

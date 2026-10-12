@@ -51,7 +51,7 @@ const FormRegister = ({ hasAccount }) => {
   return (
     <form
       onSubmit={handleRegister}
-      className="bg-bgComponents rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12"
+      className="rounded-lg text-xl flex flex-col w-11/12 p-5 gap-5 lg:w-4/12 bg-bgComponents"
     >
       <h1 className="loginFormTitle">Registration</h1>
 

@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className="h-full text-white px-6 py-12">
+    <main className="h-full px-6 py-12">
       <div className="max-w-6xl mx-auto space-y-20 bg-">
         {/* Sobre la marca */}
         <section className="grid md:grid-cols-2 gap-2 items-stretch">
-          <div className="space-y-2 bg-bgComponents p-5 rounded-xl h-full">
-            <h2 className="text-2xl font-semibold text-white">
+          <div className="space-y-2 p-5 rounded-xl h-full">
+            <h2 className="text-2xl font-semibold">
               ¿Qué es <span className="text-green-500">Money</span>Mind?
             </h2>
 
@@ -33,7 +33,7 @@ export default function Home() {
 
         {/* Secciones de la plataforma */}
         <section className="space-y-12">
-          <h2 className="text-3xl font-semibold text-center text-white">
+          <h2 className="text-3xl font-semibold text-center ">
             Todo lo que incluye la plataforma
           </h2>
 
@@ -72,7 +72,7 @@ export default function Home() {
 
         {/* CTA final */}
         <section className="text-center space-y-4 flex flex-col items-center">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold ">
             Empieza tu camino financiero con propósito
           </h2>
 
@@ -81,7 +81,7 @@ export default function Home() {
             inteligencia.
           </p>
 
-          <div className="mt-4 px-6 py-3 bg-[#39B54A] text-black rounded-xl font-semibold hover:bg-green-600 transition w-3/12 ">
+          <div className="mt-4 px-6 py-3 text-black rounded-xl font-semibold bg-greenIn hover:bg-green-600 transition w-3/12 ">
             <Link href="/login" className="cursor-pointer">
               Empezar ahora
             </Link>

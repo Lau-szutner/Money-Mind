@@ -79,14 +79,15 @@ export const Balance = ({
   );
 
   return (
-    <div className="bg-bgComponents rounded-lg text-2xl w-full flex flex-col p-5 h-fit">
-      <h2 className="font-bold text-3xl border-b-2">Billetera</h2>
+    <div
+      className="component-container
+    w-full flex flex-col p-5 h-fit"
+    >
+      <h2 className="font-bold text-heading-lg border-b-2">Billetera</h2>
       <div className="grid w-full gap-5 ">
         <div className="w-full flex justify-between bg-black rounded-md items-center h-fit p-5 mt-5">
-          <p className="">
-            {balanceMonth
-              ? `Gastos de ${balanceMonth}`
-              : 'Por favor, seleccione un mes'}
+          <p className="text-body">
+            {balanceMonth ? `Gastos de ${balanceMonth}` : 'Seleccione un mes'}
           </p>
 
           <div className="relative w-6 h-6">
@@ -108,7 +109,7 @@ export const Balance = ({
           </div>
         </div>
 
-        <div className="w-full flex justify-between border-b border-b-whiteText h-fit">
+        <div className="w-full flex justify-between border-b border-b-white h-fit text-body">
           <p>Saldo:</p>
           <p className="text-white font-medium">{balance}</p>
         </div>

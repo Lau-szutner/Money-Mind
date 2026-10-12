@@ -3,7 +3,6 @@
 import { AuthProvider } from '@/context/AuthProvider';
 
 import { Montserrat } from 'next/font/google';
-import './normalize.css';
 import './globals.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
