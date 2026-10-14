@@ -187,7 +187,7 @@ export const TransactionsPie = ({
 
   return (
     <div className="bg-bgComponents p-5 rounded-lg text-2xl flex flex-col gap-4 items-center w-full ">
-      <h1 className="font-bold text-3xl border-b-2 w-full top-0">
+      <h1 className="font-bold text-heading-lg border-b-2 w-full top-0">
         Gastos por categoria
       </h1>
       <h2 className="font-semibold text-xl">
