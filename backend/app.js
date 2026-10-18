@@ -4,7 +4,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.routes.js';
 import transactionRoutes from './routes/transaction.routes.js';
-import postRoutes from './routes/post.routes.js'; // ✅ Nueva ruta importada
+import postRoutes from './routes/post.routes.js';
 import courseRoutes from './routes/course.routes.js';
 import communityRoutes from './routes/communities.routes.js';
 import cors from 'cors';
@@ -16,15 +16,24 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
+const allowedOrigins = ['http://localhost:3000', process.env.FRONTEND_URL];
 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Frontend
-  methods: 'GET,POST,PUT,DELETE', // Métodos permitidos
-  allowedHeaders: 'Content-Type,Authorization', // Encabezados permitidos
+  origin: (origin, callback) => {
+    // Permite peticiones sin 'origin' (como llamadas desde Postman, Thunder Client o servidor a servidor)
+    // o peticiones que provengan de la lista de orígenes permitidos.
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Acceso no permitido por la política de CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true, // Importante si manejas cookies o tokens de autenticación
 };
 
 app.use(cors(corsOptions));
-// Middleware para procesar JSON
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, (req, res) => {
@@ -41,10 +50,18 @@ app.use('/communities', communityRoutes);
 
 const startServer = (port) => {
   const server = app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+    // Detectamos si estamos en desarrollo o en producción
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    // Definimos la URL base según el entorno
+    const baseUrl = isProduction
+      ? process.env.RENDER_EXTERNAL_URL || `Puerto ${port}`
+      : `http://localhost:${port}`;
+
     console.log(
-      `Documentacion corriendo en http://localhost:${port}/api-docs/`,
+      `Server running [${isProduction ? 'PRODUCTION' : 'DEVELOPING'}]: ${baseUrl}`,
     );
+    console.log(`Documentation: ${baseUrl}/api-docs/`);
   });
 
   server.on('error', (err) => {

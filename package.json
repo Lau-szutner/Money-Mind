@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/Lau-szutner/Cash-Flow#readme",
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "dotenv-cli": "^11.0.0"
   },
   "dependencies": {
     "zod": "^4.4.3"
