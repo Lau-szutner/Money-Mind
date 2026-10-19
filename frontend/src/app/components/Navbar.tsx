@@ -1,22 +1,18 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { useAuthContext } from '@/context/AuthProvider';
+import { AuthStatus, useAuthContext } from '@/context/AuthProvider';
 
-interface Props {
-  id: string;
-}
-
-const Navbar: React.FC<Props> = ({ id }) => {
+const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   // Extraemos logout para corregir la función de salida
-  const { user, status, logout } = useAuthContext();
+  const { user, status, logout, isAuthenticated } = useAuthContext();
 
   // SOLUCIÓN: Cambiado a false para que el menú inicie cerrado en móviles
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +26,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   // SOLUCIÓN: Modificado para que retorne JSX directamente de forma condicional y limpia
   const renderDisplayName = () => {
-    if (status === 'checking') {
+    if (status === AuthStatus.Checking) {
       return (
         <span className="text-gray-400 italic text-sm">
           Cargando usuario...
@@ -38,7 +34,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       );
     }
 
-    if (status === 'authenticated' && user) {
+    if (status === AuthStatus.Authenticated && user) {
       return (
         <p className="text-sm font-semibold">
           Hola, <span className="text-green-400">{user.name}</span> 👋
@@ -46,7 +42,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
       );
     }
 
-    if (status === 'unauthenticated') {
+    if (status === AuthStatus.Unauthenticated) {
       return (
         <Link
           href="/login"
@@ -55,6 +51,14 @@ const Navbar: React.FC<Props> = ({ id }) => {
         >
           Iniciar Sesión
         </Link>
+      );
+    }
+
+    if (status === AuthStatus.Error) {
+      return (
+        <span className="text-red-400 text-sm">
+          No se pudo validar la sesión
+        </span>
       );
     }
 
@@ -116,48 +120,52 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </button>
       </div>
       <ul className="flex flex-col gap-6 text-sm font-medium px-4 items-end text-right">
-        <li>
-          <Link
-            href="/user/wallet"
-            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
-              pathname === '/user/wallet' ||
-              pathname?.startsWith('/user/wallet/')
-                ? 'bg-greenIn'
-                : 'hover:bg-greenIn'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            Billetera
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/user/community"
-            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
-              pathname === '/user/community' ||
-              pathname?.startsWith('/user/community/')
-                ? 'bg-greenIn'
-                : 'hover:bg-greenIn'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            Comunidad
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/user/courses"
-            className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
-              pathname === '/user/courses' ||
-              pathname?.startsWith('/user/courses/')
-                ? 'bg-greenIn'
-                : 'hover:bg-greenIn'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            Cursos
-          </Link>
-        </li>
+        {status === AuthStatus.Authenticated && (
+          <>
+            <li>
+              <Link
+                href="/user/wallet"
+                className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+                  pathname === '/user/wallet' ||
+                  pathname?.startsWith('/user/wallet/')
+                    ? 'bg-greenIn'
+                    : 'hover:bg-greenIn'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                Billetera
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/user/community"
+                className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+                  pathname === '/user/community' ||
+                  pathname?.startsWith('/user/community/')
+                    ? 'bg-greenIn'
+                    : 'hover:bg-greenIn'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                Comunidad
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/user/courses"
+                className={`cursor-pointer rounded-md px-3 py-2 transition duration-150 ${
+                  pathname === '/user/courses' ||
+                  pathname?.startsWith('/user/courses/')
+                    ? 'bg-greenIn'
+                    : 'hover:bg-greenIn'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                Cursos
+              </Link>
+            </li>
+          </>
+        )}
 
         {/* SOLUCIÓN: Se ejecuta como función y hereda una celda independiente con borde */}
         <li className="border-t border-gray-700 w-full text-right pt-4">
@@ -165,7 +173,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
         </li>
 
         {/* El botón de cerrar sesión solo debería verse si está autenticado */}
-        {status === 'authenticated' && (
+        {status === AuthStatus.Authenticated && (
           <li>
             <p className="cursor-pointer hover:text-red-500" onClick={doLogout}>
               Cerrar sesión
@@ -177,9 +185,7 @@ const Navbar: React.FC<Props> = ({ id }) => {
   );
 
   const title = (
-    <div
-      className={`bg-bgComponents Header flex items-center ${pathname === '/login' || pathname === '/' ? 'justify-center w-full' : 'justify-start min-w-[140px] lg:min-w-[180px]'}`}
-    >
+    <div className={`bg-bgComponents flex items-center`}>
       <div className="text-3xl font-bold text-center">
         <Link
           href="/"
@@ -191,12 +197,16 @@ const Navbar: React.FC<Props> = ({ id }) => {
             width={150}
             height={150}
             priority
-            className="w-[130px] h-auto sm:w-[150px]"
+            className="w-50 h-auto"
           />
         </Link>
       </div>
     </div>
   );
+
+  useEffect(() => {
+    console.log('Estado de autenticación:', status);
+  }, [status]);
 
   const User = (
     <div className="hidden lg:flex items-center justify-end min-w-[140px] lg:min-w-[180px]">
@@ -243,26 +253,33 @@ const Navbar: React.FC<Props> = ({ id }) => {
 
   return (
     <nav className="bg-bgComponents text-white w-full h-fit px-4 sm:px-6 lg:px-10 py-3">
-      <div className="w-full flex items-center">
-        {pathname === '/login' || pathname === '/' ? (
+      <div className="flex items-center">
+        {!isAuthenticated ? (
           <div className="w-full flex justify-center">{title}</div>
         ) : (
           <>
             <div className="flex-1 flex justify-start">{title}</div>
+
             <div className="hidden lg:flex flex-1 justify-center">
               {menuDesktop}
             </div>
+
             <div className="hidden lg:flex flex-1 justify-end">{User}</div>
+
+            <button
+              type="button"
+              className="lg:hidden ml-auto"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={isOpen}
+            >
+              {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            </button>
+
+            {menuBurguer}
           </>
         )}
-        <button
-          className="lg:hidden ml-auto"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-        </button>
       </div>
-      {menuBurguer}
     </nav>
   );
 };

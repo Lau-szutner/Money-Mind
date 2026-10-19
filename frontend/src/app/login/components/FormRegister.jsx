@@ -104,7 +104,7 @@ const FormRegister = ({ hasAccount }) => {
 
       <div className="flex gap-3 justify-center">
         <p>Already have and account?</p>
-        <button className="font-bold" onClick={hasAccount}>
+        <button className="font-bold cursor-pointer" onClick={hasAccount}>
           Login
         </button>
       </div>

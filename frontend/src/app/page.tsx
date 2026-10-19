@@ -81,7 +81,7 @@ export default function Home() {
             inteligencia.
           </p>
 
-          <div className="mt-4 px-6 py-3 text-black rounded-xl font-semibold bg-greenIn hover:bg-green-600 transition w-3/12 ">
+          <div className="mt-4 px-6 py-3 text-black rounded-xl font-semibold bg-greenIn hover:bg-green-600 transition w-fit">
             <Link href="/login" className="cursor-pointer">
               Empezar ahora
             </Link>

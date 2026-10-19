@@ -45,7 +45,9 @@ const getUser = async (req, res) => {
 
   try {
     // Buscar el usuario por su ID
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'register_date'],
+    });
 
     if (!user) {
       // Si no se encuentra el usuario, responde con un error
@@ -62,9 +64,29 @@ const getUser = async (req, res) => {
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.userId, {
+      attributes: ['id', 'name', 'email'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'Error al obtener usuario', message: error.message });
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email', 'register_date'],
+    });
     res.status(200).json(users);
   } catch (error) {
     res
@@ -106,4 +128,4 @@ const doLogin = async (req, res) => {
   }
 };
 
-export { createUser, getUser, getUsers, doLogin };
+export { createUser, getUser, getCurrentUser, getUsers, doLogin };
