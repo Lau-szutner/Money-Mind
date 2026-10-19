@@ -99,7 +99,7 @@ function FilterButton({
     <>
       <div className="grid md:grid-cols-2 sm:gap-2 w-full gap-2">
         <button
-          className={`rounded-md transition-colors w-full h-10 shadow-custom
+          className={`rounded-md transition-colors w-full h-10 shadow-custom cursor-pointer
           ${viewIncomes ? 'bg-greenIn text-white' : 'bg-zinc-700'}`}
           onClick={() => {
             setViewIncomes(!viewIncomes);
@@ -110,7 +110,7 @@ function FilterButton({
         </button>
 
         <button
-          className={`rounded-md transition-colors w-full h-10 shadow-custom
+          className={`rounded-md transition-colors w-full h-10 shadow-custom cursor-pointer
             ${viewSpends ? 'bg-redSpend text-white' : 'bg-zinc-700'}`}
           onClick={() => {
             setViewSpends(!viewSpends);

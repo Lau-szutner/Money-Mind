@@ -268,7 +268,7 @@ const Navbar = () => {
 
             <button
               type="button"
-              className="lg:hidden ml-auto"
+              className="lg:hidden ml-auto cursor-pointer"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={isOpen}
