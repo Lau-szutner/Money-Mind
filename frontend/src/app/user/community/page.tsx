@@ -9,7 +9,7 @@ import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
 import { PostType, CommunityBasic } from '@/app/types/types';
 import SearchBy from '@/app/components/SearchBy';
-import FilterByCommunity from '@/app/components/FilterByCommunity';
+import CommunitySideBar from '@/app/components/CommunitySideBar';
 
 interface CommunityType {
   id: number;
@@ -129,8 +129,8 @@ export default function Community() {
           New post
         </button>
       </div> */}
-      <section className="text-white w-full grid  gap-8 grid-cols-2">
-        <FilterByCommunity communities={communitiesData} />
+      <section className="text-white w-full grid  gap-8 grid-cols-3">
+        <CommunitySideBar communities={communitiesData} />
 
         <div className="p-10 bg-bgComponents rounded-xl">
           {newPostOpen && (

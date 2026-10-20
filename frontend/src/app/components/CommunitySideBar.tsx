@@ -6,7 +6,7 @@ import NewCommunity from '@/app/user/community/components/NewCommunity';
 
 const ChatsArray = ['MoneyGOl123', 'nickBlack1', 'CoffeBlow'];
 
-interface FilterByCommunityProps {
+interface CommunitySideBarProps {
   communities: CommunityBasic[];
 }
 
