@@ -180,7 +180,7 @@ export default function Wallet() {
           </div>
           <div className="grid gap-5 h-fit">
             <TransactionsPie transactions={transactions} totalIncome={income} />
-            <Tracker transactions={transactions} />
+            {/* <Tracker transactions={transactions} /> */}
           </div>
           {/* <Goals /> */}
         </div>

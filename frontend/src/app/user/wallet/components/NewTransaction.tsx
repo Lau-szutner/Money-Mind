@@ -115,9 +115,9 @@ export const NewTransaction = ({
   };
 
   return (
-    <div className="font-regular">
-      <div className="bg-bgComponents p-5 rounded-lg m-5">
-        <h1 className="font-bold text-center my-2">{title}</h1>
+    <div>
+      <div className="bg-bgComponents rounded-lg m-5">
+        <p className="font-bold text-center my-2 text-2xl">{title}</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           {formError && (
@@ -128,7 +128,7 @@ export const NewTransaction = ({
 
           <input
             type="text"
-            className="p-1 rounded w-full text-gray-500 text-center"
+            className="p-1 rounded w-full text-gray-500 text-center bg-foreground placeholder:text-gray-500"
             placeholder="Titulo"
             name="title"
             value={transactionData.title}
@@ -136,7 +136,7 @@ export const NewTransaction = ({
           />
           <input
             type="text"
-            className="p-1 rounded w-full text-gray-500 text-center"
+            className="p-1 rounded w-full text-gray-500 text-center bg-foreground placeholder:text-gray-500"
             placeholder="Descripción"
             name="description"
             value={transactionData.description}
@@ -145,7 +145,7 @@ export const NewTransaction = ({
 
           <select
             name="category"
-            className="p-1 rounded w-full text-gray-500 text-center"
+            className="p-1 rounded w-full text-gray-500 text-center bg-foreground"
             value={transactionData.category}
             onChange={handleChangeData}
           >
@@ -165,7 +165,7 @@ export const NewTransaction = ({
 
           <input
             type="date"
-            className="p-1 rounded w-full text-gray-500 text-center"
+            className="p-1 rounded w-full text-gray-500 text-center bg-foreground [&::-webkit-datetime-edit]:justify-center [&::-webkit-datetime-edit]:flex"
             placeholder="date"
             name="date"
             value={transactionData.date}
@@ -173,7 +173,7 @@ export const NewTransaction = ({
           />
           <input
             type="number"
-            className="p-1 rounded w-full text-gray-500 text-center"
+            className="p-1 rounded w-full text-gray-500 text-center bg-foreground placeholder:text-gray-500"
             placeholder="Monto"
             name="amount"
             value={transactionData.amount}

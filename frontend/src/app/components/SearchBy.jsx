@@ -7,7 +7,7 @@ const SearchBy = () => {
         <input
           type="text"
           placeholder="Search on MoneyMind"
-          className="bg-bgComponents placeholder-white text-2xl"
+          className="bg-bgComponents placeholder-white text-heading-sm"
         />
       </div>
     </div>

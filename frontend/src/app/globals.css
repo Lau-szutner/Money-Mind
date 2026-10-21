@@ -10,6 +10,8 @@
   --color-greenIn: #39b54a;
   --font-sans: Montserrat, var(--font-montserrat), Arial, sans-serif;
   --shadow-custom: 3px 4px 4px rgba(0, 0, 0, 0.25);
+
+  /* SIZE FONTS */
   --text-caption: 0.75rem;
   --text-caption--line-height: 1rem;
   --text-body-sm: 0.875rem;

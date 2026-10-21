@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import InputField from './InputField';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
 import { useAuthContext } from '@/context/AuthProvider';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/';
@@ -13,7 +12,7 @@ const DoLogin = ({ hasAccount }) => {
   const [passwordIncorrect, setPasswordIncorrect] = useState(false);
   const router = useRouter();
 
-  const { loginWithEmailPassword } = useAuthContext();
+  const { login } = useAuthContext();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -39,21 +38,7 @@ const DoLogin = ({ hasAccount }) => {
       const data = await response.json();
 
       if (response.ok) {
-        Cookies.set('authToken', data.token, {
-          expires: 10,
-          secure: false,
-          sameSite: 'Lax',
-        });
-
-        loginWithEmailPassword(
-          formData.email,
-          formData.password,
-          data.token,
-          data.user || {
-            name: formData.email,
-            email: formData.email,
-          },
-        );
+        login(data.token, data.user);
 
         router.push('/user/wallet');
         console.log('Login successful', data);
@@ -109,7 +94,10 @@ const DoLogin = ({ hasAccount }) => {
           Remember me
           <input type="checkbox" />
         </label>
-        <button type="button" className="hover:underline md:justify-self-end">
+        <button
+          type="button"
+          className="hover:underline md:justify-self-end cursor-pointer"
+        >
           Forgot password?
         </button>
       </div>
@@ -127,14 +115,14 @@ const DoLogin = ({ hasAccount }) => {
 
       <button
         type="submit"
-        className="p-2 bg-greenIn text-white rounded w-full"
+        className="p-2 bg-greenIn text-white rounded w-full cursor-pointer"
       >
         Login
       </button>
 
       <div className="flex gap-3 justify-center">
         <p>Don't you have account?</p>
-        <button className="font-bold" onClick={hasAccount}>
+        <button className="font-bold cursor-pointer" onClick={hasAccount}>
           Register
         </button>
       </div>

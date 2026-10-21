@@ -9,7 +9,7 @@ import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
 import { PostType, CommunityBasic } from '@/app/types/types';
 import SearchBy from '@/app/components/SearchBy';
-import FilterByCommunity from '@/app/components/FilterByCommunity';
+import CommunitySideBar from '@/app/components/CommunitySideBar';
 
 interface CommunityType {
   id: number;
@@ -122,17 +122,17 @@ export default function Community() {
       <div className="w-full gap-5 grid grid-cols-[1fr_1fr]">
         <SearchBy />
         <button
-          className="rounded-md p-5 w-fit text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
+          className="rounded-md p-5 w-fit  font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
           onClick={() => setNewPostOpen((prev) => !prev)}
           aria-label="New post"
         >
           New post
         </button>
       </div>
-      <section className="text-white w-full grid  gap-8">
-        <FilterByCommunity communities={communitiesData} />
+      <section className="text-white w-full grid  gap-8 grid-cols-[300px_1fr_300px]">
+        <CommunitySideBar communities={communitiesData} />
 
-        <div className="p-10 bg-bgComponents rounded-xl">
+        <div className="p-5 bg-bgComponents rounded-xl">
           {newPostOpen && (
             <NewPostModal
               onClose={() => setNewPostOpen(false)}
