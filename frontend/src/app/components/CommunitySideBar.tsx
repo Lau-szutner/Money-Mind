@@ -102,7 +102,7 @@ const CommunitySideBar = ({ communities }: CommunitySideBarProps) => {
         </div>
       </div>
 
-      <button
+      {/* <button
         type="button"
         onClick={() => setShowNewCommunity((prev) => !prev)}
         className="bg-bgComponents h-fit p-7 rounded-xl font-bold hover:text-greenIn cursor-pointer text-left"
@@ -114,7 +114,7 @@ const CommunitySideBar = ({ communities }: CommunitySideBarProps) => {
         <div className="bg-bgComponents p-7 rounded-xl">
           <NewCommunity onClose={() => setShowNewCommunity(false)} />
         </div>
-      )}
+      )} */}
       <Chats />
     </div>
   );

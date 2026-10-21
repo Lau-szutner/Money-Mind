@@ -119,20 +119,20 @@ export default function Community() {
 
   return (
     <main className="grid place-items-center w-full p-5 gap-5">
-      {/* <div className="w-full gap-5 grid grid-cols-[1fr_1fr]">
+      <div className="w-full gap-5 grid grid-cols-[1fr_1fr]">
         <SearchBy />
         <button
-          className="rounded-md p-5 w-fit text-2xl font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
+          className="rounded-md p-5 w-fit  font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
           onClick={() => setNewPostOpen((prev) => !prev)}
           aria-label="New post"
         >
           New post
         </button>
-      </div> */}
-      <section className="text-white w-full grid  gap-8 grid-cols-3">
+      </div>
+      <section className="text-white w-full grid  gap-8 grid-cols-[300px_1fr_300px]">
         <CommunitySideBar communities={communitiesData} />
 
-        <div className="p-10 bg-bgComponents rounded-xl">
+        <div className="p-5 bg-bgComponents rounded-xl">
           {newPostOpen && (
             <NewPostModal
               onClose={() => setNewPostOpen(false)}
