@@ -4,18 +4,18 @@ import ReactMarkdown from 'react-markdown';
 
 const Post = ({ user, title, body, createdAt, community }: PostType) => {
   return (
-    <div className="p-5 border-t-[0.5px] border-white  hover:bg-background hover:cursor-pointer">
+    <div className="p-5 border-t-[0.5px] hover:bg-background hover:cursor-pointer">
       <div className="flex flex-col">
         <div className="flex gap-5">
-          <p className="text-xl text-greenIn font-bold">{community.name}</p>
-          <p>-</p>
-          <p className="text-xl font-light">{createdAt}</p>
+          <p className="text-greenIn">{community.name}</p>
+          <p>•</p>
+          <p className="font-light">{createdAt}</p>
         </div>
-        <h1 className="text-xl">{user}</h1>
+        {/* <p className="">{user}</p> */}
       </div>
 
       <div className="gap-5 flex flex-col  py-5">
-        <p className="text-2xl font-bold">{title}</p>
+        <p className=" text-xl font-bold">{title}</p>
         <ReactMarkdown>{body}</ReactMarkdown>
       </div>
 
@@ -26,15 +26,15 @@ const Post = ({ user, title, body, createdAt, community }: PostType) => {
             <Image
               src="/icons/arrow_circle_up.svg"
               alt="up"
-              width={35}
-              height={35}
+              width={30}
+              height={30}
               className="hover:scale-110 transition-all"
             />
             <Image
               src="/icons/arrow_circle_down.svg"
               alt="down"
-              width={35}
-              height={35}
+              width={30}
+              height={30}
               className="hover:scale-110 transition-all"
             />
           </div>
@@ -43,8 +43,8 @@ const Post = ({ user, title, body, createdAt, community }: PostType) => {
             <Image
               src="/icons/comments.svg"
               alt="comments"
-              width={35}
-              height={35}
+              width={30}
+              height={30}
               className="hover:scale-110 transition-all"
             />
           </div>
@@ -55,8 +55,8 @@ const Post = ({ user, title, body, createdAt, community }: PostType) => {
           <Image
             src="/icons/bookmark.svg"
             alt="bookmark"
-            width={35}
-            height={35}
+            width={30}
+            height={30}
             className="hover:scale-110 transition-all"
           />
         </div>

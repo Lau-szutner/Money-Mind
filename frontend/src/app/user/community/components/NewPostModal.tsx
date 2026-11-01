@@ -69,8 +69,8 @@ const NewPostModal = ({
   };
 
   return (
-    <div className="h-auto w-full bg-background p-5 rounded-md shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Crear nuevo post</h2>
+    <div className="h-auto w-full p-5 rounded-md shadow-lg">
+      <h2 className="text-xl font-bold mb-4">Crear un nuevo post</h2>
 
       {errors.length > 0 && (
         <div className="bg-red-600 text-white p-3 rounded mb-4">
@@ -114,7 +114,7 @@ const NewPostModal = ({
                 key={type}
                 type="button"
                 onClick={() => setPostType(type)}
-                className={`px-3 py-1 rounded text-sm ${
+                className={`px-3 py-1 rounded text-sm hover:cursor-pointer ${
                   postType === type
                     ? 'bg-green-600 text-white'
                     : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
@@ -129,7 +129,7 @@ const NewPostModal = ({
         {/* Título */}
         <div>
           <label className="text-sm font-semibold text-gray-300 block mb-1">
-            Título *
+            Título
           </label>
           <input
             type="text"
@@ -137,7 +137,7 @@ const NewPostModal = ({
             placeholder="¿Cuál es el tema?"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 rounded text-black"
+            className="w-full p-2 rounded text-black bg-white"
             required
           />
         </div>
@@ -153,7 +153,7 @@ const NewPostModal = ({
               placeholder="Escribe tu post aquí..."
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              className="w-full p-2 rounded text-black resize-none"
+              className="w-full p-2 rounded text-black resize-none bg-white"
               rows={5}
             />
           </div>
@@ -163,14 +163,14 @@ const NewPostModal = ({
         {postType === 'link' && (
           <div>
             <label className="text-sm font-semibold text-gray-300 block mb-1">
-              URL del enlace *
+              URL del enlace
             </label>
             <input
               type="url"
               placeholder="https://ejemplo.com"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="w-full p-2 rounded text-black"
+              className="w-full p-2 rounded text-black bg-white"
               required
             />
             <textarea
@@ -178,7 +178,7 @@ const NewPostModal = ({
               placeholder="Descripción (opcional)"
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              className="w-full p-2 rounded text-black mt-2 resize-none"
+              className="w-full p-2 rounded text-black mt-2 resize-none bg-white"
               rows={3}
             />
           </div>
