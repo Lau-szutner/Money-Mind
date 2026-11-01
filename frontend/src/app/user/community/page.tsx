@@ -120,14 +120,14 @@ export default function Community() {
   return (
     <main className="grid place-items-center w-full p-5 gap-5">
       <div className="w-full gap-5 grid grid-cols-[1fr_1fr]">
-        <SearchBy />
+        {/* <SearchBy />
         <button
           className="rounded-md p-5 w-fit  font-light bg-bgComponents transition hover:bg-green-600 focus:ring-2 focus:ring-greenIn"
           onClick={() => setNewPostOpen((prev) => !prev)}
           aria-label="New post"
         >
           New post
-        </button>
+        </button> */}
       </div>
       <section className="text-white w-full grid  gap-8 grid-cols-[300px_1fr_300px]">
         <CommunitySideBar communities={communitiesData} />

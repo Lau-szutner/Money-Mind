@@ -91,10 +91,7 @@ const Navbar = () => {
         </div>
       ) : (
         <>
-          {/* LAYOUT EN DESKTOP (GRID 3 COLUMNAS) */}
-          {/* CAMBIO: Se actualizó de 'md:grid' a 'lg:grid' */}
           <div className="hidden lg:grid grid-cols-[1fr_1fr_33px] items-center gap-4 w-full">
-            {/* COLUMNA 1 (IZQUIERDA): Logo + Links */}
             <div className="flex items-center gap-6 lg:gap-8 justify-start">
               <Link href="/user/wallet" className="flex items-center shrink-0">
                 <Image
@@ -107,7 +104,6 @@ const Navbar = () => {
                 />
               </Link>
 
-              {/* CAMBIO: Se eliminó 'hidden lg:flex' porque el padre ya oculta todo en mobile */}
               <ul className="flex items-center gap-1 font-medium text-sm">
                 {navLinks.map((link) => {
                   const isActive = pathname?.startsWith(link.href);
@@ -129,7 +125,6 @@ const Navbar = () => {
               </ul>
             </div>
 
-            {/* COLUMNA 2 (CENTRO): Buscador exactamente centrado */}
             <div className="flex justify-center w-full">
               <form
                 onSubmit={handleSearch}
@@ -146,7 +141,6 @@ const Navbar = () => {
               </form>
             </div>
 
-            {/* COLUMNA 3 (DERECHA): Perfil + Futuras herramientas */}
             <div className="flex items-center justify-end gap-4">
               <div className="relative group">
                 <button className="flex items-center gap-2 p-1 rounded-full hover:ring-2 hover:ring-greenIn transition">
@@ -193,8 +187,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* LAYOUT EN MOBILE (FLEX) */}
-          {/* CAMBIO: Se actualizó de 'md:hidden' a 'lg:hidden' */}
           <div className="flex lg:hidden items-center justify-between w-full">
             <Link href="/user/wallet" className="flex items-center shrink-0">
               <Image
@@ -217,7 +209,6 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Menú Mobile Drawer */}
           <div
             className={`fixed top-0 right-0 w-full h-full bg-neutral-900 text-white transform ${
               isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -237,7 +228,6 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Buscador Mobile */}
               <form onSubmit={handleSearch} className="relative w-full mb-6">
                 <FaSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                 <input
@@ -249,7 +239,6 @@ const Navbar = () => {
                 />
               </form>
 
-              {/* Navegación Mobile */}
               <ul className="flex flex-col gap-2 font-medium">
                 {navLinks.map((link) => {
                   const isActive = pathname?.startsWith(link.href);
@@ -272,7 +261,6 @@ const Navbar = () => {
               </ul>
             </div>
 
-            {/* Footer del Menú Mobile */}
             <div className="border-t border-neutral-800 pt-4 flex flex-col gap-4">
               <div>{renderDisplayName()}</div>
               {status === AuthStatus.Authenticated && (
