@@ -19,19 +19,30 @@ export const getCommunitiesByUser = async (req, response) => {
 
   try {
     const communities = await UserCommunity.findAll({
-      where: { user_id: userId },
+      where: { user_id: userId, status: 'active' },
       include: [Community],
     });
 
-    if (communities.length === 0) {
-      return response
-        .status(404)
-        .json({ error: 'No se encontraron comunidades para este usuario' });
-    }
     response.status(200).json(communities);
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: 'Error al obtener las comunidades' });
+  }
+};
+
+export const getCommunityMembershipsByUser = async (req, response) => {
+  try {
+    const memberships = await UserCommunity.findAll({
+      where: { user_id: req.userId },
+      attributes: ['community_id', 'status'],
+    });
+
+    response.status(200).json(memberships);
+  } catch (error) {
+    console.error(error);
+    response
+      .status(500)
+      .json({ error: 'Error al obtener tus membresías de comunidades' });
   }
 };
 
@@ -180,21 +191,43 @@ export const joinCommunity = async (req, response) => {
       where: { user_id: userId, community_id: id },
     });
     if (existingMembership) {
-      return response
-        .status(400)
-        .json({ error: 'Ya eres miembro de esta comunidad' });
+      if (existingMembership.status === 'banned') {
+        return response
+          .status(403)
+          .json({ error: 'No puedes unirte a esta comunidad' });
+      }
+
+      if (existingMembership.status === 'active') {
+        return response
+          .status(409)
+          .json({ error: 'Ya sigues esta comunidad' });
+      }
+
+      if (existingMembership.status === 'pending') {
+        return response.status(200).json({
+          message: 'Tu solicitud está pendiente de aprobación',
+          status: 'pending',
+        });
+      }
     }
 
     const status = community.is_private ? 'pending' : 'active';
 
-    await UserCommunity.create({
-      user_id: userId,
-      community_id: id,
-      role: 'member',
+    if (existingMembership) {
+      await existingMembership.update({ status });
+    } else {
+      await UserCommunity.create({
+        user_id: userId,
+        community_id: id,
+        role: 'member',
+        status,
+      });
+    }
+
+    response.status(201).json({
+      message: community.is_private ? 'Solicitud enviada' : 'Te has unido a la comunidad',
       status,
     });
-
-    response.status(201).json({ message: 'Solicitud enviada' });
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: 'Error al unirse a la comunidad' });
@@ -227,36 +260,35 @@ export const getCommunityBySlug = async (req, response) => {
   const { slug } = req.params;
   const userId = req.userId;
 
-  console.log('inicio busqueda de comunidad');
-
   try {
-    const community = await Community.findOne({
-      where: { slug },
-      include: [
-        {
-          model: UserCommunity,
-          include: [User],
-        },
-      ],
-    });
+    const community = await Community.findOne({ where: { slug } });
 
     if (!community) {
       return response.status(404).json({ error: 'Comunidad no encontrada' });
     }
 
-    // Si es privada y el usuario no es miembro, no mostrar detalles
+    const membership = await UserCommunity.findOne({
+      where: { user_id: userId, community_id: community.id },
+      attributes: ['status'],
+    });
+
     if (community.is_private) {
-      const membership = await UserCommunity.findOne({
-        where: { user_id: userId, community_id: community.id },
-      });
-      if (!membership) {
+      if (membership?.status !== 'active') {
         return response
           .status(403)
           .json({ error: 'Acceso denegado a comunidad privada' });
       }
     }
 
-    response.status(200).json(community);
+    const memberCount = await UserCommunity.count({
+      where: { community_id: community.id, status: 'active' },
+    });
+
+    response.status(200).json({
+      ...community.toJSON(),
+      memberCount,
+      membershipStatus: membership?.status ?? null,
+    });
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: 'Error al obtener la comunidad' });

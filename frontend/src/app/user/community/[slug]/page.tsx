@@ -7,49 +7,56 @@ import {
   joinCommunity,
   leaveCommunity,
 } from '@/app/services/communityServices';
-import { getFeedPosts } from '@/app/services/postsService';
-import { Community, PostType } from '@/app/types/types';
+import { getCommunityPosts } from '@/app/services/postsService';
+import {
+  Community,
+  CommunityMembershipStatus,
+  PostType,
+} from '@/app/types/types';
 import { formatDate } from '@/app/utils/formatters';
 import Post from '../components/Post';
 
 export default function CommunityDetailPage() {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const [community, setCommunity] = useState<Community | null>(null);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isMember, setIsMember] = useState(false);
+  const [membershipLoading, setMembershipLoading] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [membershipStatus, setMembershipStatus] =
+    useState<CommunityMembershipStatus | null>(null);
 
   useEffect(() => {
     const loadCommunity = async () => {
+      setLoading(true);
+      setLoadError(null);
       try {
-        const communityData = await getCommunityBySlug(slug as string);
+        const [communityData, postsData] = await Promise.all([
+          getCommunityBySlug(slug),
+          getCommunityPosts(slug),
+        ]);
+        const communityPosts = postsData.map((post) => ({
+          id: post.id,
+          user: post.User.name,
+          community: post.Community,
+          title: post.title,
+          body: post.body,
+          createdAt: post.createdAt
+            ? formatDate(post.createdAt)
+            : '00/00/0000',
+        }));
+
         setCommunity(communityData);
-
-        // Verificar si el usuario es miembro
-        const userMemberships = communityData.UserCommunities || [];
-        const userMembership = userMemberships.find(
-          (uc: any) => uc.status === 'active',
-        );
-        setIsMember(!!userMembership);
-
-        // Obtener posts del feed y filtrar por community_id
-        const allPosts = await getFeedPosts();
-        const communityPosts = allPosts
-          .filter((post: any) => post.Community.id === communityData.id)
-          .map((post: any) => ({
-            id: post.id,
-            user: post.User.name,
-            community: post.Community,
-            title: post.title,
-            body: post.body,
-            createdAt: post.createdAt
-              ? formatDate(post.createdAt)
-              : '00/00/0000',
-          }));
-
+        setMembershipStatus(communityData.membershipStatus);
         setPosts(communityPosts);
       } catch (error) {
         console.error(error);
+        setLoadError(
+          error instanceof Error
+            ? error.message
+            : 'No se pudo cargar la comunidad',
+        );
       } finally {
         setLoading(false);
       }
@@ -58,35 +65,61 @@ export default function CommunityDetailPage() {
     loadCommunity();
   }, [slug]);
 
-  const handleJoin = async () => {
-    if (!community) return;
-    try {
-      await joinCommunity(community.id);
-      setIsMember(true);
-      alert('Te has unido a la comunidad');
-    } catch (error: any) {
-      alert('Error: ' + error.message);
-    }
-  };
+  const handleMembershipToggle = async () => {
+    if (!community || membershipLoading) return;
 
-  const handleLeave = async () => {
-    if (!community) return;
+    setMembershipLoading(true);
+    setActionError(null);
     try {
-      await leaveCommunity(community.id);
-      setIsMember(false);
-      alert('Has salido de la comunidad');
-    } catch (error: any) {
-      alert('Error: ' + error.message);
+      if (membershipStatus === 'active' || membershipStatus === 'pending') {
+        await leaveCommunity(community.id);
+        setMembershipStatus(null);
+        if (membershipStatus === 'active') {
+          setCommunity((current) =>
+            current
+              ? { ...current, memberCount: Math.max(0, current.memberCount - 1) }
+              : current,
+          );
+        }
+      } else {
+        const result = await joinCommunity(community.id);
+        setMembershipStatus(result.status);
+        if (result.status === 'active') {
+          setCommunity((current) =>
+            current
+              ? { ...current, memberCount: current.memberCount + 1 }
+              : current,
+          );
+        }
+      }
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : 'No se pudo actualizar la membresía',
+      );
+    } finally {
+      setMembershipLoading(false);
     }
   };
 
   if (loading) {
-    return <p>Cargando...</p>;
+    return <p className="p-5">Cargando comunidad...</p>;
   }
 
-  if (!community) {
-    return <p>Comunidad no encontrada</p>;
+  if (loadError || !community) {
+    return (
+      <main className="p-5">
+        <p role="alert" className="text-red-400">
+          {loadError || 'Comunidad no encontrada'}
+        </p>
+      </main>
+    );
   }
+
+  const isFollowing = membershipStatus === 'active';
+  const requestPending = membershipStatus === 'pending';
+  const isBanned = membershipStatus === 'banned';
 
   return (
     <main className="p-5">
@@ -102,27 +135,35 @@ export default function CommunityDetailPage() {
             className="mt-4 w-32 h-32"
           />
         )}
-        <p className="mt-2">
-          Miembros: {community.UserCommunities?.length || 0}
-        </p>
+        <p className="mt-2">Miembros: {community.memberCount}</p>
         <p>Privada: {community.is_private ? 'Sí' : 'No'}</p>
-        <div className="mt-4">
-          {isMember ? (
-            <button
-              onClick={handleLeave}
-              className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-            >
-              Salir de la Comunidad
-            </button>
-          ) : (
-            <button
-              onClick={handleJoin}
-              className="bg-greenIn text-white p-2 rounded hover:bg-green-600"
-            >
-              Unirse a la Comunidad
-            </button>
-          )}
-        </div>
+        {actionError && (
+          <p role="alert" className="mt-3 text-red-400">
+            {actionError}
+          </p>
+        )}
+        <button
+          type="button"
+          disabled={membershipLoading || isBanned}
+          onClick={handleMembershipToggle}
+          className={`mt-4 rounded p-2 text-white disabled:cursor-not-allowed disabled:opacity-50 ${
+            isFollowing || requestPending
+              ? 'bg-red-500 hover:bg-red-600'
+              : 'bg-greenIn hover:bg-green-600'
+          }`}
+        >
+          {membershipLoading
+            ? 'Procesando...'
+            : isFollowing
+              ? 'Dejar de seguir'
+              : requestPending
+                ? 'Cancelar solicitud'
+                : isBanned
+                  ? 'No puedes unirte a esta comunidad'
+                  : community.is_private
+                    ? 'Solicitar unirme'
+                    : 'Seguir comunidad'}
+        </button>
       </div>
 
       <div className="space-y-4">

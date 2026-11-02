@@ -4,10 +4,17 @@ import { useEffect, useState } from 'react';
 
 import { formatDate } from '@/app/utils/formatters';
 import { getFeedPosts, createPost } from '@/app/services/postsService';
-import { fetchCommunities } from '@/app/services/communityServices';
+import {
+  fetchAllCommunities,
+  fetchCommunityMemberships,
+} from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
-import { PostType, CommunityBasic } from '@/app/types/types';
+import {
+  PostType,
+  CommunityBasic,
+  CommunityMembershipBasic,
+} from '@/app/types/types';
 import CommunitySideBar from '@/app/components/CommunitySideBar';
 import { useAuthContext } from '@/context/AuthProvider';
 
@@ -16,7 +23,24 @@ export default function Community() {
   const [loading, setLoading] = useState(true);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
-  const [communitiesData, setCommunitiesData] = useState<CommunityBasic[]>([]);
+  const [allCommunities, setAllCommunities] = useState<CommunityBasic[]>([]);
+  const [memberships, setMemberships] = useState<CommunityMembershipBasic[]>(
+    [],
+  );
+  const followedCommunities = allCommunities.filter((community) =>
+    memberships.some(
+      (membership) =>
+        membership.community_id === community.id &&
+        membership.status === 'active',
+    ),
+  );
+  const followedCommunityIds = memberships
+    .filter((membership) => membership.status === 'active')
+    .map((membership) => membership.community_id)
+    .sort((a, b) => a - b);
+  const followedCommunityKey = followedCommunityIds.join(',');
+  const [communitiesLoading, setCommunitiesLoading] = useState(true);
+  const [communitiesError, setCommunitiesError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -52,25 +76,43 @@ export default function Community() {
     };
 
     fetchPosts();
-  }, []);
+  }, [followedCommunityKey]);
 
   useEffect(() => {
     const loadCommunities = async () => {
       try {
-        let comunidades = await fetchCommunities();
-
-        // for (const comunidad of comunidades) {
-        //   console.log(comunidad); // ← acá ya es el objeto
-        // }
-
-        setCommunitiesData(comunidades);
+        const [all, userMemberships] = await Promise.all([
+          fetchAllCommunities(),
+          fetchCommunityMemberships(),
+        ]);
+        setAllCommunities(all);
+        setMemberships(userMemberships);
       } catch (error) {
         console.error(error);
+        setCommunitiesError(
+          error instanceof Error
+            ? error.message
+            : 'No se pudieron cargar las comunidades',
+        );
+      } finally {
+        setCommunitiesLoading(false);
       }
     };
 
     loadCommunities();
   }, []);
+
+  const handleMembershipChange = (
+    communityId: number,
+    status: CommunityMembershipBasic['status'] | null,
+  ) => {
+    setMemberships((current) => {
+      const remaining = current.filter(
+        (membership) => membership.community_id !== communityId,
+      );
+      return status ? [...remaining, { community_id: communityId, status }] : remaining;
+    });
+  };
 
   const handleCreatePost = async (data: {
     title: string;
@@ -82,7 +124,7 @@ export default function Community() {
     try {
       const result = await createPost(data);
 
-      const selectedCommunity = communitiesData.find(
+      const selectedCommunity = followedCommunities.find(
         (c) => c.id === data.fk_community_id,
       );
 
@@ -117,17 +159,36 @@ export default function Community() {
           Nueva publicacion
         </button>
       </div>
-      <section className="text-white w-full grid gap-8 md:grid-cols-[300px_1fr_300px]">
-        <CommunitySideBar communities={communitiesData} />
+      <section className="text-white w-full grid gap-8 md:grid-cols-[300px_1fr]">
+        <CommunitySideBar
+          communities={allCommunities}
+          memberships={memberships}
+          loading={communitiesLoading}
+          onMembershipChange={handleMembershipChange}
+        />
 
         <div className="p-5 bg-bgComponents rounded-xl">
-          {newPostOpen && (
+          {communitiesError && (
+            <p role="alert" className="mb-4 text-red-400">
+              {communitiesError}
+            </p>
+          )}
+
+          {newPostOpen && followedCommunities.length > 0 && (
             <NewPostModal
               onClose={() => setNewPostOpen(false)}
               onSubmit={handleCreatePost}
-              communities={communitiesData}
+              communities={followedCommunities}
             />
           )}
+          {newPostOpen &&
+            !communitiesLoading &&
+            !communitiesError &&
+            followedCommunities.length === 0 && (
+              <p className="mb-4 text-gray-300">
+                Sigue una comunidad para poder publicar en ella.
+              </p>
+            )}
 
           {loading ? (
             <p>Cargando posteos...</p>

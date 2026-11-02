@@ -4,6 +4,7 @@ import { authenticateToken } from '../middlewares/authenticateToken.js';
 import {
   getAllCommunities,
   getCommunitiesByUser,
+  getCommunityMembershipsByUser,
   createCommunity,
   getCommunityById,
   updateCommunity,
@@ -20,6 +21,7 @@ const router = express.Router();
 router.get('/', getAllCommunities);
 
 router.get('/byUser', authenticateToken, getCommunitiesByUser);
+router.get('/memberships/me', authenticateToken, getCommunityMembershipsByUser);
 
 router.post('/', authenticateToken, createCommunity);
 

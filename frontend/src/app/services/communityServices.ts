@@ -1,11 +1,75 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 import Cookies from 'js-cookie';
+import {
+  Community,
+  CommunityBasic,
+  CommunityMembershipBasic,
+} from '@/app/types/types';
 
-export const fetchCommunities = async () => {
-  try {
+const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/+$/, '');
+
+interface CommunityMembershipResponse {
+  Community: CommunityBasic;
+}
+
+const getErrorMessage = async (
+  response: Response,
+  fallback: string,
+): Promise<string> => {
+  if (response.headers.get('content-type')?.includes('application/json')) {
+    const data = await response.json();
+    return data.error || data.message || fallback;
+  }
+
+  return `${fallback} (HTTP ${response.status})`;
+};
+
+export const fetchAllCommunities = async (): Promise<CommunityBasic[]> => {
+  const res = await fetch(`${apiUrl}/communities`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Error al cargar las comunidades');
+  }
+
+  const data: CommunityBasic[] = await res.json();
+  if (!Array.isArray(data)) {
+    throw new Error('El servidor devolvió una lista de comunidades inválida');
+  }
+
+  return data;
+};
+
+export const fetchCommunities = async (): Promise<CommunityBasic[]> => {
+  const token = Cookies.get('authToken');
+
+  const res = await fetch(`${apiUrl}/communities/byUser`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Error al cargar tus comunidades seguidas');
+  }
+
+  const data: CommunityMembershipResponse[] = await res.json();
+  if (!Array.isArray(data)) {
+    throw new Error('El servidor devolvió una lista de membresías inválida');
+  }
+
+  return data.map((item) => item.Community);
+};
+
+export const fetchCommunityMemberships =
+  async (): Promise<CommunityMembershipBasic[]> => {
     const token = Cookies.get('authToken');
-
-    const res = await fetch(`${apiUrl}communities/byUser`, {
+    const res = await fetch(`${apiUrl}/communities/memberships/me`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -13,16 +77,17 @@ export const fetchCommunities = async () => {
       },
     });
 
-    const data = await res.json();
+    if (!res.ok) {
+      throw new Error('Error al cargar tus membresías de comunidades');
+    }
 
-    if (!Array.isArray(data)) return [];
+    const data: CommunityMembershipBasic[] = await res.json();
+    if (!Array.isArray(data)) {
+      throw new Error('El servidor devolvió una lista de membresías inválida');
+    }
 
-    return data.map((item: any) => item.Community ?? item);
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
+    return data;
+  };
 
 export const createCommunity = async (communityData: {
   name: string;
@@ -153,11 +218,16 @@ export const joinCommunity = async (id: number) => {
     });
 
     if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || 'Error al unirse a la comunidad');
+      throw new Error(
+        await getErrorMessage(res, 'Error al unirse a la comunidad'),
+      );
     }
 
-    return { message: 'Solicitud enviada' };
+    const data: {
+      message: string;
+      status: 'active' | 'pending';
+    } = await res.json();
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -177,8 +247,9 @@ export const leaveCommunity = async (id: number) => {
     });
 
     if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.error || 'Error al salir de la comunidad');
+      throw new Error(
+        await getErrorMessage(res, 'Error al salir de la comunidad'),
+      );
     }
 
     return { message: 'Has salido de la comunidad' };
@@ -188,25 +259,30 @@ export const leaveCommunity = async (id: number) => {
   }
 };
 
-export const getCommunityBySlug = async (slug: string) => {
+export const getCommunityBySlug = async (slug: string): Promise<Community> => {
   try {
     const token = Cookies.get('authToken');
 
-    const res = await fetch(`${apiUrl}communities/bySlug/${slug}`, {
+    const res = await fetch(
+      `${apiUrl}/communities/bySlug/${encodeURIComponent(slug)}`,
+      {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    });
+      },
+    );
 
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error || 'Error al obtener comunidad');
+      throw new Error(
+        data.error || data.message || 'Error al obtener comunidad',
+      );
     }
 
-    return data;
+    return data as Community;
   } catch (error) {
     console.log(error);
     throw error;

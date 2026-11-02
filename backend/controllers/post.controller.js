@@ -33,6 +33,51 @@ export const getFeedPosts = async (req, res) => {
   }
 };
 
+export const getCommunityPosts = async (req, res) => {
+  try {
+    const community = await Community.findOne({
+      where: { slug: req.params.slug },
+      attributes: ['id', 'is_private'],
+    });
+
+    if (!community) {
+      return res.status(404).json({ message: 'Comunidad no encontrada' });
+    }
+
+    if (community.is_private) {
+      const membership = await UserCommunity.findOne({
+        where: {
+          user_id: req.userId,
+          community_id: community.id,
+          status: 'active',
+        },
+        attributes: ['id'],
+      });
+
+      if (!membership) {
+        return res.status(403).json({ message: 'Acceso denegado a comunidad privada' });
+      }
+    }
+
+    const posts = await Post.findAll({
+      where: { fk_community_id: community.id },
+      include: [
+        { model: User, attributes: ['id', 'name'] },
+        { model: Community, attributes: ['id', 'name', 'slug'] },
+      ],
+      order: [['createdAt', 'DESC']],
+      limit: 20,
+    });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error al obtener las publicaciones de la comunidad',
+      error: error.message,
+    });
+  }
+};
+
 // 2. Obtener todos los posts (Global)
 export const getAllPosts = async (req, res) => {
   try {
@@ -78,6 +123,20 @@ export const createPost = async (req, res) => {
   }
 
   try {
+    const membership = await UserCommunity.findOne({
+      where: {
+        user_id: userId,
+        community_id: fk_community_id,
+        status: 'active',
+      },
+    });
+
+    if (!membership) {
+      return res
+        .status(403)
+        .json({ error: 'Debes seguir la comunidad para publicar' });
+    }
+
     // Generar slug básico si no usas Hooks en el modelo
     const generatedSlug = `${slugify(title, { lower: true })}-${Date.now()}`;
 

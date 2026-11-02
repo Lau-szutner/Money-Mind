@@ -4,6 +4,23 @@ export interface CommunityBasic {
   slug: string;
   description?: string;
   image_url?: string | null;
+  is_private?: boolean;
+}
+
+export type CommunityMembershipStatus = 'active' | 'pending' | 'banned';
+
+export interface CommunityMembershipBasic {
+  community_id: number;
+  status: CommunityMembershipStatus;
+}
+
+export interface CommunityPostResponse {
+  id: number;
+  User: { id: number; name: string };
+  Community: CommunityBasic;
+  title: string;
+  body: string;
+  createdAt: string;
 }
 
 export interface Community {
@@ -16,7 +33,8 @@ export interface Community {
   is_private: boolean;
   createdAt: string;
   updatedAt: string;
-  UserCommunities?: UserCommunity[];
+  memberCount: number;
+  membershipStatus: CommunityMembershipStatus | null;
 }
 
 export interface UserCommunity {
@@ -24,7 +42,7 @@ export interface UserCommunity {
   user_id: number;
   community_id: number;
   role: 'admin' | 'moderator' | 'member';
-  status: 'active' | 'pending' | 'banned';
+  status: CommunityMembershipStatus;
   joined_at: string;
   User?: {
     id: number;

@@ -3,6 +3,7 @@ import { authenticateToken } from '../middlewares/authenticateToken.js';
 import {
   getAllPosts,
   getFeedPosts,
+  getCommunityPosts,
   getPostBySlug,
   createPost,
   updatePost,
@@ -21,6 +22,7 @@ router.get('/', getAllPosts);
 // 2. Obtener el feed personalizado (Posts de comunidades seguidas)
 // IMPORTANTE: Debe ir antes que /:slug para que no confunda "feed" con un slug
 router.get('/feed', authenticateToken, getFeedPosts);
+router.get('/community/:slug', authenticateToken, getCommunityPosts);
 
 // 3. Obtener un post específico por su Slug (estilo Reddit)
 router.get('/:slug', getPostBySlug);
