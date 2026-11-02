@@ -9,10 +9,7 @@ import {
   togglePostUpvote,
 } from '@/app/services/postsService';
 import { formatDate } from '@/app/utils/formatters';
-import {
-  PostCommentType,
-  PostType,
-} from '@/app/types/communities';
+import { PostCommentType, PostType } from '@/app/types/communities';
 
 interface PostProps extends PostType {
   onVoteChange?: (
@@ -113,10 +110,12 @@ const CommentThread = ({ comment, depth, onReply }: CommentThreadProps) => {
     >
       <div className="rounded-lg bg-neutral-800 p-3">
         <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-gray-400">
-          <span className="font-semibold text-greenIn">{comment.User.name}</span>
+          <span className="font-semibold text-greenIn">
+            {comment.User.name}
+          </span>
           <span>{formatDate(comment.createdAt)}</span>
         </div>
-        <p className="whitespace-pre-wrap break-words text-sm">
+        <p className="whitespace-pre-wrap wrap-break-words text-sm">
           {comment.body}
         </p>
         <button
@@ -256,7 +255,7 @@ const Post = ({
   };
 
   return (
-    <article className="border-t-[0.5px] p-5 hover:bg-background">
+    <article className="border-t border-gray-600 p-5 hover:bg-background">
       <header className="flex flex-wrap items-center gap-3 text-sm">
         <p className="text-greenIn">/{community.name}</p>
         <span aria-hidden="true">•</span>
@@ -266,30 +265,28 @@ const Post = ({
 
       <div className="flex flex-col gap-5 py-5">
         <h2 className="text-xl font-bold">{title}</h2>
-        <div className="break-words">
+        <div className="wraps-break-words">
           <ReactMarkdown>{body}</ReactMarkdown>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="flex w-fit items-center gap-2 rounded-lg bg-[#323232] p-1">
+        <div className="flex w-fit items-center gap-2 rounded-lg bg-[#323232] p-2">
           <button
             type="button"
             onClick={handleUpvote}
             disabled={voteLoading}
-            aria-label={
-              currentVote === 'up' ? 'Quitar upvote' : 'Dar upvote'
-            }
+            aria-label={currentVote === 'up' ? 'Quitar upvote' : 'Dar upvote'}
             aria-pressed={currentVote === 'up'}
-            className={`flex items-center gap-1 rounded px-1 transition hover:text-greenIn disabled:opacity-50 ${
+            className={`flex items-center gap-1 rounded px-1 transition hover:text-greenIn disabled:opacity-50 cursor-pointer ${
               currentVote === 'up' ? 'text-greenIn' : 'text-white'
             }`}
           >
             <Image
               src="/icons/arrow_circle_up.svg"
               alt=""
-              width={26}
-              height={26}
+              width={24}
+              height={24}
             />
             <span>{score}</span>
           </button>
@@ -299,14 +296,9 @@ const Post = ({
           type="button"
           onClick={handleToggleComments}
           aria-expanded={commentsOpen}
-          className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn"
+          className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn cursor-pointer"
         >
-          <Image
-            src="/icons/comments.svg"
-            alt=""
-            width={24}
-            height={24}
-          />
+          <Image src="/icons/comments.svg" alt="" width={24} height={24} />
           <span>
             {commentsCount} {commentsCount === 1 ? 'comentario' : 'comentarios'}
           </span>
