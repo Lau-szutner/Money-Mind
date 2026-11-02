@@ -1,4 +1,4 @@
-import { PostType } from '@/app/types/types';
+import { PostType } from '@/app/types/communities';
 
 export const sortPostsByScore = (posts: PostType[]) =>
   [...posts].sort((a, b) => {

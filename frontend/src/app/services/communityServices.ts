@@ -2,14 +2,14 @@ import Cookies from 'js-cookie';
 import {
   Community,
   CommunityBasic,
+  CommunityCreate,
+  CommunityJoinResponse,
   CommunityMembershipBasic,
-} from '@/app/types/types';
+  CommunityMembershipResponse,
+  CommunityUpdate,
+} from '@/app/types/communities';
 
 const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/+$/, '');
-
-interface CommunityMembershipResponse {
-  Community: CommunityBasic;
-}
 
 const getErrorMessage = async (
   response: Response,
@@ -89,13 +89,7 @@ export const fetchCommunityMemberships =
     return data;
   };
 
-export const createCommunity = async (communityData: {
-  name: string;
-  slug?: string;
-  description?: string;
-  image_url?: string;
-  is_private: boolean;
-}) => {
+export const createCommunity = async (communityData: CommunityCreate) => {
   try {
     const token = Cookies.get('authToken');
 
@@ -148,13 +142,7 @@ export const getCommunityById = async (id: number) => {
 
 export const updateCommunity = async (
   id: number,
-  communityData: {
-    name?: string;
-    slug?: string;
-    description?: string;
-    image_url?: string;
-    is_private?: boolean;
-  },
+  communityData: CommunityUpdate,
 ) => {
   try {
     const token = Cookies.get('authToken');
@@ -223,10 +211,7 @@ export const joinCommunity = async (id: number) => {
       );
     }
 
-    const data: {
-      message: string;
-      status: 'active' | 'pending';
-    } = await res.json();
+    const data: CommunityJoinResponse = await res.json();
     return data;
   } catch (error) {
     console.log(error);

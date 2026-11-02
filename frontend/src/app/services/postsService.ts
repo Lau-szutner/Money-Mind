@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import {
   CommunityPostResponse,
   PostCommentType,
-} from '@/app/types/types';
+} from '@/app/types/communities';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

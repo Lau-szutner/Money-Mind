@@ -12,10 +12,10 @@ import {
   Community,
   CommunityMembershipStatus,
   PostType,
-} from '@/app/types/types';
+} from '@/app/types/communities';
 import { formatDate } from '@/app/utils/formatters';
 import { sortPostsByScore } from '@/app/utils/posts';
-import Post from '../components/Post';
+import Post from '@/app/user/community/components/Post';
 
 export default function CommunityDetailPage() {
   const { slug } = useParams<{ slug: string }>();

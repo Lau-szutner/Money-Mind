@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCommunities } from '../services/communityServices';
-import { CommunityBasic } from '../types/types';
+import { fetchCommunities } from '@/app/services/communityServices';
+import { CommunityBasic } from '@/app/types/communities';
 
 interface Props {
   onSelectCommunity?: (community: CommunityBasic) => void;
@@ -41,7 +41,7 @@ const CommunitySelector: React.FC<Props> = ({ onSelectCommunity }) => {
         {communities.map((community) => (
           <li
             key={community.id}
-            className="cursor-pointer hover:bg-gray-200 p-2"
+            className="cursor-pointer p-2 hover:bg-gray-200"
             onClick={() => onSelectCommunity?.(community)}
           >
             {community.name}

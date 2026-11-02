@@ -9,7 +9,10 @@ import {
   togglePostUpvote,
 } from '@/app/services/postsService';
 import { formatDate } from '@/app/utils/formatters';
-import { PostCommentType, PostType } from '@/app/types/types';
+import {
+  PostCommentType,
+  PostType,
+} from '@/app/types/communities';
 
 interface PostProps extends PostType {
   onVoteChange?: (

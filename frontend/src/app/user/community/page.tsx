@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { formatDate } from '@/app/utils/formatters';
 import { sortPostsByScore } from '@/app/utils/posts';
 import { getFeedPosts, createPost } from '@/app/services/postsService';
@@ -10,13 +9,13 @@ import {
   fetchCommunityMemberships,
 } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
-import NewPostModal from './components/NewPostModal';
+import NewPostModal from '@/app/user/community/components/NewPostModal';
 import {
   PostType,
   CommunityBasic,
   CommunityMembershipBasic,
-} from '@/app/types/types';
-import CommunitySideBar from '@/app/components/CommunitySideBar';
+} from '@/app/types/communities';
+import CommunitySideBar from '@/app/user/community/components/CommunitySideBar';
 import { useAuthContext } from '@/context/AuthProvider';
 
 export default function Community() {
@@ -49,18 +48,16 @@ export default function Community() {
         const data = await getFeedPosts();
 
         const postsFormatted = data.map((post) => ({
-            id: post.id,
-            user: post.User.name,
-            community: post.Community,
-            title: post.title,
-            body: post.body,
-            createdAt: post.createdAt
-              ? formatDate(post.createdAt)
-              : '00/00/0000',
-            voteScore: post.voteScore,
-            commentCount: post.commentCount,
-            userVote: post.userVote,
-          }));
+          id: post.id,
+          user: post.User.name,
+          community: post.Community,
+          title: post.title,
+          body: post.body,
+          createdAt: post.createdAt ? formatDate(post.createdAt) : '00/00/0000',
+          voteScore: post.voteScore,
+          commentCount: post.commentCount,
+          userVote: post.userVote,
+        }));
 
         setPosts(sortPostsByScore(postsFormatted));
       } catch (error) {
@@ -105,7 +102,9 @@ export default function Community() {
       const remaining = current.filter(
         (membership) => membership.community_id !== communityId,
       );
-      return status ? [...remaining, { community_id: communityId, status }] : remaining;
+      return status
+        ? [...remaining, { community_id: communityId, status }]
+        : remaining;
     });
   };
 

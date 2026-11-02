@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCommunity } from '@/app/services/communityServices';
-import { CommunityCreate } from '@/app/types/types';
+import { CommunityCreate } from '@/app/types/communities';
 
 interface NewCommunityProps {
   onClose?: () => void;

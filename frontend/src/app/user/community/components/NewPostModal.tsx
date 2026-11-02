@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CommunityBasic } from '@/app/types/types';
+import { CommunityBasic } from '@/app/types/communities';
 
 interface NewPostModalProps {
   onClose: () => void;
