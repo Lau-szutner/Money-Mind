@@ -1,10 +1,21 @@
 // src/services/postService.ts
 import Cookies from 'js-cookie';
-import { CommunityPostResponse } from '@/app/types/types';
+import {
+  CommunityPostResponse,
+  PostCommentType,
+} from '@/app/types/types';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export const getFeedPosts = async () => {
+const getApiError = async (response: Response, fallback: string) => {
+  if (response.headers.get('content-type')?.includes('application/json')) {
+    const data = await response.json();
+    return data.message || data.error || fallback;
+  }
+  return `${fallback} (HTTP ${response.status})`;
+};
+
+export const getFeedPosts = async (): Promise<CommunityPostResponse[]> => {
   // Extraemos el token de las cookies
   const token = Cookies.get('authToken');
 
@@ -23,7 +34,11 @@ export const getFeedPosts = async () => {
     throw new Error('Error al cargar los posts de tu feed');
   }
 
-  return res.json();
+  const data: CommunityPostResponse[] = await res.json();
+  if (!Array.isArray(data)) {
+    throw new Error('El servidor devolvió una lista de publicaciones inválida');
+  }
+  return data;
 };
 
 export const getCommunityPosts = async (
@@ -54,6 +69,69 @@ export const getCommunityPosts = async (
   }
 
   return data;
+};
+
+export const togglePostUpvote = async (
+  postId: number,
+): Promise<{ voteScore: number; userVote: 'up' | null }> => {
+  const token = Cookies.get('authToken');
+  const response = await fetch(`${apiUrl}posts/${postId}/upvote`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(await getApiError(response, 'No se pudo registrar el voto'));
+  }
+
+  return response.json();
+};
+
+export const getPostComments = async (
+  postId: number,
+): Promise<PostCommentType[]> => {
+  const token = Cookies.get('authToken');
+  const response = await fetch(`${apiUrl}posts/${postId}/comments`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getApiError(response, 'No se pudieron cargar los comentarios'),
+    );
+  }
+
+  const comments: PostCommentType[] = await response.json();
+  if (!Array.isArray(comments)) {
+    throw new Error('El servidor devolvió una lista de comentarios inválida');
+  }
+  return comments;
+};
+
+export const createPostComment = async (
+  postId: number,
+  body: string,
+  parentCommentId: number | null = null,
+): Promise<PostCommentType> => {
+  const token = Cookies.get('authToken');
+  const response = await fetch(`${apiUrl}posts/${postId}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ body, parentCommentId }),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getApiError(response, 'No se pudo publicar el comentario'),
+    );
+  }
+  return response.json();
 };
 
 export const createPost = async (data: {

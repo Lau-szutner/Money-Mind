@@ -5,6 +5,7 @@ import User from './User.js';
 import Post from './communityModels/Post.js';
 import Transaction from './walletModels/Transaction.js';
 import PostVote from './communityModels/PostVote.js';
+import PostComment from './communityModels/PostComment.js';
 import Community from './communityModels/Community.js';
 import Course from './coursesModels/Course.js';
 import Category from './walletModels/Category.js';
@@ -68,6 +69,21 @@ Post.belongsTo(Community, { foreignKey: 'fk_community_id' });
 Post.hasMany(PostVote, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
 PostVote.belongsTo(Post, { foreignKey: 'fk_post_id' });
 
+// Post comments
+User.hasMany(PostComment, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+PostComment.belongsTo(User, { foreignKey: 'fk_user_id' });
+Post.hasMany(PostComment, { foreignKey: 'fk_post_id', onDelete: 'CASCADE' });
+PostComment.belongsTo(Post, { foreignKey: 'fk_post_id' });
+PostComment.hasMany(PostComment, {
+  as: 'replies',
+  foreignKey: 'parent_comment_id',
+  onDelete: 'CASCADE',
+});
+PostComment.belongsTo(PostComment, {
+  as: 'parent',
+  foreignKey: 'parent_comment_id',
+});
+
 /**
  * RELACIONES DE TRANSACCIONES Y CURSOS
  */
@@ -89,6 +105,7 @@ export {
   Post,
   Transaction,
   PostVote,
+  PostComment,
   Community,
   Course,
   Category,

@@ -126,6 +126,16 @@ components:
           type: integer
           readOnly: true
           example: 5
+        voteScore:
+          type: integer
+          readOnly: true
+        commentCount:
+          type: integer
+          readOnly: true
+        userVote:
+          type: string
+          nullable: true
+          enum: [up, down, null]
         fk_user_id:
           type: integer
           readOnly: true
@@ -145,6 +155,26 @@ components:
           $ref: '#/components/schemas/User'
         Community:
           $ref: '#/components/schemas/Community'
+
+    PostComment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        body:
+          type: string
+          maxLength: 2000
+        parent_comment_id:
+          type: integer
+          nullable: true
+          description: ID del comentario al que responde
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        User:
+          $ref: '#/components/schemas/User'
 
     PostCreate:
       type: object
@@ -684,6 +714,82 @@ paths:
           description: Acceso denegado a comunidad privada
         404:
           description: Comunidad no encontrada
+
+  /posts/{id}/upvote:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Alternar upvote en una publicación
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Voto actualizado
+        403:
+          description: Sin acceso a una publicación privada
+        404:
+          description: Publicación no encontrada
+
+  /posts/{id}/comments:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Listar comentarios de una publicación
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Comentarios ordenados por fecha
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostComment'
+        403:
+          description: Sin acceso a una publicación privada
+        404:
+          description: Publicación no encontrada
+    post:
+      summary: Comentar una publicación
+      tags: [Posts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [body]
+              properties:
+                body:
+                  type: string
+                  minLength: 1
+                  maxLength: 2000
+                parentCommentId:
+                  type: integer
+                  nullable: true
+                  description: ID del comentario al que responde
+      responses:
+        201:
+          description: Comentario creado
+        400:
+          description: Comentario inválido
+        403:
+          description: Sin acceso a una publicación privada
+        404:
+          description: Publicación no encontrada
 
   /posts/{slug}:
     parameters:

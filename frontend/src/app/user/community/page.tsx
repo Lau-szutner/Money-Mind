@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { formatDate } from '@/app/utils/formatters';
+import { sortPostsByScore } from '@/app/utils/posts';
 import { getFeedPosts, createPost } from '@/app/services/postsService';
 import {
   fetchAllCommunities,
@@ -47,15 +48,7 @@ export default function Community() {
       try {
         const data = await getFeedPosts();
 
-        const postsFormatted = data.map(
-          (post: {
-            id: number;
-            User: { name: string };
-            Community: { id: number; name: string; slug: string };
-            title: string;
-            body: string;
-            createdAt: string;
-          }) => ({
+        const postsFormatted = data.map((post) => ({
             id: post.id,
             user: post.User.name,
             community: post.Community,
@@ -64,10 +57,12 @@ export default function Community() {
             createdAt: post.createdAt
               ? formatDate(post.createdAt)
               : '00/00/0000',
-          }),
-        );
+            voteScore: post.voteScore,
+            commentCount: post.commentCount,
+            userVote: post.userVote,
+          }));
 
-        setPosts(postsFormatted);
+        setPosts(sortPostsByScore(postsFormatted));
       } catch (error) {
         console.error(error);
       } finally {
@@ -141,7 +136,7 @@ export default function Community() {
         createdAt: formatDate(new Date()),
       };
 
-      setPosts([newPost, ...posts]);
+      setPosts((current) => sortPostsByScore([newPost, ...current]));
     } catch (error: any) {
       alert('Error en la conexión: ' + error.message);
     }
@@ -195,7 +190,23 @@ export default function Community() {
           ) : posts.length === 0 ? (
             <p>No hay ningun posteo aún.</p>
           ) : (
-            posts.map((post) => <Post key={post.id} {...post} />)
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                {...post}
+                onVoteChange={(postId, voteScore, userVote) =>
+                  setPosts((current) =>
+                    sortPostsByScore(
+                      current.map((item) =>
+                        item.id === postId
+                          ? { ...item, voteScore, userVote }
+                          : item,
+                      ),
+                    ),
+                  )
+                }
+              />
+            ))
           )}
         </div>
       </section>

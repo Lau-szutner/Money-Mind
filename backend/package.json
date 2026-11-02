@@ -8,8 +8,9 @@
     "start": "nodemon app.js",
     "dev:local": "dotenv -e .env.local nodemon app.js",
     "dev:cloud": "dotenv -e .env.cloud nodemon app.js",
-    "seed": "node seeders/usersSeeder.js && node seeders/communitiesSeeder.js && node seeders/categoriesSeeder.js && node seeders/userCommunitiesSeeder.js && node seeders/postsSeeder.js && node seeders/transactionsSeeder.js && node seeders/coursesSeeder.js",
-    "seed:realistic": "node seeders/monthRealisticTransactionsSeeder.js"
+    "seed": "npm run seed:local",
+    "seed:local": "node --env-file=.env.local seeders/usersSeeder.js && node --env-file=.env.local seeders/communitiesSeeder.js && node --env-file=.env.local seeders/categoriesSeeder.js && node --env-file=.env.local seeders/userCommunitiesSeeder.js && node --env-file=.env.local seeders/postsSeeder.js && node --env-file=.env.local seeders/transactionsSeeder.js && node --env-file=.env.local seeders/coursesSeeder.js",
+    "seed:realistic": "node --env-file=.env.local seeders/monthRealisticTransactionsSeeder.js"
   },
   "author": "",
   "license": "ISC",

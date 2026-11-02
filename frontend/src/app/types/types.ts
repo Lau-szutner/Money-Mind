@@ -21,6 +21,22 @@ export interface CommunityPostResponse {
   title: string;
   body: string;
   createdAt: string;
+  vote_score: number;
+  comment_count: number;
+  voteScore: number;
+  commentCount: number;
+  userVote: 'up' | 'down' | null;
+}
+
+export interface PostCommentType {
+  id: number;
+  body: string;
+  createdAt: string;
+  parent_comment_id: number | null;
+  User: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface Community {
@@ -74,4 +90,7 @@ export interface PostType {
   body: string;
   createdAt: string;
   community: CommunityBasic;
+  voteScore?: number;
+  commentCount?: number;
+  userVote?: 'up' | 'down' | null;
 }

@@ -4,6 +4,9 @@ import {
   getAllPosts,
   getFeedPosts,
   getCommunityPosts,
+  togglePostUpvote,
+  getPostComments,
+  createPostComment,
   getPostBySlug,
   createPost,
   updatePost,
@@ -23,6 +26,9 @@ router.get('/', getAllPosts);
 // IMPORTANTE: Debe ir antes que /:slug para que no confunda "feed" con un slug
 router.get('/feed', authenticateToken, getFeedPosts);
 router.get('/community/:slug', authenticateToken, getCommunityPosts);
+router.post('/:id/upvote', authenticateToken, togglePostUpvote);
+router.get('/:id/comments', authenticateToken, getPostComments);
+router.post('/:id/comments', authenticateToken, createPostComment);
 
 // 3. Obtener un post específico por su Slug (estilo Reddit)
 router.get('/:slug', getPostBySlug);

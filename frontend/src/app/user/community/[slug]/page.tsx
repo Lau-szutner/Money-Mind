@@ -14,6 +14,7 @@ import {
   PostType,
 } from '@/app/types/types';
 import { formatDate } from '@/app/utils/formatters';
+import { sortPostsByScore } from '@/app/utils/posts';
 import Post from '../components/Post';
 
 export default function CommunityDetailPage() {
@@ -45,11 +46,14 @@ export default function CommunityDetailPage() {
           createdAt: post.createdAt
             ? formatDate(post.createdAt)
             : '00/00/0000',
+          voteScore: post.voteScore,
+          commentCount: post.commentCount,
+          userVote: post.userVote,
         }));
 
         setCommunity(communityData);
         setMembershipStatus(communityData.membershipStatus);
-        setPosts(communityPosts);
+        setPosts(sortPostsByScore(communityPosts));
       } catch (error) {
         console.error(error);
         setLoadError(
@@ -170,7 +174,23 @@ export default function CommunityDetailPage() {
         {posts.length === 0 ? (
           <p>No hay posts en esta comunidad.</p>
         ) : (
-          posts.map((post) => <Post key={post.id} {...post} />)
+          posts.map((post) => (
+            <Post
+              key={post.id}
+              {...post}
+              onVoteChange={(postId, voteScore, userVote) =>
+                setPosts((current) =>
+                  sortPostsByScore(
+                    current.map((item) =>
+                      item.id === postId
+                        ? { ...item, voteScore, userVote }
+                        : item,
+                    ),
+                  ),
+                )
+              }
+            />
+          ))
         )}
       </div>
     </main>
