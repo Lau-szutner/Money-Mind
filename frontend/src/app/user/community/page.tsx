@@ -8,32 +8,20 @@ import { fetchCommunities } from '@/app/services/communityServices';
 import Post from '@/app/user/community/components/Post';
 import NewPostModal from './components/NewPostModal';
 import { PostType, CommunityBasic } from '@/app/types/types';
-import SearchBy from '@/app/components/SearchBy';
 import CommunitySideBar from '@/app/components/CommunitySideBar';
-
-interface CommunityType {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-  image_url: string | null;
-}
+import { useAuthContext } from '@/context/AuthProvider';
 
 export default function Community() {
+  const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [communitiesData, setCommunitiesData] = useState<CommunityBasic[]>([]);
-  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const data = await getFeedPosts();
-
-        const userData = data[0].User.name;
-
-        setUserName(userData);
 
         const postsFormatted = data.map(
           (post: {
@@ -100,7 +88,7 @@ export default function Community() {
 
       const newPost: PostType = {
         id: result.post.id,
-        user: userName || 'Usuario',
+        user: user?.name || 'Usuario',
         community: selectedCommunity || {
           id: data.fk_community_id,
           name: 'Comunidad',

@@ -11,7 +11,6 @@ export const getFeedPosts = async () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      // Si el token existe, lo enviamos; si no, el backend dará 401
       Authorization: `Bearer ${token}`,
     },
   });

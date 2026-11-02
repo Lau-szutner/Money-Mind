@@ -19,7 +19,7 @@ export const getFeedPosts = async (req, res) => {
       where: { fk_community_id: { [Op.in]: communityIds } },
       include: [
         { model: User, attributes: ['name', 'name'] },
-        { model: Community, attributes: ['name', 'slug'] },
+        { model: Community, attributes: ['id', 'name', 'slug'] },
       ],
       order: [['createdAt', 'DESC']],
       limit: 20,
