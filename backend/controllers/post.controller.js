@@ -74,7 +74,7 @@ export const getFeedPosts = async (req, res) => {
     const posts = await Post.findAll({
       where: { fk_community_id: { [Op.in]: communityIds } },
       include: [
-        { model: User, attributes: ['name', 'name'] },
+        { model: User, attributes: ['id', 'name'] },
         { model: Community, attributes: ['id', 'name', 'slug'] },
       ],
       order: [['createdAt', 'DESC']],
@@ -396,42 +396,76 @@ export const createPost = async (req, res) => {
 
 // 5. Actualizar un post
 export const updatePost = async (req, res) => {
-  const { id } = req.params;
+  const postId = Number(req.params.id);
   const { title, body } = req.body;
 
+  if (!Number.isInteger(postId) || postId < 1) {
+    return res.status(400).json({ message: 'ID de publicación inválido' });
+  }
+  if (
+    title !== undefined &&
+    (typeof title !== 'string' || !title.trim() || title.trim().length > 300)
+  ) {
+    return res.status(400).json({
+      message: 'El título debe tener entre 1 y 300 caracteres',
+    });
+  }
+  if (body !== undefined && body !== null && typeof body !== 'string') {
+    return res.status(400).json({ message: 'El contenido debe ser texto' });
+  }
+  if (title === undefined && body === undefined) {
+    return res.status(400).json({ message: 'No hay cambios para guardar' });
+  }
+
   try {
-    const post = await Post.findByPk(id);
+    const post = await Post.findByPk(postId);
     if (!post) return res.status(404).json({ message: 'Post no encontrado' });
 
     // Verificar que el usuario sea el dueño
-    if (post.fk_user_id !== req.userId) {
+    if (Number(post.fk_user_id) !== Number(req.userId)) {
       return res
         .status(403)
         .json({ message: 'No tienes permiso para editar esto' });
     }
 
-    if (title) post.title = title;
-    if (body) post.body = body;
+    if (title !== undefined) post.title = title.trim();
+    if (body !== undefined) post.body = body;
 
     await post.save();
     res.status(200).json(post);
   } catch (error) {
-    res.status(500).json({ message: 'Error al actualizar el post', error });
+    res.status(500).json({
+      message: 'Error al actualizar el post',
+      error: error.message,
+    });
   }
 };
 
 // 6. Eliminar un post
 export const deletePost = async (req, res) => {
-  const { id } = req.params;
+  const postId = Number(req.params.id);
+
+  if (!Number.isInteger(postId) || postId < 1) {
+    return res.status(400).json({ message: 'ID de publicación inválido' });
+  }
 
   try {
-    const post = await Post.findByPk(id);
+    const post = await Post.findByPk(postId);
     if (!post) return res.status(404).json({ message: 'Post no encontrado' });
+
+    if (Number(post.fk_user_id) !== Number(req.userId)) {
+      return res
+        .status(403)
+        .json({ message: 'No tienes permiso para eliminar esto' });
+    }
 
     // Borrado lógico (paranoid: true en el modelo hará el resto)
     await post.destroy();
     res.status(200).json({ message: 'Post eliminado correctamente' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al eliminar el post', error });
+    res.status(500).json({
+      message: 'Error al eliminar el post',
+      error: error.message,
+    });
   }
 };

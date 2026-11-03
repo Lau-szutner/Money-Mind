@@ -21,6 +21,8 @@ import { useAuthContext } from '@/context/AuthProvider';
 export default function Community() {
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
+  const [feedError, setFeedError] = useState<string | null>(null);
+  const [feedRetry, setFeedRetry] = useState(0);
   const [newPostOpen, setNewPostOpen] = useState(false);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [allCommunities, setAllCommunities] = useState<CommunityBasic[]>([]);
@@ -43,12 +45,17 @@ export default function Community() {
   const [communitiesError, setCommunitiesError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchPosts = async () => {
+      setLoading(true);
+      setFeedError(null);
       try {
         const data = await getFeedPosts();
 
         const postsFormatted = data.map((post) => ({
           id: post.id,
+          authorId: post.User.id,
           user: post.User.name,
           community: post.Community,
           title: post.title,
@@ -59,16 +66,25 @@ export default function Community() {
           userVote: post.userVote,
         }));
 
-        setPosts(sortPostsByScore(postsFormatted));
+        if (!cancelled) setPosts(sortPostsByScore(postsFormatted));
       } catch (error) {
-        console.error(error);
+        if (!cancelled) {
+          setFeedError(
+            error instanceof Error
+              ? error.message
+              : 'No se pudieron cargar las publicaciones',
+          );
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchPosts();
-  }, [followedCommunityKey]);
+    return () => {
+      cancelled = true;
+    };
+  }, [followedCommunityKey, feedRetry]);
 
   useEffect(() => {
     const loadCommunities = async () => {
@@ -124,6 +140,7 @@ export default function Community() {
 
       const newPost: PostType = {
         id: result.post.id,
+        authorId: user?.id ?? 0,
         user: user?.name || 'Usuario',
         community: selectedCommunity || {
           id: data.fk_community_id,
@@ -186,13 +203,38 @@ export default function Community() {
 
           {loading ? (
             <p>Cargando posteos...</p>
+          ) : feedError ? (
+            <div className="space-y-2 py-4">
+              <p role="alert" className="text-red-400">
+                {feedError}
+              </p>
+              <button
+                type="button"
+                onClick={() => setFeedRetry((current) => current + 1)}
+                className="rounded-md bg-greenIn px-4 py-2 font-semibold text-black hover:opacity-90"
+              >
+                Reintentar
+              </button>
+            </div>
           ) : posts.length === 0 ? (
-            <p>No hay ningun posteo aún.</p>
+            <p>No hay publicaciones en las comunidades que sigues todavía.</p>
           ) : (
             posts.map((post) => (
               <Post
                 key={post.id}
                 {...post}
+                onPostUpdated={(postId, title, body) =>
+                  setPosts((current) =>
+                    current.map((item) =>
+                      item.id === postId ? { ...item, title, body } : item,
+                    ),
+                  )
+                }
+                onPostDeleted={(postId) =>
+                  setPosts((current) =>
+                    current.filter((item) => item.id !== postId),
+                  )
+                }
                 onVoteChange={(postId, voteScore, userVote) =>
                   setPosts((current) =>
                     sortPostsByScore(

@@ -161,3 +161,40 @@ export const createPost = async (data: {
   }
   return response.json();
 };
+
+export const updatePost = async (
+  postId: number,
+  data: { title: string; body: string },
+): Promise<void> => {
+  const token = Cookies.get('authToken');
+  if (!token) throw new Error('No estás autenticado');
+
+  const response = await fetch(`${apiUrl}posts/${postId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(await getApiError(response, 'No se pudo editar el post'));
+  }
+};
+
+export const deletePost = async (postId: number): Promise<void> => {
+  const token = Cookies.get('authToken');
+  if (!token) throw new Error('No estás autenticado');
+
+  const response = await fetch(`${apiUrl}posts/${postId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(await getApiError(response, 'No se pudo eliminar el post'));
+  }
+};

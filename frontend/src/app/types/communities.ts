@@ -102,6 +102,7 @@ export interface PostCommentType {
 
 export interface PostType {
   id: number;
+  authorId: number;
   user: string;
   title: string;
   body: string;

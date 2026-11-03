@@ -22,6 +22,7 @@ export default function CommunityDetailPage() {
   const [community, setCommunity] = useState<Community | null>(null);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadRetry, setLoadRetry] = useState(0);
   const [membershipLoading, setMembershipLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
@@ -29,6 +30,8 @@ export default function CommunityDetailPage() {
     useState<CommunityMembershipStatus | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const loadCommunity = async () => {
       setLoading(true);
       setLoadError(null);
@@ -39,6 +42,7 @@ export default function CommunityDetailPage() {
         ]);
         const communityPosts = postsData.map((post) => ({
           id: post.id,
+          authorId: post.User.id,
           user: post.User.name,
           community: post.Community,
           title: post.title,
@@ -51,23 +55,29 @@ export default function CommunityDetailPage() {
           userVote: post.userVote,
         }));
 
-        setCommunity(communityData);
-        setMembershipStatus(communityData.membershipStatus);
-        setPosts(sortPostsByScore(communityPosts));
+        if (!cancelled) {
+          setCommunity(communityData);
+          setMembershipStatus(communityData.membershipStatus);
+          setPosts(sortPostsByScore(communityPosts));
+        }
       } catch (error) {
-        console.error(error);
-        setLoadError(
-          error instanceof Error
-            ? error.message
-            : 'No se pudo cargar la comunidad',
-        );
+        if (!cancelled) {
+          setLoadError(
+            error instanceof Error
+              ? error.message
+              : 'No se pudo cargar la comunidad',
+          );
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     loadCommunity();
-  }, [slug]);
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, loadRetry]);
 
   const handleMembershipToggle = async () => {
     if (!community || membershipLoading) return;
@@ -117,6 +127,15 @@ export default function CommunityDetailPage() {
         <p role="alert" className="text-red-400">
           {loadError || 'Comunidad no encontrada'}
         </p>
+        {loadError && (
+          <button
+            type="button"
+            onClick={() => setLoadRetry((current) => current + 1)}
+            className="mt-3 rounded-md bg-greenIn px-4 py-2 font-semibold text-black hover:opacity-90"
+          >
+            Reintentar
+          </button>
+        )}
       </main>
     );
   }
@@ -178,6 +197,18 @@ export default function CommunityDetailPage() {
             <Post
               key={post.id}
               {...post}
+              onPostUpdated={(postId, title, body) =>
+                setPosts((current) =>
+                  current.map((item) =>
+                    item.id === postId ? { ...item, title, body } : item,
+                  ),
+                )
+              }
+              onPostDeleted={(postId) =>
+                setPosts((current) =>
+                  current.filter((item) => item.id !== postId),
+                )
+              }
               onVoteChange={(postId, voteScore, userVote) =>
                 setPosts((current) =>
                   sortPostsByScore(

@@ -200,6 +200,8 @@ components:
       properties:
         title:
           type: string
+          minLength: 1
+          maxLength: 300
         body:
           type: string
     Course:
@@ -834,6 +836,12 @@ paths:
       responses:
         200:
           description: Post actualizado
+        400:
+          description: ID o contenido inválido
+        403:
+          description: Solo el autor puede editar el post
+        404:
+          description: Post no encontrado
     delete:
       summary: Eliminar un post
       tags: [Posts]
@@ -842,6 +850,12 @@ paths:
       responses:
         200:
           description: Post eliminado (soft delete)
+        400:
+          description: ID inválido
+        403:
+          description: Solo el autor puede eliminar el post
+        404:
+          description: Post no encontrado
 
   /courses:
     get:
