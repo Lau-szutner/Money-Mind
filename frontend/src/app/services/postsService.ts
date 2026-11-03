@@ -84,7 +84,9 @@ export const togglePostUpvote = async (
   });
 
   if (!response.ok) {
-    throw new Error(await getApiError(response, 'No se pudo registrar el voto'));
+    throw new Error(
+      await getApiError(response, 'No se pudo registrar el voto'),
+    );
   }
 
   return response.json();
