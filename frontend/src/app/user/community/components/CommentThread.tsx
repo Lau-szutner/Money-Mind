@@ -54,6 +54,7 @@ export const CommentThread = ({
               placeholder={`Responder a ${comment.User.name}...`}
               buttonLabel="Responder"
               onSubmit={handleReply}
+              onCancel={() => setReplying(false)}
             />
           </div>
         )}

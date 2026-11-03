@@ -4,13 +4,15 @@ import { FormEvent, useState } from 'react';
 interface CommentComposerProps {
   placeholder: string;
   buttonLabel: string;
+  cancelLabel?: string;
   onSubmit: (body: string) => Promise<void>;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
 export const CommentComposer = ({
   placeholder,
   buttonLabel,
+  cancelLabel = 'Cancelar',
   onSubmit,
   onCancel,
 }: CommentComposerProps) => {
@@ -39,6 +41,13 @@ export const CommentComposer = ({
     }
   };
 
+  const handleCancel = () => {
+    if (submitting) return;
+    setBody('');
+    setError(null);
+    onCancel?.();
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
       <textarea
@@ -56,20 +65,22 @@ export const CommentComposer = ({
         </p>
       )}
       <div className="flex items-center justify-between gap-3">
-        <span className="text-xs text-gray-400">{body.length}/2000</span>
-        <div className="gap-5 flex">
-          <button
-            className="rounded-md bg-redSpend px-4 py-2 text-sm font-semibold text-black hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-            onClick={() => onCancel()}
-          >
-            Cancelar
-          </button>
+        {/* <span className="text-xs text-gray-400">{body.length}/2000</span> */}
+        <div className="gap-5 grid w-full md:flex text-white">
           <button
             type="submit"
             disabled={!body.trim() || submitting}
-            className="rounded-md bg-greenIn px-4 py-2 text-sm font-semibold text-black hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-md bg-greenIn px-4 py-2 text-sm font-semibold  w-full hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting ? 'Publicando...' : buttonLabel}
+          </button>
+          <button
+            type="button"
+            disabled={submitting}
+            className="rounded-md bg-redSpend px-4 py-2 text-sm font-semibold  hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer w-full "
+            onClick={handleCancel}
+          >
+            {cancelLabel}
           </button>
         </div>
       </div>

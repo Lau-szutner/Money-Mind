@@ -106,7 +106,7 @@ const Post = ({
           onRetry={retryLoadingComments}
           onReply={replyToComment}
           onComment={addComment}
-          onCancel={toggleComments}
+          onClose={toggleComments}
         />
       )}
     </article>

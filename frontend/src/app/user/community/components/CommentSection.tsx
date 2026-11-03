@@ -11,7 +11,7 @@ interface CommentSectionProps {
   onRetry: () => void;
   onReply: (parentCommentId: number, body: string) => Promise<void>;
   onComment: (body: string) => Promise<void>;
-  onCancel: () => void;
+  onClose: () => void;
 }
 
 export const CommentSection = ({
@@ -21,7 +21,7 @@ export const CommentSection = ({
   onRetry,
   onReply,
   onComment,
-  onCancel,
+  onClose,
 }: CommentSectionProps) => (
   <section className="mt-5 border-t border-neutral-700 pt-4">
     <h3 className="mb-3 font-semibold">Comentarios</h3>
@@ -60,8 +60,9 @@ export const CommentSection = ({
     <CommentComposer
       placeholder="Escribe un comentario..."
       buttonLabel="Comentar"
+      cancelLabel="Cerrar comentarios"
       onSubmit={onComment}
-      onCancel={onCancel}
+      onCancel={onClose}
     />
   </section>
 );
