@@ -7,7 +7,7 @@ import {
   togglePostUpvote,
   getPostComments,
   createPostComment,
-  getPostBySlug,
+  getCommunityPostById,
   createPost,
   updatePost,
   deletePost,
@@ -23,15 +23,17 @@ const router = express.Router();
 router.get('/', getAllPosts);
 
 // 2. Obtener el feed personalizado (Posts de comunidades seguidas)
-// IMPORTANTE: Debe ir antes que /:slug para que no confunda "feed" con un slug
 router.get('/feed', authenticateToken, getFeedPosts);
+router.get(
+  '/community/:slug/post/:postId',
+  authenticateToken,
+  getCommunityPostById,
+);
+
 router.get('/community/:slug', authenticateToken, getCommunityPosts);
 router.post('/:id/upvote', authenticateToken, togglePostUpvote);
 router.get('/:id/comments', authenticateToken, getPostComments);
 router.post('/:id/comments', authenticateToken, createPostComment);
-
-// 3. Obtener un post específico por su Slug (estilo Reddit)
-router.get('/:slug', getPostBySlug);
 
 /**
  * RUTAS DE ACCIÓN (POST, PUT, DELETE)

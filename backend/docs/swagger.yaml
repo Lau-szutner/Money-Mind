@@ -793,17 +793,25 @@ paths:
         404:
           description: Publicación no encontrada
 
-  /posts/{slug}:
+  /posts/community/{slug}/post/{postId}:
     parameters:
       - name: slug
         in: path
         required: true
         schema:
           type: string
-        description: Slug amigable del post
+        description: Slug de la comunidad
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID numérico del post
     get:
-      summary: Obtener un post por su Slug
+      summary: Obtener un post específico de una comunidad
       tags: [Posts]
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: Detalle del post
@@ -811,8 +819,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+        400:
+          description: ID de post inválido
+        403:
+          description: Acceso denegado a comunidad privada
         404:
-          description: Post no encontrado
+          description: Comunidad o post no encontrado
 
   /posts/{id}:
     parameters:

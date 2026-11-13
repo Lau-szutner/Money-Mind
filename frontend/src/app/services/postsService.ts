@@ -4,6 +4,7 @@ import {
   CommunityPostResponse,
   PostCommentType,
 } from '@/app/types/communities';
+import { cookies } from 'next/headers';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,6 +39,33 @@ export const getFeedPosts = async (): Promise<CommunityPostResponse[]> => {
   if (!Array.isArray(data)) {
     throw new Error('El servidor devolvió una lista de publicaciones inválida');
   }
+  return data;
+};
+
+export const getPostByIdAndSlug = async (slug: string, postId: number) => {
+  const token = Cookies.get('authToken');
+  if (!token) throw new Error('No estás autenticado');
+
+  const response = await fetch(
+    `${apiUrl}posts/community/${slug}/post/${postId}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('No tienes permisos o tu sesión expiró');
+    }
+    throw new Error('Error al cargar los posts de tu feed');
+  }
+
+  const data = response.json();
+
   return data;
 };
 

@@ -111,7 +111,9 @@ export const getCommunityPosts = async (req, res) => {
       });
 
       if (!membership) {
-        return res.status(403).json({ message: 'Acceso denegado a comunidad privada' });
+        return res
+          .status(403)
+          .json({ message: 'Acceso denegado a comunidad privada' });
       }
     }
 
@@ -192,7 +194,9 @@ export const togglePostUpvote = async (req, res) => {
       return res.status(404).json({ message: 'Publicación no encontrada' });
     }
     if (result.forbidden) {
-      return res.status(403).json({ message: 'No tienes acceso a esta publicación' });
+      return res
+        .status(403)
+        .json({ message: 'No tienes acceso a esta publicación' });
     }
 
     return res.status(200).json(result);
@@ -217,7 +221,9 @@ export const getPostComments = async (req, res) => {
       return res.status(404).json({ message: 'Publicación no encontrada' });
     }
     if (forbidden) {
-      return res.status(403).json({ message: 'No tienes acceso a esta publicación' });
+      return res
+        .status(403)
+        .json({ message: 'No tienes acceso a esta publicación' });
     }
 
     const comments = await PostComment.findAll({
@@ -294,11 +300,14 @@ export const createPostComment = async (req, res) => {
       return res.status(404).json({ message: 'Publicación no encontrada' });
     }
     if (comment.forbidden) {
-      return res.status(403).json({ message: 'No tienes acceso a esta publicación' });
+      return res
+        .status(403)
+        .json({ message: 'No tienes acceso a esta publicación' });
     }
     if (comment.invalidParent) {
       return res.status(400).json({
-        message: 'El comentario al que respondes no pertenece a esta publicación',
+        message:
+          'El comentario al que respondes no pertenece a esta publicación',
       });
     }
 
@@ -330,20 +339,59 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-// 3. Obtener un solo post por Slug (mejor para Reddit) o ID
-export const getPostBySlug = async (req, res) => {
+// 3. Obtener un post específico dentro de una comunidad
+export const getCommunityPostById = async (req, res) => {
+  const postId = Number(req.params.postId);
+  if (!Number.isInteger(postId) || postId <= 0) {
+    return res.status(400).json({ message: 'ID de post inválido' });
+  }
+
   try {
-    const post = await Post.findOne({
+    const community = await Community.findOne({
       where: { slug: req.params.slug },
+      attributes: ['id', 'is_private'],
+    });
+
+    if (!community) {
+      return res.status(404).json({ message: 'Comunidad no encontrada' });
+    }
+
+    if (community.is_private) {
+      const membership = await UserCommunity.findOne({
+        where: {
+          user_id: req.userId,
+          community_id: community.id,
+          status: 'active',
+        },
+        attributes: ['id'],
+      });
+
+      if (!membership) {
+        return res
+          .status(403)
+          .json({ message: 'Acceso denegado a comunidad privada' });
+      }
+    }
+
+    const post = await Post.findOne({
+      where: { id: postId, fk_community_id: community.id },
       include: [
         { model: User, attributes: ['id', 'name'] },
         { model: Community, attributes: ['id', 'name', 'slug'] },
       ],
     });
-    if (!post) return res.status(404).json({ message: 'Post no encontrado' });
-    res.status(200).json(post);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post no encontrado' });
+    }
+
+    const [postWithUserVote] = await addUserVoteState([post], req.userId);
+    return res.status(200).json(postWithUserVote);
   } catch (error) {
-    res.status(500).json({ message: 'Error al buscar el post', error });
+    return res.status(500).json({
+      message: 'Error al buscar el post',
+      error: error.message,
+    });
   }
 };
 

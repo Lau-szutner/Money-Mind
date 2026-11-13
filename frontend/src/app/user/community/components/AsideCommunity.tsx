@@ -22,6 +22,7 @@ export const AsideCommunity = ({
   onMembershipChange,
 }: CommunitySectionProps) => {
   const router = useRouter();
+
   const [isExpanded, setIsExpanded] = useState(true);
   const [busyCommunityId, setBusyCommunityId] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
