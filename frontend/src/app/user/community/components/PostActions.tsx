@@ -6,10 +6,9 @@ interface PostActionsProps {
   currentVote: 'up' | 'down' | null;
   voteLoading: boolean;
   commentsCount: number;
-  commentsOpen: boolean;
+  commentsOpen?: boolean;
   onUpvote: () => void;
-  onToggleComments: () => void;
-  showComments?: boolean;
+  onToggleComments?: () => void;
   commentsHref?: string;
 }
 
@@ -18,10 +17,9 @@ export const PostActions = ({
   currentVote,
   voteLoading,
   commentsCount,
-  commentsOpen,
+  commentsOpen = false,
   onUpvote,
   onToggleComments,
-  showComments = true,
   commentsHref,
 }: PostActionsProps) => {
   return (
@@ -45,32 +43,30 @@ export const PostActions = ({
         </button>
       </div>
 
-      {showComments && (
-        commentsHref ? (
-          <Link
-            href={commentsHref}
-            className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn"
-          >
-            <Image src="/icons/comments.svg" alt="" width={24} height={24} />
-            <span>
-              {commentsCount}{' '}
-              {commentsCount === 1 ? 'comentario' : 'comentarios'}
-            </span>
-          </Link>
-        ) : (
-          <button
-            type="button"
-            onClick={onToggleComments}
-            aria-expanded={commentsOpen}
-            className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn cursor-pointer"
-          >
-            <Image src="/icons/comments.svg" alt="" width={24} height={24} />
-            <span>
-              {commentsCount}{' '}
-              {commentsCount === 1 ? 'comentario' : 'comentarios'}
-            </span>
-          </button>
-        )
+      {commentsHref ? (
+        <Link
+          href={commentsHref}
+          className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn"
+        >
+          <Image src="/icons/comments.svg" alt="" width={24} height={24} />
+          <span>
+            {commentsCount}{' '}
+            {commentsCount === 1 ? 'comentario' : 'comentarios'}
+          </span>
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={onToggleComments}
+          aria-expanded={commentsOpen}
+          className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn cursor-pointer"
+        >
+          <Image src="/icons/comments.svg" alt="" width={24} height={24} />
+          <span>
+            {commentsCount}{' '}
+            {commentsCount === 1 ? 'comentario' : 'comentarios'}
+          </span>
+        </button>
       )}
     </div>
   );

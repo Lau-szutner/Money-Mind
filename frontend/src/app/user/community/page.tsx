@@ -8,7 +8,7 @@ import {
   fetchAllCommunities,
   fetchCommunityMemberships,
 } from '@/app/services/communityServices';
-import Post from '@/app/user/community/components/Post';
+import FeedPostCard from '@/app/user/community/components/FeedPostCard';
 import NewPostModal from '@/app/user/community/components/NewPostModal';
 import {
   PostType,
@@ -220,22 +220,9 @@ export default function Community() {
             <p>No hay publicaciones en las comunidades que sigues todavía.</p>
           ) : (
             posts.map((post) => (
-              <Post
+              <FeedPostCard
                 key={post.id}
-                {...post}
-                feedMode
-                onPostUpdated={(postId, title, body) =>
-                  setPosts((current) =>
-                    current.map((item) =>
-                      item.id === postId ? { ...item, title, body } : item,
-                    ),
-                  )
-                }
-                onPostDeleted={(postId) =>
-                  setPosts((current) =>
-                    current.filter((item) => item.id !== postId),
-                  )
-                }
+                post={post}
                 onVoteChange={(postId, voteScore, userVote) =>
                   setPosts((current) =>
                     sortPostsByScore(

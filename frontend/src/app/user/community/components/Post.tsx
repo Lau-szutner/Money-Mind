@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { togglePostUpvote } from '@/app/services/postsService';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -10,6 +9,7 @@ import { PostType } from '@/app/types/communities';
 import { PostActions } from '@/app/user/community/components/PostActions';
 import { CommentSection } from '@/app/user/community/components/CommentSection';
 import { usePostComments } from '@/app/user/community/hooks/usePostComments';
+import { usePostVote } from '@/app/user/community/hooks/usePostVote';
 import { useAuthContext } from '@/context/AuthProvider';
 import { deletePost, updatePost } from '@/app/services/postsService';
 
@@ -22,13 +22,11 @@ interface PostProps extends PostType {
   onPostUpdated?: (postId: number, title: string, body: string) => void;
   onPostDeleted: (postId: number) => void;
   isDetailPage?: boolean;
-  feedMode?: boolean;
 }
 
 const Post = ({
   id,
   authorId,
-  user,
   title,
   body,
   createdAt,
@@ -40,7 +38,6 @@ const Post = ({
   onPostUpdated,
   onPostDeleted,
   isDetailPage = false,
-  feedMode = false,
 }: PostProps) => {
   const { user: currentUser } = useAuthContext();
   const router = useRouter();
@@ -49,10 +46,13 @@ const Post = ({
   const [editing, setEditing] = useState(false);
   const [postActionLoading, setPostActionLoading] = useState(false);
   const [postActionError, setPostActionError] = useState<string | null>(null);
-  const [score, setScore] = useState(voteScore);
-  const [currentVote, setCurrentVote] = useState(userVote);
-  const [voteLoading, setVoteLoading] = useState(false);
-  const [voteError, setVoteError] = useState<string | null>(null);
+  const { score, currentVote, voteLoading, voteError, handleUpvote } =
+    usePostVote({
+      postId: id,
+      initialVoteScore: voteScore,
+      initialUserVote: userVote,
+      onVoteChange,
+    });
 
   const {
     comments,
@@ -66,28 +66,6 @@ const Post = ({
     addComment,
   } = usePostComments(id, commentCount);
   const isAuthor = currentUser?.id === authorId;
-
-  // MARK: PostActions Handlers
-  const handleUpvote = async () => {
-    if (voteLoading) return;
-
-    setVoteLoading(true);
-    setVoteError(null);
-    try {
-      const result = await togglePostUpvote(id);
-      setScore(result.voteScore);
-      setCurrentVote(result.userVote);
-      onVoteChange?.(id, result.voteScore, result.userVote);
-    } catch (requestError) {
-      setVoteError(
-        requestError instanceof Error
-          ? requestError.message
-          : 'No se pudo registrar el voto',
-      );
-    } finally {
-      setVoteLoading(false);
-    }
-  };
 
   const handleSaveEdit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -176,8 +154,7 @@ const Post = ({
           </Link>
         )}
         <div className="ml-auto flex items-center gap-2">
-          {/* <p>{user}</p> */}
-          {isAuthor && !editing && !feedMode && (
+          {isAuthor && !editing && (
             <details className="relative">
               <summary
                 aria-label="Opciones de la publicación"
@@ -295,7 +272,6 @@ const Post = ({
         commentsOpen={commentsOpen}
         onUpvote={handleUpvote}
         onToggleComments={toggleComments}
-        commentsHref={feedMode ? postHref : undefined}
       />
 
       {voteError && (
@@ -303,7 +279,7 @@ const Post = ({
           {voteError}
         </p>
       )}
-      {commentsOpen && !feedMode && (
+      {commentsOpen && (
         <CommentSection
           comments={comments}
           loading={commentsLoading}
