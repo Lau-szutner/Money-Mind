@@ -4,7 +4,6 @@ import {
   CommunityPostResponse,
   PostCommentType,
 } from '@/app/types/communities';
-import { cookies } from 'next/headers';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -42,12 +41,18 @@ export const getFeedPosts = async (): Promise<CommunityPostResponse[]> => {
   return data;
 };
 
-export const getPostByIdAndSlug = async (slug: string, postId: number) => {
+export const getPostByIdAndSlug = async (
+  slug: string,
+  postId: number,
+): Promise<CommunityPostResponse> => {
   const token = Cookies.get('authToken');
   if (!token) throw new Error('No estás autenticado');
 
+  const baseUrl = apiUrl?.replace(/\/+$/, '');
+  if (!baseUrl) throw new Error('La URL de la API no está configurada');
+
   const response = await fetch(
-    `${apiUrl}posts/community/${slug}/post/${postId}`,
+    `${baseUrl}/posts/community/${encodeURIComponent(slug)}/post/${postId}`,
     {
       method: 'GET',
       headers: {
@@ -58,15 +63,12 @@ export const getPostByIdAndSlug = async (slug: string, postId: number) => {
   );
 
   if (!response.ok) {
-    if (response.status === 401) {
-      throw new Error('No tienes permisos o tu sesión expiró');
-    }
-    throw new Error('Error al cargar los posts de tu feed');
+    throw new Error(
+      await getApiError(response, 'No se pudo cargar la publicación'),
+    );
   }
 
-  const data = response.json();
-
-  return data;
+  return response.json();
 };
 
 export const getCommunityPosts = async (

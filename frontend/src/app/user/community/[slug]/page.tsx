@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import {
   getCommunityBySlug,
   joinCommunity,
@@ -19,6 +19,7 @@ import Post from '@/app/user/community/components/Post';
 
 export default function CommunityDetailPage() {
   const { slug } = useParams<{ slug: string }>();
+  const router = useRouter();
   const [community, setCommunity] = useState<Community | null>(null);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,9 +48,7 @@ export default function CommunityDetailPage() {
           community: post.Community,
           title: post.title,
           body: post.body,
-          createdAt: post.createdAt
-            ? formatDate(post.createdAt)
-            : '00/00/0000',
+          createdAt: post.createdAt ? formatDate(post.createdAt) : '00/00/0000',
           voteScore: post.voteScore,
           commentCount: post.commentCount,
           userVote: post.userVote,
@@ -91,7 +90,10 @@ export default function CommunityDetailPage() {
         if (membershipStatus === 'active') {
           setCommunity((current) =>
             current
-              ? { ...current, memberCount: Math.max(0, current.memberCount - 1) }
+              ? {
+                  ...current,
+                  memberCount: Math.max(0, current.memberCount - 1),
+                }
               : current,
           );
         }
@@ -145,7 +147,14 @@ export default function CommunityDetailPage() {
   const isBanned = membershipStatus === 'banned';
 
   return (
-    <main className="p-5">
+    <main className="p-5 ">
+      <button
+        type="button"
+        onClick={() => router.back()}
+        className="mb-5 inline-flex text-greenIn hover:underline"
+      >
+        ← Volver
+      </button>
       <div className="bg-bgComponents p-10 rounded-xl mb-5">
         <h1 className="text-4xl font-bold">{community.name}</h1>
         {community.description && (
@@ -194,33 +203,37 @@ export default function CommunityDetailPage() {
           <p>No hay posts en esta comunidad.</p>
         ) : (
           posts.map((post) => (
-            <Post
+            <main
               key={post.id}
-              {...post}
-              onPostUpdated={(postId, title, body) =>
-                setPosts((current) =>
-                  current.map((item) =>
-                    item.id === postId ? { ...item, title, body } : item,
-                  ),
-                )
-              }
-              onPostDeleted={(postId) =>
-                setPosts((current) =>
-                  current.filter((item) => item.id !== postId),
-                )
-              }
-              onVoteChange={(postId, voteScore, userVote) =>
-                setPosts((current) =>
-                  sortPostsByScore(
+              className="p-5 bg-bgComponents rounded-xl"
+            >
+              <Post
+                {...post}
+                onPostUpdated={(postId, title, body) =>
+                  setPosts((current) =>
                     current.map((item) =>
-                      item.id === postId
-                        ? { ...item, voteScore, userVote }
-                        : item,
+                      item.id === postId ? { ...item, title, body } : item,
                     ),
-                  ),
-                )
-              }
-            />
+                  )
+                }
+                onPostDeleted={(postId) =>
+                  setPosts((current) =>
+                    current.filter((item) => item.id !== postId),
+                  )
+                }
+                onVoteChange={(postId, voteScore, userVote) =>
+                  setPosts((current) =>
+                    sortPostsByScore(
+                      current.map((item) =>
+                        item.id === postId
+                          ? { ...item, voteScore, userVote }
+                          : item,
+                      ),
+                    ),
+                  )
+                }
+              />
+            </main>
           ))
         )}
       </div>

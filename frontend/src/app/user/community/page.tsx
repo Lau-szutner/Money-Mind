@@ -223,6 +223,7 @@ export default function Community() {
               <Post
                 key={post.id}
                 {...post}
+                feedMode
                 onPostUpdated={(postId, title, body) =>
                   setPosts((current) =>
                     current.map((item) =>

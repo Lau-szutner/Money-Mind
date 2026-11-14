@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface PostActionsProps {
   score: number;
@@ -8,6 +9,8 @@ interface PostActionsProps {
   commentsOpen: boolean;
   onUpvote: () => void;
   onToggleComments: () => void;
+  showComments?: boolean;
+  commentsHref?: string;
 }
 
 export const PostActions = ({
@@ -18,6 +21,8 @@ export const PostActions = ({
   commentsOpen,
   onUpvote,
   onToggleComments,
+  showComments = true,
+  commentsHref,
 }: PostActionsProps) => {
   return (
     <div className="flex items-center gap-4">
@@ -40,17 +45,33 @@ export const PostActions = ({
         </button>
       </div>
 
-      <button
-        type="button"
-        onClick={onToggleComments}
-        aria-expanded={commentsOpen}
-        className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn cursor-pointer"
-      >
-        <Image src="/icons/comments.svg" alt="" width={24} height={24} />
-        <span>
-          {commentsCount} {commentsCount === 1 ? 'comentario' : 'comentarios'}
-        </span>
-      </button>
+      {showComments && (
+        commentsHref ? (
+          <Link
+            href={commentsHref}
+            className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn"
+          >
+            <Image src="/icons/comments.svg" alt="" width={24} height={24} />
+            <span>
+              {commentsCount}{' '}
+              {commentsCount === 1 ? 'comentario' : 'comentarios'}
+            </span>
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={onToggleComments}
+            aria-expanded={commentsOpen}
+            className="flex items-center gap-2 rounded-lg bg-[#323232] p-2 text-sm hover:text-greenIn cursor-pointer"
+          >
+            <Image src="/icons/comments.svg" alt="" width={24} height={24} />
+            <span>
+              {commentsCount}{' '}
+              {commentsCount === 1 ? 'comentario' : 'comentarios'}
+            </span>
+          </button>
+        )
+      )}
     </div>
   );
 };
