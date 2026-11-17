@@ -9,11 +9,9 @@ import { PostType } from '@/app/types/communities';
 import { useCommunityLayout } from '@/app/user/community/CommunityLayoutContext';
 
 export default function Community() {
-  const {
-    memberships,
-    createdPost,
-    onCreatedPostHandled,
-  } = useCommunityLayout();
+  const { memberships, createdPost, onCreatedPostHandled } =
+    useCommunityLayout();
+
   const [loading, setLoading] = useState(true);
   const [feedError, setFeedError] = useState<string | null>(null);
   const [feedRetry, setFeedRetry] = useState(0);
