@@ -119,6 +119,7 @@ const Post = ({
   };
 
   const postHref = `/user/community/${encodeURIComponent(community.slug)}/post/${id}`;
+
   const postContent = (
     <article
       onClick={(event) => {
@@ -139,7 +140,12 @@ const Post = ({
       <header className="flex flex-wrap items-center gap-3 text-sm">
         {isDetailPage ? (
           <div className="flex items-center gap-3">
-            <p className="text-greenIn">/{community.name}</p>
+            <Link
+              className="text-greenIn"
+              href={`/user/community/${encodeURIComponent(community.slug)}`}
+            >
+              /{community.name}
+            </Link>
             <span aria-hidden="true">•</span>
             <p className="font-light">{createdAt}</p>
           </div>

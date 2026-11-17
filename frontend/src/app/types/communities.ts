@@ -29,6 +29,7 @@ export interface CommunitySideBarProps {
   communities: CommunityBasic[];
   memberships: CommunityMembershipBasic[];
   loading: boolean;
+  onCreatePost: () => void;
   onMembershipChange: (
     communityId: number,
     status: CommunityMembershipStatus | null,

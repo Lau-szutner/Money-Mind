@@ -1,7 +1,6 @@
 'use client';
 
 import { use, useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getPostByIdAndSlug } from '@/app/services/postsService';
 import { PostType } from '@/app/types/communities';
@@ -80,13 +79,14 @@ export default function PostPage({
   }, [slug, postId, loadRetry]);
 
   return (
-    <main className="mx-auto max-w-4xl p-5">
-      <Link
-        href={`/user/community/${encodeURIComponent(slug)}`}
-        className="mb-5 inline-flex text-greenIn hover:underline"
+    <main className="min-w-0">
+      <button
+        type="button"
+        onClick={() => router.back()}
+        className="mb-5 inline-flex cursor-pointer text-greenIn hover:underline"
       >
-        ← Volver a la comunidad
-      </Link>
+        ← Volver
+      </button>
 
       {loading ? (
         <p role="status" aria-live="polite">
@@ -106,7 +106,7 @@ export default function PostPage({
           </button>
         </section>
       ) : post ? (
-        <main className="p-5 bg-bgComponents rounded-xl">
+        <div className="rounded-xl bg-bgComponents p-5">
           <Post
             {...post}
             isDetailPage
@@ -128,7 +128,7 @@ export default function PostPage({
               router.replace(`/user/community/${encodeURIComponent(slug)}`)
             }
           />
-        </main>
+        </div>
       ) : (
         <p role="status">No se encontró la publicación solicitada.</p>
       )}

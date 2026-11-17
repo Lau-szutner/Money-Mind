@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react';
 import { CommunityBasic } from '@/app/types/communities';
 
+export interface NewPostData {
+  title: string;
+  body: string;
+  fk_community_id: number;
+  post_type: 'text' | 'link' | 'image' | 'video';
+  url?: string;
+}
+
 interface NewPostModalProps {
   onClose: () => void;
-
-  onSubmit: (data: {
-    title: string;
-    body: string;
-    fk_community_id: number;
-    post_type: 'text' | 'link' | 'image' | 'video';
-    url?: string;
-  }) => void;
+  onSubmit: (data: NewPostData) => void | Promise<void>;
   communities: CommunityBasic[];
 }
 
@@ -40,7 +41,7 @@ const NewPostModal = ({
     }
   }, [communities]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: string[] = [];
 
@@ -58,14 +59,20 @@ const NewPostModal = ({
       return;
     }
 
-    onSubmit({
-      title: title.trim(),
-      body: body.trim(),
-      fk_community_id: communityId,
-      post_type: postType,
-      url: postType === 'link' ? url.trim() : undefined,
-    });
-    onClose();
+    try {
+      await onSubmit({
+        title: title.trim(),
+        body: body.trim(),
+        fk_community_id: communityId,
+        post_type: postType,
+        url: postType === 'link' ? url.trim() : undefined,
+      });
+      onClose();
+    } catch (error) {
+      setErrors([
+        error instanceof Error ? error.message : 'No se pudo crear el post',
+      ]);
+    }
   };
 
   return (

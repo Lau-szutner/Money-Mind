@@ -8,18 +8,17 @@ import {
   leaveCommunity,
 } from '@/app/services/communityServices';
 import { getCommunityPosts } from '@/app/services/postsService';
-import {
-  Community,
-  CommunityMembershipStatus,
-  PostType,
-} from '@/app/types/communities';
+import { Community, PostType } from '@/app/types/communities';
 import { formatDate } from '@/app/utils/formatters';
 import { sortPostsByScore } from '@/app/utils/posts';
 import Post from '@/app/user/community/components/Post';
+import { useCommunityLayout } from '@/app/user/community/CommunityLayoutContext';
 
 export default function CommunityDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
+  const { memberships, membershipsLoaded, onMembershipChange } =
+    useCommunityLayout();
   const [community, setCommunity] = useState<Community | null>(null);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,8 +26,12 @@ export default function CommunityDetailPage() {
   const [membershipLoading, setMembershipLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
-  const [membershipStatus, setMembershipStatus] =
-    useState<CommunityMembershipStatus | null>(null);
+  const sidebarMembership = memberships.find(
+    (membership) => membership.community_id === community?.id,
+  );
+  const membershipStatus = membershipsLoaded
+    ? (sidebarMembership?.status ?? null)
+    : (community?.membershipStatus ?? null);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,7 +59,6 @@ export default function CommunityDetailPage() {
 
         if (!cancelled) {
           setCommunity(communityData);
-          setMembershipStatus(communityData.membershipStatus);
           setPosts(sortPostsByScore(communityPosts));
         }
       } catch (error) {
@@ -86,7 +88,7 @@ export default function CommunityDetailPage() {
     try {
       if (membershipStatus === 'active' || membershipStatus === 'pending') {
         await leaveCommunity(community.id);
-        setMembershipStatus(null);
+        onMembershipChange(community.id, null);
         if (membershipStatus === 'active') {
           setCommunity((current) =>
             current
@@ -99,7 +101,7 @@ export default function CommunityDetailPage() {
         }
       } else {
         const result = await joinCommunity(community.id);
-        setMembershipStatus(result.status);
+        onMembershipChange(community.id, result.status);
         if (result.status === 'active') {
           setCommunity((current) =>
             current
@@ -120,12 +122,12 @@ export default function CommunityDetailPage() {
   };
 
   if (loading) {
-    return <p className="p-5">Cargando comunidad...</p>;
+    return <p>Cargando comunidad...</p>;
   }
 
   if (loadError || !community) {
     return (
-      <main className="p-5">
+      <div>
         <p role="alert" className="text-red-400">
           {loadError || 'Comunidad no encontrada'}
         </p>
@@ -138,7 +140,7 @@ export default function CommunityDetailPage() {
             Reintentar
           </button>
         )}
-      </main>
+      </div>
     );
   }
 
@@ -147,7 +149,7 @@ export default function CommunityDetailPage() {
   const isBanned = membershipStatus === 'banned';
 
   return (
-    <main className="p-5 ">
+    <main>
       <button
         type="button"
         onClick={() => router.back()}
@@ -203,7 +205,7 @@ export default function CommunityDetailPage() {
           <p>No hay posts en esta comunidad.</p>
         ) : (
           posts.map((post) => (
-            <main
+            <article
               key={post.id}
               className="p-5 bg-bgComponents rounded-xl"
             >
@@ -233,7 +235,7 @@ export default function CommunityDetailPage() {
                   )
                 }
               />
-            </main>
+            </article>
           ))
         )}
       </div>
